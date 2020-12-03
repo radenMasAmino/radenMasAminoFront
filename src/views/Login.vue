@@ -5,7 +5,9 @@
         <b-col md="4" offset-md="4">
           <div style="display:flex;height:100vh;background-color:;align-items:center">
             <div style="width:100%;height:;background-color:;padding:30px;background-color:rgba(0,0,0,0.7);border-radius:6px;color:#fff">
-              <h2 class="text-center">LOGIN SIDE</h2>
+              <h2 class="text-center">LOGIN</h2>
+              <h6 class="text-center">ONLINE NURSE MENTAL HEALTH CARE</h6>
+              <h6 class="text-center">(RADEN MAS AMINO)</h6>
               <hr/>
               <b-form>
                 

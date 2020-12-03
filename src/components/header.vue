@@ -5,7 +5,7 @@
                 <b-row>
                     <b-col cols="6" md="8" lg="8">
                         <div class="partone">
-                            <h3 class="m-t-0 m-b-0"><strong>SIDE</strong></h3>
+                            <h4 class="m-t-0 m-b-0"><strong>ONME - CARE RADEN MAS AMINO</strong></h4>
                             <!-- <img src="https://via.placeholder.com/50">
                             <div class="brandname">
                                 <h3 class="m-t-0 m-b-0 m-l-10"><strong>SIDE</strong></h3>
@@ -18,7 +18,7 @@
                             <b-dropdown right  variant="link" toggle-class="text-decoration-none" no-caret>
                                 <template v-slot:button-content>
                                     <div class="account">
-                                        <img src="../assets/user.png" style="height:50px">
+                                        <img src="../assets/user.png" style="height:8vh">
 
                                         <!-- <div class="accountname">
                                             <h6 class="m-t-0 m-b-0">Hi,</h6>
@@ -86,13 +86,13 @@ methods:{
 #myheader .bgheader .partone{
     display: flex;
     align-items: center;
-    height: 65px;
+    height: 10vh;
 }
 
 
 #myheader .bgheader .parttwo{
     width: 100%;
-    height: 65px;
+    height: 10vh;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -102,8 +102,9 @@ methods:{
 }
 #myheader .bgheader .parttwo .account{
     display: flex;
-    height: 50px;
+    height: 8vh;
     align-items: center;
+    /* background-color: red; */
 }
 #myheader .bgheader .parttwo .accountname{
     display: flex;

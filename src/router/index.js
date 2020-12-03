@@ -2,16 +2,16 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
-import RiwayatPenyakit from "../views/loggedin/RiwayatPenyakit.vue";
-import GejalaFisik from "../views/loggedin/GejalaFisik.vue";
-import GejalaPsikis from "../views/loggedin/GejalaPsikis.vue";
-import GejalaPerilakuBuruk from "../views/loggedin/GejalaPerilakuBuruk.vue";
-import MasterPernyataan from "../views/loggedin/MasterPernyataan";
-import screening from "../views/loggedin/screening";
-import ScreeningPasien from "../views/loggedin/ScreeningPasien";
 import dashboard from "../views/loggedin/dashboard.vue";
-import Daftar from "../views/loggedin/Daftar.vue";
-import ScreeningPasienFront from "../views/loggedin/ScreeningPasienFront";
+import kecemasan from "../views/loggedin/kecemasan.vue";
+import depresi from "../views/loggedin/depresi.vue";
+import gangguanEmosi from "../views/loggedin/gangguanEmosi.vue";
+import ptsd from "../views/loggedin/ptsd.vue";
+import gangguanPenyesuaianBelajar from "../views/loggedin/gangguanPenyesuaianBelajar.vue";
+
+
+
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -31,18 +31,7 @@ const routes = [
       guest: true
     }
   },
-  {
-    path: "/daftar",
-    name: "daftar",
-    component: Daftar,
   
-  },
-  {
-    path: "/screeningfront/:idPasien",
-    name: "ScreeningPasienFront",
-    component: ScreeningPasienFront,
-  
-  },
   {
     path: '/dashboard',
     name: 'dashboard',
@@ -53,81 +42,49 @@ const routes = [
   },
 
   {
-    path: '/riwayatpenyakit',
-    name: 'riwayatpenyakit',
-    component: RiwayatPenyakit,
-    meta: {
-        requiresAuth: true
-    }
-  },
-  {
-    path: '/gejalafisik',
-    name: 'gejalafisik',
-    component: GejalaFisik,
-    meta: {
-        requiresAuth: true
-    }
-  },
-  {
-    path: '/gejalapsikis',
-    name: 'gejalapsikis',
-    component: GejalaPsikis,
-    meta: {
-        requiresAuth: true
-    }
-  },
-  {
-    path: '/gejalaPerilakuBuruk',
-    name: 'gejalaPerilakuBuruk',
-    component: GejalaPerilakuBuruk,
-    meta: {
-        requiresAuth: true
-    }
-  },
-  {
-    path: '/masterpernyataan',
-    name: 'masterpernyataan',
-    component: MasterPernyataan,
+    path: '/kecemasan',
+    name: 'kecemasan',
+    component: kecemasan,
     meta: {
         requiresAuth: true
     }
   },
 
   {
-    path: '/screening',
-    name: 'screening',
-    component: screening,
+    path: '/depresi',
+    name: 'depresi',
+    component: depresi,
     meta: {
         requiresAuth: true
     }
   },
 
   {
-    path: '/screeningpasien/:idPasien',
-    name: 'ScreeningPasien',
-    component: ScreeningPasien,
+    path: '/gangguanEmosi',
+    name: 'gangguanEmosi',
+    component: gangguanEmosi,
     meta: {
         requiresAuth: true
     }
   },
-// {
-//     path: '/admin',
-//     name: 'admin',
-//     component: Admin,
-//     meta: {
-//         requiresAuth: true,
-//         is_admin : true
-//     }
-// },
+
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
+    path: '/ptsd',
+    name: 'ptsd',
+    component: ptsd,
+    meta: {
+        requiresAuth: true
+    }
+  },
+
+  {
+    path: '/gangguanPenyesuaianBelajar',
+    name: 'gangguanPenyesuaianBelajar',
+    component: gangguanPenyesuaianBelajar,
+    meta: {
+        requiresAuth: true
+    }
+  },
 ];
 
 const router = new VueRouter({

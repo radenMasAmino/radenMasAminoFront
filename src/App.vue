@@ -6,7 +6,7 @@
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@300&display=swap');
 body{
 	background-image: url('assets/bg.jpg');
   background-size:100%;
@@ -14,7 +14,7 @@ body{
   /* background-size: cover; */
 }
 #app {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Mukta', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
