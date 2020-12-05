@@ -145,9 +145,9 @@ methods:{
   align-items: center;
 }
 
-#dashboard .partone .boxmenu img{
-  /* border-radius: 100%; */
-}
+/* #dashboard .partone .boxmenu img{
+  border-radius: 100%;
+} */
 
 #dashboard .parttwo{
   display: flex;

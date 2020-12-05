@@ -28,7 +28,7 @@ const routes = [
     name: "login",
     component: Login,
     meta: {
-      guest: true
+      guest: false
     }
   },
   
@@ -37,7 +37,7 @@ const routes = [
     name: 'dashboard',
     component: dashboard,
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
 
@@ -46,7 +46,7 @@ const routes = [
     name: 'kecemasan',
     component: kecemasan,
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
 
@@ -55,7 +55,7 @@ const routes = [
     name: 'depresi',
     component: depresi,
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
 
@@ -64,7 +64,7 @@ const routes = [
     name: 'gangguanEmosi',
     component: gangguanEmosi,
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
 
@@ -73,7 +73,7 @@ const routes = [
     name: 'ptsd',
     component: ptsd,
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
 
@@ -82,7 +82,7 @@ const routes = [
     name: 'gangguanPenyesuaianBelajar',
     component: gangguanPenyesuaianBelajar,
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
 ];

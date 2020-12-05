@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {ipBackend} from '@/config.js';
 export default  {
     namespaced: true,
     state: () => ({ 
@@ -29,11 +30,12 @@ export default  {
     
         doLogin ({  commit }, dataLogin){
             commit('rubahProses', true)
-            axios.post('http://sideku.org:8801/user/login', {
+            axios.post(ipBackend+'/users/login', {
                  username: dataLogin.email,
                  password: dataLogin.password
                
               })
+              
               .then(function (response) {
                 commit('rubahProses', false)
                 commit('rubahToken', response.data.token)
