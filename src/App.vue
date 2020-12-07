@@ -5,6 +5,14 @@
   </div>
 </template>
 
+<script>
+export default {
+	props:{
+		idQs: String
+	}
+}
+</script>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Mukta:wght@300&display=swap');
 body{
