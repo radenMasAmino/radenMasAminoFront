@@ -111,7 +111,8 @@
               show-empty
               bordered
               hover
-              :items="items"
+              ref="table"
+              :items="stateGetApi.data.respon"
               :fields="fields"
               :current-page="currentPage"
               :per-page="perPage"
@@ -123,9 +124,6 @@
               @filtered="onFiltered"
               responsive
             >
-              <!-- <template v-slot:cell(name)="row">
-                                {{ row.value.first }} {{ row.value.last }}
-                            </template> -->
 
               <template v-slot:cell(actions)="row">
                 <b-button
@@ -179,21 +177,19 @@
 
             <!-- Info modal -->
             <b-modal
-              :id="id"
+              :id="infoModal.id"
               hide-footer
               centered
               :title="infoModal.title"
               ok-only
               @hide="resetInfoModal"
             >
-              <!-- <pre>{{ infoModal.content.namaPenyakit }}</pre> -->
-              <b-form class="bv-example-row">
+
+              <b-form class="bv-example-rtes12345ow">
                 <b-form-group label="Pertanyaan">
-                  <!-- {{infoModal.content.namaPenyakit}}
-                                 -->
 
                   <b-form-input
-                    v-model="gangguanEmosiQs"
+                    v-model="gangguanEmosiQsEdit"
                     required
                     placeholder=""
                   ></b-form-input>
@@ -233,6 +229,7 @@
 import myheader from "../../components/header";
 import axios from "axios";
 import { ipBackend } from "@/config.js";
+import { mapState } from "vuex";
 export default {
   name: "gangguanEmosi",
   components: {
@@ -243,6 +240,7 @@ export default {
       gangguanEmosiQs: "",
       idQs: "",
       gangguanEmosiQsEdit: "",
+      // dataQ: "",
       items: [{ pertanyaan: "Data Pertanyaannya" }],
       fields: [
         {
@@ -263,7 +261,7 @@ export default {
       filter: null,
       filterOn: [],
       infoModal: {
-        id: "info-modal",
+        id: "",
         title: "",
         content: "",
       },
@@ -277,30 +275,44 @@ export default {
           return { text: f.label, value: f.key };
         });
     },
+    ...mapState("ModGetAPI", ["stateGetApi"]),
   },
   // props: {
   //   id: { type: Number },
   // },
-  mounted() {
-    axios
-      .get(ipBackend + "/depresi/all", {
-        headers: {
-          accesstoken: localStorage.getItem("token"),
-        },
-      })
-      .then((data) => {
-        // console.log(data);
-        this.items = data.data.respon;
-        this.totalRows = this.items.length;
-      });
+  created() {
+    // axios
+    //   .get(ipBackend + "/gangguanEmosi/all", {
+    //     headers: {
+    //       accesstoken: localStorage.getItem("token"),
+    //     },
+    //   })
+    //   .then((data) => {
+    //     console.log(data);
+    //     this.items = data.data.respon;
+    //     this.totalRows = this.items.length;
+    //   });
+    this.$store.dispatch("ModGetAPI/actGetApi");
   },
+
+  watch: {
+    dataBase(newVal, oldVal) {
+      if (oldVal !== newVal) {
+        this.$refs.table.refresh();
+      }
+    },
+  },
+
   methods: {
+    // dataQs() {
+    //   this.dataQ = data.respon[0];
+    // },
     infoQs(item, index, button) {
       this.infoModal.title = `EDIT PERTANYAAN GANGGUAN EMOSI`;
       // this.infoModal.id.toString()
       this.idQs = item.id;
       this.infoModal = item;
-      this.gangguanEmosiQsEdit = item.gangguanEmosiQs;
+      this.gangguanEmosiQsEdit = item.pertanyaan;
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
       console.log(this.idQs);
     },
@@ -317,7 +329,7 @@ export default {
       let vm = this;
       axios
         .post(
-          ipBackend + "/depresi/register",
+          ipBackend + "/ggnControlEmosi/register",
           {
             pertanyaan: this.gangguanEmosiQs,
           },
@@ -327,12 +339,12 @@ export default {
             },
           }
         )
-        .then(function () {
+        .then(function (response) {
           alert("Berhasil Menambahkan Pertanyaan");
-          // vm.items.unshift(response.data);
-          vm.$root.$emit("bv::hide:modal", "modal=1");
-          // vm.this = '';
-          // vm.$router.push({ path: "/depresi" });
+          vm.items.unshift(response.data);
+          vm.$root.$emit("bv::hide:modal", "modal-1");
+          vm.this = '';
+          // vm.$router.push({ path: "/gangguanEmosi" });
         })
         .catch(function (error) {
           console.log(error);
@@ -342,7 +354,7 @@ export default {
       let vm = this;
       axios
         .post(
-          ipBackend + "/update/" + this.idQs,
+          ipBackend + "/ggnControlEmosi/update/" + this.idQs,
           {
             pertanyaan: this.gangguanEmosiQsEdit,
           },
@@ -355,7 +367,7 @@ export default {
         .then(function () {
           alert("Berhasil Mengubah Pertanyaan");
           let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-          vm.item[idx].gangguanEmosiQs = vm.gangguanEmosiQsEdit;
+          vm.items[idx].gangguanEmosiQs = vm.gangguanEmosiQsEdit;
           vm.$root.$emit("bv::hide::modal");
         })
         .catch(function (error) {
@@ -365,7 +377,7 @@ export default {
     deleteQs(id) {
       let vm = this;
       axios
-        .delete("/delete/" + id, {
+        .delete(ipBackend + "/ggnControlEmosi/delete/" + id, {
           headers: {
             accesstoken: localStorage.getItem("token"),
           },
@@ -373,9 +385,9 @@ export default {
         .then(function (response) {
           console.log(response);
           alert("Pertanyaan Telah dihapus");
-          let idx = vm.items.findIndex((o) => o.id === id);
+          let idx = vm.items.findIndex((o) => o.id === vm.idQs);
           vm.items.splice(idx, 1);
-          // this.$root.$emit('bv::show::modal')
+          this.$root.$emit("bv::show::modal");
         })
         .catch(function (error) {
           console.log(error);

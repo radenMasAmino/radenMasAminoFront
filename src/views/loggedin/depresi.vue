@@ -344,11 +344,11 @@ export default {
             },
           }
         )
-        .then(function () {
+        .then(function (response) {
           alert("Berhasil Menambahkan Pertanyaan");
-          // vm.items.unshift(response.data);
-          vm.$root.$emit("bv::hide:modal", "modal=1");
-          // vm.this = '';
+          vm.items.unshift(response.data);
+          vm.$root.$emit("bv::hide:modal", "modal-1");
+          vm.this = '';
           // vm.$router.push({ path: "/depresi" });
         })
         .catch(function (error) {

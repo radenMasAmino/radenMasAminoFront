@@ -365,7 +365,7 @@ export default {
     deleteQs(id) {
       let vm = this;
       axios
-        .delete("/delete/" + id, {
+        .delete("/ggnBelajar/delete/" + id, {
           headers: {
             accesstoken: localStorage.getItem("token"),
           },
