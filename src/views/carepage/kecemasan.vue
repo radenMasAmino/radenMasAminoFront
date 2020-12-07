@@ -1,7 +1,7 @@
 
 <template>
 
-    <div id="RiwayatPenyakit">
+    <div id="kecemasan" v-if="dataPertanyaan">
         <myheader></myheader>
         <b-container>
             <b-row>
@@ -9,7 +9,7 @@
                     <div class="box">
                         <b-row>
                           <b-col md="12">
-                            <h3 class="text-center m-t-0 m-b-0"><strong>DATA MASTER RIWAYAT PENYAKIT</strong></h3>
+                            <h3 class="text-center m-t-0 m-b-0"><strong>DATA MASTER KECEMASAN</strong></h3>
                           </b-col>
                         </b-row>
 
@@ -22,7 +22,7 @@
                                             Dashboard
                                         </router-link>
                                     </b-breadcrumb-item>
-                                    <b-breadcrumb-item active>Data Master Riwayat Penyakit</b-breadcrumb-item>
+                                    <b-breadcrumb-item active>Data Master Kecemasan</b-breadcrumb-item>
                                 </b-breadcrumb>
                             </b-col>
                         </b-row>
@@ -80,7 +80,7 @@
                                         description="Hilangkan semua centang, jika ingin semua kolom"
                                         style="font-weight:bold;">
                                         <b-form-checkbox-group v-model="filterOn">
-                                            <b-form-checkbox value="namaPenyakit">Nama Penyakit</b-form-checkbox>
+                                            <b-form-checkbox value="">Pertanyaan Kecemasan</b-form-checkbox>
                                          
                                         </b-form-checkbox-group>
                                     </b-form-group>
@@ -92,7 +92,7 @@
                             show-empty
                             bordered
                             hover
-                            :items="items"
+                            :items="dataPertanyaan.data.respon"
                             :fields="fields"
                             :current-page="currentPage"
                             :per-page="perPage"
@@ -111,10 +111,10 @@
 
                             <template v-slot:cell(actions)="row">
                                 <b-button size="sm" variant="warning" @click="info(row.item, row.index, $event.target)" class="mr-1">
-                               Edit
+                                    Edit
                                 </b-button>
                                  <b-button size="sm" variant="danger" @click="hapus(row.item.id)" class="mr-1">
-                                Hapus
+                                    Hapus
                                 </b-button>
                             </template>
 
@@ -154,22 +154,23 @@
                             </b-col>
                         </b-row>
                         <!-- Info modal -->
-                        <b-modal :id="infoModal.id" hide-footer centered :title="infoModal.title" ok-only @hide="resetInfoModal">
+                        <b-modal :id="infoModal.content.id" hide-footer centered :title="infoModal.title" ok-only @hide="resetInfoModal">
                             <!-- <pre>{{ infoModal.content.namaPenyakit }}</pre> -->
                              <b-form class="bv-example-row">
                                 <b-form-group 
-                                label="Riwayat Penyakit" 
-                                >
-                                <!-- {{infoModal.content.namaPenyakit}}
-                                 -->
-                                   
-                                  <b-form-input
-                                  v-model="namaPenyakitEdit"
-                                    required
-                                    placeholder=""
-                     
-                                  ></b-form-input>
-                                    <b-button @click="edit" variant="primary" class="m-t-15">Simpan</b-button>
+                                    label="Pertanyaan" 
+                                >                                   
+                                    <b-form-input
+                                        v-model="editPertanyaan"
+                                        required
+                                        placeholder=""
+                                    >
+                                    <!-- <b-form-input
+                                        required
+                                        placeholder=""
+                                    > -->
+                                    </b-form-input>
+                                    <b-button @click="editBaru" variant="primary" class="m-t-15">Simpan</b-button>
                                 </b-form-group>
                                 
                             </b-form>
@@ -180,19 +181,27 @@
             </b-row>
         </b-container>
 
-        <b-modal id="modal-1" hide-footer centered title="TAMBAH DATA MASTER RIWAYAT PENYAKIT">
+        <b-modal id="modal-1" hide-footer centered title="TAMBAH DATA MASTER KECEMASAN">
             <b-form class="bv-example-row">
-                <b-form-group 
-                label="Riwayat Penyakit" 
-                >
-                  <b-form-input
-                  v-model="namaPenyakit"
-                    required
-                    placeholder=""
-                   
-                  ></b-form-input>
-                    <b-button @click="tambah" variant="primary" class="m-t-15">Simpan</b-button>
+                <b-form-group label="Pertanyaan">
+                    <b-form-input
+                        v-model="formInput.pertanyaan"
+                        required
+                        placeholder="" 
+                    >
+                    </b-form-input>  
                 </b-form-group>
+                
+                <b-form-group label="Descending">
+                    <b-form-select
+                        v-model="formInput.descending"
+                        :options="listDescending"
+                        required
+                    >
+                    </b-form-select>
+                </b-form-group>
+
+                <b-button @click="tambahBaru" variant="primary" class="m-t-15">Simpan</b-button>
                 
             </b-form>
         </b-modal>
@@ -203,34 +212,27 @@
 </template>
 <script>
 
-import myheader from "../../components/header"
+import myheader from "@/components/header.vue";
 import axios from 'axios';
+import { ipBackend } from "@/config.js"
+import { mapState } from "vuex";
+
+
 export default {
-    name:"RiwayatPenyakit",
+    name:"kecemasan",
     components:{
         myheader
     },
     data() {
       return {
-        namaPenyakit: '',
-        idChoose: '',
-        namaPenyakitEdit:'',
-        items: [
-         
-        ],
+        formInput: {
+            pertanyaan: '',
+            descending: null
+        },
+        editPertanyaan: '',
+        listDescending: [{ text: 'Select One', value: null }, 0, 1],
         fields: [
-          { key: 'namaPenyakit', label: 'Nama Penyakit', sortable: true, sortDirection: 'desc' },
-          // { key: 'age', label: 'Person age', sortable: true, class: 'text-center' },
-          // {
-          //   key: 'isActive',
-          //   label: 'is Active',
-          //   formatter: (value) => {
-          //     return value ? 'Yes' : 'No'
-          //   },
-          //   sortable: true,
-          //   sortByFormatted: true,
-          //   filterByFormatted: true
-          // },
+          { key: 'pertanyaan', label: 'Pertanyaan', sortable: true, sortDirection: 'desc' },
           { key: 'actions', label: 'Actions' }
         ],
         totalRows: 1,
@@ -243,123 +245,120 @@ export default {
         filter: null,
         filterOn: [],
         infoModal: {
-          id: 'info-modal',
+          id: '',
           title: '',
           content: ''
         }
       }
     },
+
     computed: {
+ 
       sortOptions() {
         // Create an options list from our fields
         return this.fields
-          .filter(f => f.sortable)
-          .map(f => {
+          .filter( f => f.sortable)
+          .map( f => {
             return { text: f.label, value: f.key }
           })
-      }
+      },
+        ...mapState("Data", ["dataPertanyaan"]),
+     
     },
-    mounted() {
-      // Set the initial number of items
-    
-        axios.get('http://sideku.org:8801/penyakit/all',{
-           headers: {
-                  'accesstoken': localStorage.getItem('token')
-              }
-        }).then(data=>{
-               console.log(data)
-                this.items = data.data.respon
-                 this.totalRows = this.items.length
-              })
-    },
-    methods: {
-      info(item, index, button) {
-        this.infoModal.title = `EDIT DATA MASTER RIWAYAT PENYAKIT`
-        this.infoModal.content = item
-        // console.log( item.namaPenyakit)
-        //keluarkan model sesuai id
-        this.idChoose = item.id
-        this.namaPenyakitEdit = item.namaPenyakit
-        this.$root.$emit('bv::show::modal', this.infoModal.id, button)
-      },
-      resetInfoModal() {
-        this.infoModal.title = ''
-        this.infoModal.content = ''
-      },
-      onFiltered(filteredItems) {
-        // Trigger pagination to update the number of buttons/pages due to filtering
-        this.totalRows = filteredItems.length
-        this.currentPage = 1
-      },
-    
-      tambah(){
-             let vm = this;
-           axios.post('http://sideku.org:8801/penyakit/register', {
-                 namaPenyakit: this.namaPenyakit
-               
-              },{
-                  headers: {
-                          'accesstoken': localStorage.getItem('token')
-                      }
-                })
-              .then(function (response) {
-                console.log(response);
-                  alert('berhasil')
-                vm.items.unshift(response.data)
-                vm.$root.$emit('bv::hide::modal', 'modal-1')
-               
-              })
-              .catch(function (error) {
-                console.log(error);
-               
-              });
-      },
 
-        edit(){
+    created() {
+        this.$store.dispatch("Data/listPertanyaan");
+    },
+    
+    methods: {
+        info(item, index, button) {
+            this.infoModal.title = `EDIT DATA MASTER KECEMASAN`;
+            this.infoModal.content = item;
+            console.log('log nya info', this.infoModal.content.id);
+            // console.log('bikin aja', item.id);
+            this.idChoose = item.id;
+            // this.idChoose = item.id.toString();
+            this.editPertanyaan = item.pertanyaan;
+            console.log('pertanyaan', this.infoModal.content.pertanyaan);
+            this.$root.$emit('bv::show::modal', this.infoModal.content.id, button);
+        },
+        resetInfoModal() {
+            this.infoModal.title = '';
+            this.infoModal.content = '';
+        },
+        onFiltered(filteredItems) {
+            // Trigger pagination to update the number of buttons/pages due to filtering
+            this.totalRows = filteredItems.length;
+            this.currentPage = 1;
+        },
+
+        tambahBaru(){
             let vm = this;
-           axios.patch('http://sideku.org:8801/penyakit/'+this.idChoose, {
-                 namaPenyakit: this.namaPenyakitEdit
-               
-              },{
-              headers: {
-                      'accesstoken': localStorage.getItem('token')
-                  }
+            axios.post(ipBackend + '/kecemasan/register', {
+                pertanyaan: vm.formInput.pertanyaan,
+                descending: vm.formInput.descending
+            }, {
+                headers: {
+                    'accessToken': localStorage.getItem('token')
+                }
             })
-              .then(function (response) {
-                console.log(response);
-                //  console.log(vm.items)
-                alert('berhasil')
-                let idx = vm.items.findIndex(o => o.id === vm.idChoose );
-                // console.log(idx)
-                vm.items[idx].namaPenyakit = vm.namaPenyakitEdit
+            .then( response => {
+                // console.log(response.data);
+                alert('berhasil');
+                vm.dataPertanyaan.data.respon.unshift(response.data);
+                // vm.$store.dispatch("Data/listPertanyaan");
+                vm.$root.$emit('bv::hide::modal', 'modal-1');
+            })
+            .catch( error => {
+                console.log(error);
+            })
+        },
+
+        editBaru(){
+            let vm = this;
+            axios.post('http://147.139.169.33:8805/kecemasan/update/' + vm.idChoose, {
+                pertanyaan: vm.editPertanyaan
+            }, {
+                headers: {
+                    'accessToken': localStorage.getItem('token')
+                }
+            })
+            .then(response => {
+                console.log(response.data);
+                alert('berhasil');
+                this.$store.dispatch("Data/listPertanyaan");
+                vm.dataPertanyaan.data.respon.unshift(response.data);
+                let idNew = vm.editPertanyaan.findIndex(o => o.id === vm.idChoose);
+                vm.dataPertanyaan.data.respon[idNew].pertanyaan = vm.editPertanyaan;
+                console.log(vm.pertanyaan);
                 vm.$root.$emit('bv::hide::modal')
-               
-              })
-              .catch(function (error) {
+            })
+            .catch(error => {
                 console.log(error);
-               
-              });
-      },
-           hapus(id){
-                let vm = this;
-           axios.delete('http://sideku.org:8801/penyakit/delete/'+id,{
-              headers: {
-                      'accesstoken': localStorage.getItem('token')
+            })
+        },
+
+        hapus(idData){
+            console.log(idData);
+            let vm = this;
+            axios.delete(ipBackend + '/kecemasan/delete/' + idData,{
+                headers: {
+                    'accesstoken': localStorage.getItem('token')
                   }
             })
-              .then(function (response) {
+            .then(function (response) {
                 console.log(response);
-                alert('berhasil')
-                let idx = vm.items.findIndex(o => o.id === id );
-                vm.items.splice(idx, 1);
-                // this.$root.$emit('bv::show::modal')
-               
-              })
-              .catch(function (error) {
-                console.log(error);
-               
-              });
-      }
+                alert('berhasil');
+                vm.$store.dispatch("Data/listPertanyaan");
+                let idParam = vm.editPertanyaan.findIndex(o => o.id === idData );
+                vm.editPertanyaan.splice(idParam, 1);
+                vm.$root.$emit('bv::hide::modal');
+            })
+            .catch(function (error) {
+                console.log(error); 
+            });
+        }
+
     }
 }
 

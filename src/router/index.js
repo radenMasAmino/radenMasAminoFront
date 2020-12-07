@@ -2,15 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
-import dashboard from "../views/loggedin/dashboard.vue";
-import kecemasan from "../views/loggedin/kecemasan.vue";
-import depresi from "../views/loggedin/depresi.vue";
-import gangguanEmosi from "../views/loggedin/gangguanEmosi.vue";
-import ptsd from "../views/loggedin/ptsd.vue";
-import gangguanPenyesuaianBelajar from "../views/loggedin/gangguanPenyesuaianBelajar.vue";
-
-
-
+import Dashboard from "../views/loggedin/dashboard.vue";
 
 Vue.use(VueRouter);
 
@@ -35,52 +27,47 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: dashboard,
+    component: Dashboard,
     meta: {
         requiresAuth: true
     }
   },
-
   {
     path: '/kecemasan',
     name: 'kecemasan',
-    component: kecemasan,
+    component: () => import('../views/carepage/kecemasan.vue'),
     meta: {
         requiresAuth: true
     }
   },
-
   {
     path: '/depresi',
     name: 'depresi',
-    component: depresi,
+    component: () => import('../views/carepage/depresi.vue'),
     meta: {
         requiresAuth: true
     }
   },
-
   {
     path: '/gangguanEmosi',
     name: 'gangguanEmosi',
-    component: gangguanEmosi,
+    component: () => import('../views/carepage/gangguanEmosi.vue'),
     meta: {
         requiresAuth: true
     }
   },
-
   {
     path: '/ptsd',
     name: 'ptsd',
-    component: ptsd,
+    component: () => import('../views/carepage/ptsd.vue'),
     meta: {
         requiresAuth: true
     }
   },
-
   {
     path: '/gangguanPenyesuaianBelajar',
     name: 'gangguanPenyesuaianBelajar',
-    component: gangguanPenyesuaianBelajar,
+    component: () => import('../views/carepage/gangguanPenyesuaianBelajar.vue'),
     meta: {
         requiresAuth: true
     }
@@ -114,6 +101,7 @@ router.beforeEach((to, from, next) => {
           // }
           next()
       }
+
   } else if(to.matched.some(record => record.meta.guest)) {
     // console.log(localStorage.getItem('token'))
       if(!localStorage.getItem('token') || localStorage.getItem('token')  == "undefined" || localStorage.getItem('token') == '' ){
@@ -122,9 +110,10 @@ router.beforeEach((to, from, next) => {
       else{
           next({ name: 'dashboard'})
       }
-  }else {
+  } else {
       next()
   }
+
 })
 
 export default router;

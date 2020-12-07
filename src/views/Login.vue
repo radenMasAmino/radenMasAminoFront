@@ -68,15 +68,16 @@ export default {
     //memperhatikan state token dari vuex store
    token(newValue, oldValue) {
    
-     if(newValue!= oldValue && newValue!=''&& newValue!= undefined){
-       
-        //lempar ke halaman dashboard
-        (this.$route.query.tujuan)?
-        this.$router.push({ path: this.$route.query.tujuan}): 
-        this.$router.push({ name:"dashboard"})
-        this.$swal.close()
-     }
+      if(newValue!= oldValue && newValue!=''&& newValue!= undefined){
+          //lempar ke halaman dashboard
+          (this.$route.query.tujuan)?
+          this.$router.push({ path: this.$route.query.tujuan}): 
+          this.$router.push({ name:"dashboard"})
+          this.$swal.close()
+      }
+
    },
+   
    proses(newValue){
      let vm = this;
      if(newValue==true){
@@ -101,28 +102,28 @@ export default {
   },
 
   methods:{
-    ...mapActions('Login', [ 'doLogin', 'doLogout' ]),
+    ...mapActions('Login', [ 'actLogin']),
     logindong: function(){
      
-      this.doLogin({email: this.email, password:this.password})
+      this.actLogin({email: this.email, password:this.password})
       //didalam do login state token di isi
     
     },
-    logoutdong: function(){
-      this.doLogout()
-      // this.isLogin =  this.cekLogin
+
+    loading(){
+      let vm = this;
+
+      vm.$swal({
+        title: 'Mohon Tunggu...',
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+
+        onOpen: () => {
+          vm.$swal.showLoading();
+        }
+      })
     },
-     loading(){
-           let vm = this;
-            vm.$swal({
-            title: 'Mohon Tunggu...',
-            allowEscapeKey: false,
-            allowOutsideClick: false,
-            onOpen: () => {
-            vm.$swal.showLoading();
-            }
-        })
-      },
+
   }
 };
 </script>

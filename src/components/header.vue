@@ -62,12 +62,12 @@ computed: {
 },
 
 methods:{
-  ...mapActions('Login', [ 'doLogin', 'doLogout' ]),
+  ...mapActions('Login', [ 'actLogin', 'actLogout' ]),
  
    logoutdong: function(){
        
-    this.doLogout()
-     this.$router.push({ name: "login"})
+    this.actLogout()
+    this.$router.push({ name: "login"})
     // this.isLogin =  this.cekLogin
   },
 }
