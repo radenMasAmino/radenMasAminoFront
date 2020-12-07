@@ -31,7 +31,7 @@
             <b-row class="m-t-30">
               <b-col md="12" lg="12">
                 <center>
-                  <router-link :to="'daftar'">
+                  <router-link :to="'login'">
                   <b-button  variant="primary" size="lg">Deteksi Emosi Anda Sekarang !</b-button>
                   </router-link>
                 </center>

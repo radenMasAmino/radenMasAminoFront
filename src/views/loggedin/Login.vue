@@ -130,7 +130,7 @@ export default {
 
 <style scoped>
 #login{
-  background-image: url('../assets/bg.jpg');
+  background-image: url('../../assets/bg.jpg');
   background-size: 100%;
   background-repeat: repeat;
   /* background-position: 100% ; */

@@ -9,6 +9,7 @@ export default {
 
     mutations: {
         changeData(state, data) {
+            // console.log(data);
             state.dataPertanyaan = data
         },
     },
@@ -20,12 +21,12 @@ export default {
                     'accessToken': localStorage.getItem('token')
                 }
             })
-            .then( (response) => {
+            .then(res => {
                 console.log('.....ini vuex dispatch created......');
-                commit('changeData', response)
+                commit('changeData', res)
             })
-            .catch( (error) => {
-                console.log(error);
+            .catch(err => {
+                console.log(err);
             })
         },
         

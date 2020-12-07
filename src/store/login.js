@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { ipBackend } from '../config';
+import { ipBackend } from '@/config';
+
 export default  {
     namespaced: true,
     state: () => ({ 
@@ -14,26 +15,27 @@ export default  {
             localStorage.setItem('token', data)
             state.token = data;
        
-          },
-          rubahPesan (state, data) {
-            // `state` is the local module state
-        
-            state.pesan = data;
-          },
-          rubahProses (state, data) {
-            // `state` is the local module state
-        
-            state.proses = data;
-          }
+        },
+        rubahPesan (state, data) {
+          // `state` is the local module state
+      
+          state.pesan = data;
+        },
+        rubahProses (state, data) {
+          // `state` is the local module state
+      
+          state.proses = data;
+        }
      },
+
     actions: { 
-    
         actLogin ({  commit }, dataLogin){
             commit('rubahProses', true)
             axios.post(ipBackend + '/users/login', {
                  username: dataLogin.email,
                  password: dataLogin.password
               })
+              
               .then(function (response) {
                 commit('rubahProses', false)
                 commit('rubahToken', response.data.token)
@@ -44,10 +46,8 @@ export default  {
                 commit('rubahProses', false)
                 commit('rubahToken', '')
               })
-              
         },
         actLogout({commit}){
-           
             commit('rubahToken', '')
         }
      },

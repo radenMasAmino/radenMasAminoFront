@@ -20,7 +20,7 @@ const routes = [
     name: "login",
     component: Login,
     meta: {
-      guest: true
+      guest: false
     }
   },
   
@@ -29,7 +29,7 @@ const routes = [
     name: 'dashboard',
     component: Dashboard,
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
   {
@@ -37,7 +37,7 @@ const routes = [
     name: 'kecemasan',
     component: () => import('../views/questionnare/kecemasan.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
   {
@@ -45,7 +45,7 @@ const routes = [
     name: 'depresi',
     component: () => import('../views/questionnare/depresi.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
   {
@@ -53,7 +53,7 @@ const routes = [
     name: 'gangguanEmosi',
     component: () => import('../views/questionnare/gangguanEmosi.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
   {
@@ -61,7 +61,7 @@ const routes = [
     name: 'ptsd',
     component: () => import('../views/questionnare/ptsd.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
   {
@@ -69,7 +69,7 @@ const routes = [
     name: 'gangguanPenyesuaianBelajar',
     component: () => import('../views/questionnare/gangguanPenyesuaianBelajar.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
 ];
