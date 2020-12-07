@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Login from "../views/Login.vue";
+import Login from "../views/loggedin/Login.vue";
 import Dashboard from "../views/loggedin/dashboard.vue";
 
 Vue.use(VueRouter);
@@ -35,7 +35,7 @@ const routes = [
   {
     path: '/kecemasan',
     name: 'kecemasan',
-    component: () => import('../views/carepage/kecemasan.vue'),
+    component: () => import('../views/questionnare/kecemasan.vue'),
     meta: {
         requiresAuth: true
     }
@@ -43,7 +43,7 @@ const routes = [
   {
     path: '/depresi',
     name: 'depresi',
-    component: () => import('../views/carepage/depresi.vue'),
+    component: () => import('../views/questionnare/depresi.vue'),
     meta: {
         requiresAuth: true
     }
@@ -51,7 +51,7 @@ const routes = [
   {
     path: '/gangguanEmosi',
     name: 'gangguanEmosi',
-    component: () => import('../views/carepage/gangguanEmosi.vue'),
+    component: () => import('../views/questionnare/gangguanEmosi.vue'),
     meta: {
         requiresAuth: true
     }
@@ -59,7 +59,7 @@ const routes = [
   {
     path: '/ptsd',
     name: 'ptsd',
-    component: () => import('../views/carepage/ptsd.vue'),
+    component: () => import('../views/questionnare/ptsd.vue'),
     meta: {
         requiresAuth: true
     }
@@ -67,7 +67,7 @@ const routes = [
   {
     path: '/gangguanPenyesuaianBelajar',
     name: 'gangguanPenyesuaianBelajar',
-    component: () => import('../views/carepage/gangguanPenyesuaianBelajar.vue'),
+    component: () => import('../views/questionnare/gangguanPenyesuaianBelajar.vue'),
     meta: {
         requiresAuth: true
     }
