@@ -1,12 +1,12 @@
 <template>
   <div id="kecemasan">
 
-    <myheader></myheader>
+    <MyHeader></MyHeader>
 
     <b-container>
       <b-row>
         <b-col md="12" style="margin-top: 60px; margin-bottom: 60px">
-          <div class="box" v-if="dataPertanyaan">
+          <div class="box">
             <b-row>
               <b-col md="12">
                 <h3 class="text-center m-t-0 m-b-0">
@@ -115,7 +115,7 @@
                 show-empty
                 bordered
                 hover
-                :items="dataPertanyaan.data.respon"
+                :items="formInput"
                 :fields="fields"
                 :current-page="currentPage"
                 :per-page="perPage"
@@ -133,7 +133,7 @@
                     <b-button size="sm" variant="warning" @click="info(row.item, row.index, $event.target)" class="mr-1">
                         Edit
                     </b-button>
-                      <b-button size="sm" variant="danger" @click="hapus(row.item.id)" class="mr-1">
+                      <b-button size="sm" variant="danger" @click="delQs(row.item.id)" class="mr-1">
                         Hapus
                     </b-button>
                 </template>
@@ -186,7 +186,7 @@
                     placeholder=""
                 >
                 </b-form-input>
-                <b-button @click="editBaru" variant="primary" class="m-t-15">Simpan</b-button>
+                <b-button @click="editQs" variant="primary" class="m-t-15">Simpan</b-button>
                 </b-form-group>
               </b-form>
 
@@ -218,7 +218,7 @@
             </b-form-select>
           </b-form-group>
 
-          <b-button @click="tambahBaru" variant="primary" class="m-t-15">Simpan</b-button>
+          <b-button @click="addQs" variant="primary" class="m-t-15">Simpan</b-button>
             
         </b-form>
       </b-modal>
@@ -227,24 +227,26 @@
 </template>
 
 <script>
-import myheader from "@/components/header.vue";
+import MyHeader from "@/components/header.vue";
 import axios from "axios";
 import { ipBackend } from "@/config.js";
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 
 export default {
   name: "kecemasan",
   components: {
-    myheader,
+    MyHeader, // uppercased to change color, feel free to revert
   },
   data() {
     return {
-      formInput: {
-        pertanyaan: "",
-        descending: null,
-      },
+      formInput: [], // changed from object{ } to array[ ]
+
       editPertanyaan: "",
-      listDescending: [{ text: "Select One", value: null }, 0, 1],
+
+      listDescending: [
+        { text: "Select One", value: null }, 0, 1
+      ],
+
       fields: [
         {
           key: "pertanyaan",
@@ -254,13 +256,19 @@ export default {
         },
         { key: "actions", label: "Actions" },
       ],
+
       totalRows: 1,
+      
       currentPage: 1,
+      
       perPage: 5,
+      
       pageOptions: [5, 10, 15, 50, 100],
+      
       sortBy: "",
       sortDesc: false,
       sortDirection: "asc",
+      
       filter: null,
       filterOn: [],
       infoModal: {
@@ -280,20 +288,51 @@ export default {
           return { text: f.label, value: f.key };
         });
     },
-    ...mapState("Data", ["dataPertanyaan"]),
+    // ...mapState("Data", ["dataPertanyaan"]),
+  },
+
+  mounted() {
+    // get data
+    axios.get(ipBackend + '/kecemasan/all', {
+      headers: {
+        'accessToken': localStorage.getItem('token')
+      }
+    })
+    .then(res => {
+      console.log('ini test mounted isinya ' + res);
+      console.log(res);
+      this.formInput = res.data.respon;
+      this.formInput.sort(function(a, b){return a - b})
+      this.totalRows = this.formInput.length;
+    })
   },
 
   created() {
-    this.$store.dispatch("Data/listPertanyaan");
+    // this.$store.dispatch("Data/listPertanyaan"); // <-- vuex
+    // this.dispatchData(); // <-- changed from vuex
+
   },
 
   methods: {
+    dispatchData() { // get data on created
+      axios.get(ipBackend + '/kecemasan/all', {
+        headers: {
+          'accessToken': localStorage.getItem('token')
+        }
+      })
+      .then(res => {
+        console.log(`ini test mounted isinya ${res}`);
+        console.log(res);
+        this.formInput = res.data.respon;
+      })
+    },
+
     info(item, index, button) {
       this.infoModal.title = `EDIT DATA MASTER KECEMASAN`;
       this.infoModal.content = item;
-      console.log("log nya info", this.infoModal.content.id);
+      // console.log("log nya info", this.infoModal.content.id);
       // console.log('bikin aja', item.id);
-      this.idChoose = item.id;
+      this.idCs = item.id;
       // this.idChoose = item.id.toString();
       this.editPertanyaan = item.pertanyaan;
       console.log("pertanyaan", this.infoModal.content.pertanyaan);
@@ -311,7 +350,7 @@ export default {
       this.currentPage = 1;
     },
 
-    tambahBaru() {
+    addQs() {
       let vm = this;
       axios.post(ipBackend + "/kecemasan/register", {
         pertanyaan: vm.formInput.pertanyaan,
@@ -324,18 +363,18 @@ export default {
       .then(res => {
         // console.log(res.data);
         alert("berhasil");
-        vm.dataPertanyaan.data.respon.unshift(res.data);
-        // vm.$store.dispatch("Data/listPertanyaan");
+        vm.formInput.unshift(res.data);
         vm.$root.$emit("bv::hide::modal", "modal-1");
+        // vm.$store.dispatch("Data/listPertanyaan");
       })
       .catch(err => {
         console.log(err);
       });
     },
 
-    editBaru() {
+    editQs() {
       let vm = this;
-      axios.post("http://147.139.169.33:8805/kecemasan/update/" + vm.idChoose, {
+      axios.post("http://147.139.169.33:8805/kecemasan/update/" + vm.idCs, {
         pertanyaan: vm.editPertanyaan,
       }, {
         headers: {
@@ -345,38 +384,39 @@ export default {
       .then(res => {
         // console.log(res.data);
         alert("berhasil");
-        vm.$store.dispatch("Data/listPertanyaan");
-        vm.dataPertanyaan.data.respon.unshift(res.data);
-        let idNew = vm.dataPertanyaan.data.respon.findIndex((o) => o.id === vm.idChoose);
-        vm.dataPertanyaan.data.respon[idNew].pertanyaan = vm.editPertanyaan;
-        console.log(vm.pertanyaan);
+        // vm.$store.dispatch("Data/listPertanyaan");
+        let idNew = vm.formInput.findIndex((o) => o.id === vm.idCs);
+        vm.formInput[idNew].pertanyaan = vm.editPertanyaan;
+        vm.formInput.unshift(res.data);
+        console.log(vm.formInput[idNew].pertanyaan);
         vm.$root.$emit("bv::hide::modal");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(err=> {
+        console.log(err);
       });
     },
 
-    hapus(idData) {
-      console.log(idData);
+    delQs(idData) {
+      console.log(`ini delQs idData ${idData}`);
       let vm = this;
       axios.delete(ipBackend + "/kecemasan/delete/" + idData, {
         headers: {
           accesstoken: localStorage.getItem("token"),
         },
       })
-      .then(function (response) {
-        console.log(response);
+      .then(res => {
+        console.log(res);
         alert("berhasil");
-        vm.$store.dispatch("Data/listPertanyaan");
-        let idParam = vm.dataPertanyaan.data.respon.findIndex((o) => o.id === idData);
-        vm.dataPertanyaan.data.respon.splice(idParam, 1);
+        // vm.$store.dispatch("Data/listPertanyaan");
+        let idParam = vm.formInput.findIndex((o) => o.id === idData);
+        vm.formInput.splice(idParam, 1);
         vm.$root.$emit("bv::hide::modal");
       })
       .catch(function (error) {
         console.log(error);
       });
     },
+
   },
 };
 </script>
