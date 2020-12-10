@@ -298,6 +298,7 @@ export default {
     //     this.totalRows = this.items.length;
     //   });
     this.$store.dispatch("ModGetAPI/actGetApi");
+    // this.items = this.stateGetApi.data.respon;
   },
 
   watch: {
@@ -345,10 +346,11 @@ export default {
           }
         )
         .then(function (response) {
+          console.log(response);
           alert("Berhasil Menambahkan Pertanyaan");
-          vm.items.unshift(response.data);
+          vm.stateGetApi.data.respon.unshift(response.data);
           vm.$root.$emit("bv::hide:modal", "modal-1");
-          vm.this = '';
+          vm.this = "";
           // vm.$router.push({ path: "/depresi" });
         })
         .catch(function (error) {
@@ -369,10 +371,16 @@ export default {
             },
           }
         )
-        .then(function () {
+        .then(function (res) {
+          console.log(res);
           alert("Berhasil Mengubah Pertanyaan");
-          let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-          vm.items[idx].depresiQs = vm.depresiQsEdit;
+          vm.$store.dispatch("ModGetAPI/actGetApi");
+          vm.stateGetApi.data.respon.unshift(res.data);
+          let idx = vm.stateGetApi.data.respon.findIndex(
+            (o) => o.id === vm.idQs
+          );
+          vm.depresiQs.data.respon[idx].pertanyaan = vm.depresiQsEdit;
+          // console.log(vm.pertanyaan);
           vm.$root.$emit("bv::hide::modal");
         })
         .catch(function (error) {
