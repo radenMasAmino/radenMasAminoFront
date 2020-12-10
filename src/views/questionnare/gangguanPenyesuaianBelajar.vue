@@ -39,9 +39,9 @@
 
             <b-row class="m-t-30">
               <b-col md="12">
-                <b-button v-b-modal.modal-1 variant="primary"
-                  >Tambah Data</b-button
-                >
+
+                <b-button v-b-modal.modal-1 variant="primary">Tambah Data</b-button>
+
               </b-col>
             </b-row>
 
@@ -84,12 +84,13 @@
                   >
                     <b-input-group>
                       <b-form-input
+                        v-model="filter"
                         type="search"
                         id="filterInput"
                         placeholder="Type to Search"
                       ></b-form-input>
                       <b-input-group-append>
-                        <b-button>Clear</b-button>
+                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
@@ -192,9 +193,10 @@
                     v-model="gangguanBelajarEdit"
                     required
                     placeholder=""
-                  ></b-form-input>
-                  <b-button @click="editQs" variant="primary" class="m-t-15"
-                    >Simpan</b-button
+                  >
+                  </b-form-input>
+
+                  <b-button @click="editQs" variant="primary" class="m-t-15">Simpan</b-button
                   >
                 </b-form-group>
               </b-form>

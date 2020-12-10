@@ -89,9 +89,7 @@
                         placeholder="Type to Search"
                       ></b-form-input>
                       <b-input-group-append>
-                        <b-button :disabled="!filter" @click="filter = ''"
-                          >Clear</b-button
-                        >
+                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
@@ -245,10 +243,6 @@ export default {
 
       editPertanyaan: "",
 
-      listDescending: [
-        { text: "Select One", value: null }, 0, 1
-      ],
-
       fields: [
         {
           key: "pertanyaan",
@@ -378,7 +372,7 @@ export default {
         pertanyaan: vm.editPertanyaan,
       }, {
         headers: {
-          accessToken: localStorage.getItem("token"),
+          'accessToken': localStorage.getItem("token"),
         },
       })
       .then(() => {
@@ -402,7 +396,7 @@ export default {
       let vm = this;
       axios.delete(ipBackend + "/kecemasan/delete/" + idData, {
         headers: {
-          accesstoken: localStorage.getItem("token"),
+          'accesstoken': localStorage.getItem("token"),
         },
       })
       .then(() => {

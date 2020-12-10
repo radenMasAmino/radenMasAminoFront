@@ -56,7 +56,9 @@
                   >
                     <b-input-group>
                       <b-form-select
+                        v-model="sortBy"
                         id="sortBySelect"
+                        :options="sortOptions"
                         class="w-75"
                       >
                         <template v-slot:first>
@@ -64,6 +66,8 @@
                         </template>
                       </b-form-select>
                       <b-form-select
+                        v-model="sortDesc"
+                        :disabled="!sortBy"
                         class="w-25"
                       >
                         <option :value="false">Kecil-Besar</option>
@@ -73,6 +77,7 @@
                   </b-form-group>
 
                   <b-form-group
+                    v-model="filter"
                     label="Pencarian"
                     label-for="filterInput"
                     style="font-weight: bold"
@@ -80,12 +85,13 @@
                   >
                     <b-input-group>
                       <b-form-input
+                        v-model="filter"
                         type="search"
                         id="filterInput"
                         placeholder="Type to Search"
                       ></b-form-input>
                       <b-input-group-append>
-                        <b-button>Clear</b-button>
+                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
@@ -108,6 +114,14 @@
             <b-table
               :items="gangguanEmosi"
               :fields="fieldGangguanEmosi"
+              :current-page="currentPage"
+              :per-page="perPage"
+              :filter="filter"
+              :filter-included-fields="filterOn"
+              :sort-by.sync="sortBy"
+              :sort-desc.sync="sortDesc"
+              :sort-direction="sortDirection"
+              @filtered="onFiltered"
               show-empty
               bordered
               hover
@@ -150,6 +164,8 @@
                   <b-form-select
                     id="perPageSelect"
                     size="sm"
+                    v-model="perPage"
+                    :options="pageOptions"
                   ></b-form-select>
                 </b-form-group>
               </b-col>
@@ -261,7 +277,7 @@ export default {
 
       fieldGangguanEmosi: [
         { key: 'id', label: 'Id'},
-        { key: 'pertanyaan', label: 'Pertanyaan'},
+        { key: 'pertanyaan', label: 'Pertanyaan', sortable: true, sortDirection: "desc" },
         { key: 'actions', label: 'Actions'},
       ],
 
@@ -277,7 +293,27 @@ export default {
       //   content: ''
       // },
 
+      totalRows: 1,
+      currentPage: 1,
+      perPage: 5,
+      pageOptions: [5, 10, 15, 50, 100],
+      sortBy: "",
+      sortDesc: false,
+      sortDirection: "asc",
+      filter: null,
+      filterOn: [],
+
     }
+  },
+
+  computed: {
+    sortOptions() {
+      return this.fieldGangguanEmosi
+        .filter((f) => f.sortable)
+        .map((f) => {
+          return { text: f.label, value: f.key };
+        });
+    },
   },
 
   mounted() {
@@ -296,6 +332,12 @@ export default {
   },
 
   methods: {
+    onFiltered(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
+    },
+
     tambahData() {
       axios.post(ipBackend + '/ggnControlEmosi/register', {
         pertanyaan: this.tambahPertanyaan

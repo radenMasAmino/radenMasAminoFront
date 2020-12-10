@@ -5,7 +5,7 @@
     <b-container>
       <b-row>
         <b-col md="12" style="margin-top: 60px; margin-bottom: 60px">
-          <div class="box" v-if="stateGetApi">
+          <div class="box">
             <b-row>
               <b-col md="12">
                 <h3 class="text-center m-t-0 m-b-0">
@@ -82,12 +82,13 @@
                   >
                     <b-input-group>
                       <b-form-input
+                        v-model="filter"
                         type="search"
                         id="filterInput"
                         placeholder="Type to Search"
                       ></b-form-input>
                       <b-input-group-append>
-                        <b-button>Clear</b-button>
+                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
@@ -230,11 +231,12 @@
     </b-modal>
   </div>
 </template>
+
 <script>
 import myheader from "../../components/header";
 import axios from "axios";
 import { ipBackend } from "@/config.js";
-import { mapState } from "vuex";
+
 export default {
   name: "depresi",
   components: {
@@ -245,7 +247,6 @@ export default {
       depresiQs: "",
       idQs: "",
       depresiQsEdit: "",
-      // dataQ: "",
       items: [],
       fields: [
         {
@@ -266,7 +267,7 @@ export default {
       filter: null,
       filterOn: [],
       infoModal: {
-        id: "",
+        id: "info-modal",
         title: "",
         content: "",
       },
@@ -280,140 +281,95 @@ export default {
           return { text: f.label, value: f.key };
         });
     },
-    ...mapState("ModGetAPI", ["stateGetApi"]),
   },
-  // props: {
-  //   id: { type: Number },
-  // },
 
   mounted() {
-    // get data
-    axios.get(ipBackend + '/kecemasan/all', {
+    axios.get(ipBackend + '/depresi/all', {
       headers: {
         'accessToken': localStorage.getItem('token')
       }
     })
     .then(res => {
-      console.log('ini test mounted isinya ' + res);
-      console.log(res);
       this.items = res.data.respon;
       this.items.sort(function(a, b){return a - b})
       this.totalRows = this.items.length;
     })
   },
 
-  created() {
-    // axios
-    //   .get(ipBackend + "/depresi/all", {
-    //     headers: {
-    //       accesstoken: localStorage.getItem("token"),
-    //     },
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //     this.items = data.data.respon;
-    //     this.totalRows = this.items.length;
-    //   });
-    this.$store.dispatch("ModGetAPI/actGetApi");
-  },
-
-  watch: {
-    dataBase(newVal, oldVal) {
-      if (oldVal !== newVal) {
-        this.$refs.table.refresh();
-      }
-    },
-  },
-
   methods: {
-    // dataQs() {
-    //   this.dataQ = data.respon[0];
-    // },
     infoQs(item, index, button) {
       this.infoModal.title = `EDIT PERTANYAAN DEPRESI`;
-      // this.infoModal.id.toString()
       this.idQs = item.id;
       this.infoModal.content = item;
       this.depresiQsEdit = item.pertanyaan;
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-      console.log(this.idQs);
     },
+
     resetInfoModal() {
       this.infoModal.title = "";
       this.infoModal.content = "";
     },
+
     onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
+
     addQs() {
       let vm = this;
-      axios
-        .post(
-          ipBackend + "/depresi/register",
-          {
-            pertanyaan: this.depresiQs,
-          },
-          {
-            headers: {
-              accesstoken: localStorage.getItem("token"),
-            },
-          }
-        )
-        .then(function (response) {
-          alert("Berhasil Menambahkan Pertanyaan");
-          vm.items.unshift(response.data);
-          vm.$root.$emit("bv::hide:modal", "modal-1");
-          vm.this = '';
-          // vm.$router.push({ path: "/depresi" });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      axios.post(ipBackend + "/depresi/register", {
+        pertanyaan: this.depresiQs,
+      }, {
+        headers: {
+          accesstoken: localStorage.getItem("token"),
+        },
+      })
+      .then(function (res) {
+        alert("Berhasil Menambahkan Pertanyaan");
+        vm.items.unshift(res.data);
+        vm.$root.$emit("bv::hide::modal", "modal-1");
+        vm.depresiQs = '';
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
     },
+
     editQs() {
       let vm = this;
-      axios
-        .post(
-          ipBackend + "/depresi/update/" + this.idQs,
-          {
-            pertanyaan: this.depresiQsEdit,
-          },
-          {
-            headers: {
-              accesstoken: localStorage.getItem("token"),
-            },
-          }
-        )
-        .then(function () {
-          alert("Berhasil Mengubah Pertanyaan");
-          let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-          vm.items[idx].depresiQs = vm.depresiQsEdit;
-          vm.$root.$emit("bv::hide::modal");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      axios.post(ipBackend + "/depresi/update/" + this.idQs, {
+        pertanyaan: this.depresiQsEdit,
+      }, {
+        headers: {
+          accesstoken: localStorage.getItem("token"),
+        },
+      })
+      .then(function () {
+        alert("Berhasil Mengubah Pertanyaan");
+        let idx = vm.items.findIndex((o) => o.id === vm.idQs);
+        vm.items[idx].pertanyaan = vm.depresiQsEdit;
+        vm.$root.$emit("bv::hide::modal", "info-modal");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     },
     deleteQs(id) {
       let vm = this;
-      axios
-        .delete(ipBackend + "/depresi/delete/" + id, {
-          headers: {
-            accesstoken: localStorage.getItem("token"),
-          },
-        })
-        .then(function (response) {
-          console.log(response);
-          alert("Pertanyaan Telah dihapus");
-          let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-          vm.items.splice(idx, 1);
-          this.$root.$emit("bv::show::modal");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      axios.delete(ipBackend + "/depresi/delete/" + id, {
+        headers: {
+          accesstoken: localStorage.getItem("token"),
+        },
+      })
+      .then(() => {
+        alert("Pertanyaan Telah dihapus");
+        let idx = vm.items.findIndex((o) => o.id === id);
+        vm.items.splice(idx, 1);
+        this.$root.$emit("bv::show::modal");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     },
   },
 };
