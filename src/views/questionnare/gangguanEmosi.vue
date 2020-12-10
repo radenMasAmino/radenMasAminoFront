@@ -1,7 +1,9 @@
 
 <template>
   <div id="gangguanEmosi">
-    <myheader></myheader>
+
+    <MyHeader></MyHeader>
+
     <b-container>
       <b-row>
         <b-col md="12" style="margin-top: 60px; margin-bottom: 60px">
@@ -37,9 +39,9 @@
 
             <b-row class="m-t-30">
               <b-col md="12">
-                <b-button v-b-modal.modal-1 variant="primary"
-                  >Tambah Data</b-button
-                >
+
+                <b-button v-b-modal.modal-1 variant="primary">Tambah Data</b-button>
+
               </b-col>
             </b-row>
 
@@ -54,9 +56,7 @@
                   >
                     <b-input-group>
                       <b-form-select
-                        v-model="sortBy"
                         id="sortBySelect"
-                        :options="sortOptions"
                         class="w-75"
                       >
                         <template v-slot:first>
@@ -64,8 +64,6 @@
                         </template>
                       </b-form-select>
                       <b-form-select
-                        v-model="sortDesc"
-                        :disabled="!sortBy"
                         class="w-25"
                       >
                         <option :value="false">Kecil-Besar</option>
@@ -108,20 +106,12 @@
             </b-row>
 
             <b-table
+              :items="gangguanEmosi"
+              :fields="fieldGangguanEmosi"
               show-empty
               bordered
               hover
-              ref="table"
-              :items="ggnControlEmosi"
-              :fields="fields"
-              :current-page="currentPage"
-              :per-page="perPage"
-              :filter="filter"
-              :filter-included-fields="filterOn"
-              :sort-by.sync="sortBy"
-              :sort-desc.sync="sortDesc"
-              :sort-direction="sortDirection"
-              @filtered="onFiltered"
+              id="tableGangguanEmosi"
               responsive
             >
 
@@ -129,16 +119,16 @@
                 <b-button
                   size="sm"
                   variant="warning"
-                  @click="infoQs(row.item, row.index, $event.target)"
                   class="mr-1"
+                  @click="editModal(row.item, row.index, $event.target)"
                 >
                   Edit
                 </b-button>
                 <b-button
                   size="sm"
                   variant="danger"
-                  @click="deleteQs(row.item.id)"
                   class="mr-1"
+                  @click="eraseModal(row.item.id)"
                 >
                   Hapus
                 </b-button>
@@ -158,10 +148,8 @@
                   class="mb-0"
                 >
                   <b-form-select
-                    v-model="perPage"
                     id="perPageSelect"
                     size="sm"
-                    :options="pageOptions"
                   ></b-form-select>
                 </b-form-group>
               </b-col>
@@ -177,28 +165,53 @@
 
             <!-- Info modal -->
             <b-modal
-              :id="infoModal.content.id"
               hide-footer
               centered
-              :title="infoModal.title"
               ok-only
+              :id="infoModal.id"
+              :title="infoModal.title"
               @hide="resetInfoModal"
             >
-
               <b-form class="bv-example-rtes12345ow">
                 <b-form-group label="Pertanyaan">
 
                   <b-form-input
-                    v-model="ggnEmosiEdit"
+                    v-model="editPertanyaan"
                     required
                     placeholder=""
-                  ></b-form-input>
-                  <b-button @click="editQs" variant="primary" class="m-t-15"
-                    >Simpan</b-button
                   >
+                  </b-form-input>
+
+                  <b-button variant="primary" class="m-t-15" @click="editData" >Simpan</b-button>
+
                 </b-form-group>
               </b-form>
             </b-modal>
+
+            <!-- Delete Modal -->
+            <!-- <b-modal
+              hide-footer
+              centered
+              ok-only
+              :id="clearModal.id"
+              :title="clearModal.title"
+              @hide="resetInfoModal"
+            >
+              <b-form class="bv-example-rtes12345ow">
+                <b-form-group label="Pertanyaan">
+
+                  <b-form-input
+                    v-model="deletePertanyaan"
+                    required
+                    placeholder=""
+                  >
+                  </b-form-input>
+
+                  <b-button variant="primary" class="m-t-15" @click="eraseData" >Hapus</b-button>
+
+                </b-form-group>
+              </b-form>
+            </b-modal> -->
           </div>
         </b-col>
       </b-row>
@@ -213,179 +226,174 @@
       <b-form class="bv-example-row">
         <b-form-group label="Pertanyaan">
           <b-form-input
+            v-model="tambahPertanyaan"
             required
-            v-model="ggnControlEmosi.pertanyaan"
             placeholder="Masukan Pertanyaan.."
           ></b-form-input>
         </b-form-group>
-          <b-button variant="primary" class="m-t-15" @click="addQs"
-            >Simpan</b-button
+          <b-button variant="primary" class="m-t-15" @click="tambahData">Simpan</b-button
           >
       </b-form>
     </b-modal>
   </div>
 </template>
 <script>
-import myheader from "../../components/header";
+import MyHeader from "../../components/header";
 import axios from "axios";
 import { ipBackend } from "@/config.js";
-import { mapState } from "vuex";
+
 export default {
   name: "gangguanEmosi",
   components: {
-    myheader,
+    MyHeader,
   },
+
   data() {
     return {
-      ggnControlEmosi: [],
-      idQs: "",
-      ggnEmosiEdit: "",
+      gangguanEmosi: [],
+      tambahPertanyaan: "",
 
-      fields: [
-        {
-          key: "pertanyaan",
-          label: "Pertanyaan",
-          sortable: true,
-          sortDirection: "desc",
-        },
-        { key: "actions", label: "Actions" },
+      editPertanyaan: "",
+      idEdit: "",
+
+      // deletePertanyaan: "",
+      // idDelete: "",
+
+      fieldGangguanEmosi: [
+        { key: 'id', label: 'Id'},
+        { key: 'pertanyaan', label: 'Pertanyaan'},
+        { key: 'actions', label: 'Actions'},
       ],
 
-      totalRows: 1,
-      currentPage: 1,
-      perPage: 5,
-      pageOptions: [5, 10, 15, 50, 100],
-      sortBy: "",
-      sortDesc: false,
-      sortDirection: "asc",
-      filter: null,
-      filterOn: [],
-
       infoModal: {
-        id: "",
-        title: "",
-        content: "",
+        id: 'info-modal',
+        title: '',
+        content: ''
       },
-    };
+
+      // clearModal: {
+      //   id: 'clear-modal',
+      //   title: '',
+      //   content: ''
+      // },
+
+    }
   },
-  computed: {
-    sortOptions() {
-      return this.fields
-        .filter((f) => f.sortable)
-        .map((f) => {
-          return { text: f.label, value: f.key };
-        });
-    },
-    ...mapState("ModGetAPI", ["stateGetApi"]),
-  },
-  // props: {
-  //   id: { type: Number },
-  // },
 
   mounted() {
-    // get data
     axios.get(ipBackend + '/ggnControlEmosi/all', {
       headers: {
-        'accessToken': localStorage.getItem('token')
+        'accesstoken': localStorage.getItem('token')
       }
     })
     .then(res => {
-      console.log('ini test mounted isinya ' + res);
-      console.log(res);
-      this.ggnControlEmosi = res.data.respon;
-      this.ggnControlEmosi.sort(function(a, b){return a - b})
-      this.totalRows = this.ggnControlEmosi.length;
+      this.gangguanEmosi = res.data.respon
+      this.gangguanEmosi.sort((a, b) => {return b.id - a.id})
+    })
+    .catch(err => {
+      console.log(`Error on mounted ${err}`);
     })
   },
 
   methods: {
-    infoQs(item, index, button) {
-      this.infoModal.title = `EDIT PERTANYAAN GANGGUAN EMOSI`;
-      // this.infoModal.id.toString()
-      this.idQs = item.id;
-      this.infoModal.content = item;
-      this.ggnEmosiEdit = item.pertanyaan;
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-      // console.log(this.idQs);
+    tambahData() {
+      axios.post(ipBackend + '/ggnControlEmosi/register', {
+        pertanyaan: this.tambahPertanyaan
+      }, {
+        headers: {
+          'accesstoken': localStorage.getItem('token')
+        }
+      })
+      .then(res => {
+        this.gangguanEmosi.unshift(res.data);
+        this.$root.$emit("bv::hide::modal", "modal-1");
+      })
+      .catch(err => {
+        console.log(err);
+      })
     },
+
+    editModal(item, index, button) {
+      this.infoModal.title = `${index+1}. EDIT DATA GANGGUAN EMOSI NO = ${item.id}`
+      this.infoModal.content = item
+      this.idEdit = item.id
+      this.editPertanyaan = item.pertanyaan
+      this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+    },
+
+    editData() {
+      axios.post(ipBackend + '/ggnControlEmosi/update/' + this.idEdit, {
+        pertanyaan: this.editPertanyaan
+      }, {
+        headers: {
+          'accesstoken': localStorage.getItem('token')
+        }
+      })
+      .then(res => {
+        console.log(res.data);
+        let idE = this.gangguanEmosi.findIndex(o => o.id === this.idEdit );
+        this.gangguanEmosi[idE].pertanyaan = this.editPertanyaan;
+        this.$root.$emit("bv::hide::modal", "info-modal");
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    },
+
+    // eraseModal(item, index, button) {
+    //   this.clearModal.title = `${index+1}. YAKIN ANDA MAU DELETE = ${item.id}`
+    //   this.clearModal.content = item
+    //   this.idDelete = item.id
+    //   this.deletePertanyaan = item.pertanyaan
+    //   this.$root.$emit('bv::show::modal', this.clearModal.id, button)
+    // },
+
+    // eraseData(idDelete) {
+    //   axios.delete(ipBackend + '/ggnControlEmosi/delete/' + idDelete, {
+    //     id: this.idDelete
+    //   }, {
+    //     headers: {
+    //       'accesstoken': localStorage.getItem('token')
+    //     }
+    //   })
+    //   .then(res => {
+    //     console.log(res.data);
+    //     let idD = this.gangguanEmosi.findIndex(o => o.id === this.idDelete );
+    //     this.gangguanEmosi.splice(idD, 1);
+    //     this.$root.$emit("bv::hide::modal", "clear-modal");
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   })
+    // },
+
+    eraseModal(idData) {
+      axios.delete(ipBackend + "/ggnControlEmosi/delete/" + idData, {
+        headers: {
+          accesstoken: localStorage.getItem("token"),
+        },
+      })
+      .then(res => {
+        console.log(res.data);
+        alert("berhasil");
+        let idDelete = this.gangguanEmosi.findIndex((o) => o.id === idData);
+        this.gangguanEmosi.splice(idDelete, 1);
+        this.$root.$emit("bv::hide::modal");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+    
     resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content = "";
+      this.infoModal.title = ''
+      this.infoModal.content = ''
     },
-    onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
-      this.totalRows = filteredItems.length;
-      this.currentPage = 1;
-    },
-    addQs() {
-      let vm = this;
-      axios
-        .post(
-          ipBackend + "/ggnControlEmosi/register",
-          {
-            pertanyaan: vm.ggnControlEmosi.pertanyaan,
-          },
-          {
-            headers: {
-              accesstoken: localStorage.getItem("token"),
-            },
-          }
-        )
-        .then(function (response) {
-          alert("Berhasil Menambahkan Pertanyaan");
-          vm.ggnControlEmosi.unshift(response.data);
-          vm.$root.$emit("bv::hide:modal", "modal-1");
-          // vm.$router.push({ path: "/gangguanEmosi" });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    editQs() {
-      let vm = this;
-      axios
-        .post(
-          ipBackend + "/ggnControlEmosi/update/" + this.idQs,
-          {
-            pertanyaan: this.ggnControlEmosiEdit,
-          },
-          {
-            headers: {
-              accesstoken: localStorage.getItem("token"),
-            },
-          }
-        )
-        .then(function () {
-          alert("Berhasil Mengubah Pertanyaan");
-          let idx = vm.ggnControlEmosi.findIndex((o) => o.id === vm.idQs);
-          vm.ggnControlEmosi[idx].pertanyaan = vm.ggnEmosiEdit;
-          vm.$root.$emit("bv::hide::modal");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    deleteQs(id) {
-      let vm = this;
-      axios
-        .delete(ipBackend + "/ggnControlEmosi/delete/" + id, {
-          headers: {
-            accesstoken: localStorage.getItem("token"),
-          },
-        })
-        .then(function (response) {
-          console.log(response);
-          alert("Pertanyaan Telah dihapus");
-          let idx = vm.ggnControlEmosi.findIndex((o) => o.id === vm.idQs);
-          vm.ggnControlEmosi.splice(idx, 1);
-          vm.$root.$emit("bv::show::modal");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
+
   },
+  
 };
 </script>
+
 <style scoped>
 </style>

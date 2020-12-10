@@ -112,7 +112,7 @@
               bordered
               hover
               ref="table"
-              :items="stateGetApi.data.respon"
+              :items="items"
               :fields="fields"
               :current-page="currentPage"
               :per-page="perPage"
@@ -246,7 +246,7 @@ export default {
       idQs: "",
       depresiQsEdit: "",
       // dataQ: "",
-      items: [{ pertanyaan: "Data Pertanyaannya" }],
+      items: [],
       fields: [
         {
           key: "pertanyaan",
@@ -285,6 +285,23 @@ export default {
   // props: {
   //   id: { type: Number },
   // },
+
+  mounted() {
+    // get data
+    axios.get(ipBackend + '/kecemasan/all', {
+      headers: {
+        'accessToken': localStorage.getItem('token')
+      }
+    })
+    .then(res => {
+      console.log('ini test mounted isinya ' + res);
+      console.log(res);
+      this.items = res.data.respon;
+      this.items.sort(function(a, b){return a - b})
+      this.totalRows = this.items.length;
+    })
+  },
+
   created() {
     // axios
     //   .get(ipBackend + "/depresi/all", {
@@ -316,7 +333,7 @@ export default {
       this.infoModal.title = `EDIT PERTANYAAN DEPRESI`;
       // this.infoModal.id.toString()
       this.idQs = item.id;
-      this.infoModal = item;
+      this.infoModal.content = item;
       this.depresiQsEdit = item.pertanyaan;
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
       console.log(this.idQs);
