@@ -112,7 +112,7 @@
               bordered
               hover
               ref="table"
-              :items="stateGetApi.data.respon"
+              :items="ggnControlEmosi"
               :fields="fields"
               :current-page="currentPage"
               :per-page="perPage"
@@ -177,7 +177,7 @@
 
             <!-- Info modal -->
             <b-modal
-              :id="infoModal.id"
+              :id="infoModal.content.id"
               hide-footer
               centered
               :title="infoModal.title"
@@ -189,7 +189,7 @@
                 <b-form-group label="Pertanyaan">
 
                   <b-form-input
-                    v-model="gangguanEmosiQsEdit"
+                    v-model="ggnEmosiEdit"
                     required
                     placeholder=""
                   ></b-form-input>
@@ -214,13 +214,13 @@
         <b-form-group label="Pertanyaan">
           <b-form-input
             required
-            v-model="gangguanEmosiQs"
+            v-model="ggnControlEmosi.pertanyaan"
             placeholder="Masukan Pertanyaan.."
           ></b-form-input>
+        </b-form-group>
           <b-button variant="primary" class="m-t-15" @click="addQs"
             >Simpan</b-button
           >
-        </b-form-group>
       </b-form>
     </b-modal>
   </div>
@@ -237,11 +237,10 @@ export default {
   },
   data() {
     return {
-      gangguanEmosiQs: "",
+      ggnControlEmosi: [],
       idQs: "",
-      gangguanEmosiQsEdit: "",
-      // dataQ: "",
-      items: [{ pertanyaan: "Data Pertanyaannya" }],
+      ggnEmosiEdit: "",
+
       fields: [
         {
           key: "pertanyaan",
@@ -251,6 +250,7 @@ export default {
         },
         { key: "actions", label: "Actions" },
       ],
+
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
@@ -260,6 +260,7 @@ export default {
       sortDirection: "asc",
       filter: null,
       filterOn: [],
+
       infoModal: {
         id: "",
         title: "",
@@ -280,55 +281,32 @@ export default {
   // props: {
   //   id: { type: Number },
   // },
-  created() {
-    // axios
-    //   .get(ipBackend + "/gangguanEmosi/all", {
-    //     headers: {
-    //       accesstoken: localStorage.getItem("token"),
-    //     },
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //     this.items = data.data.respon;
-    //     this.totalRows = this.items.length;
-    //   });
-    this.$store.dispatch("ModGetAPI/actGetApi");
+
+  mounted() {
+    // get data
+    axios.get(ipBackend + '/ggnControlEmosi/all', {
+      headers: {
+        'accessToken': localStorage.getItem('token')
+      }
+    })
+    .then(res => {
+      console.log('ini test mounted isinya ' + res);
+      console.log(res);
+      this.ggnControlEmosi = res.data.respon;
+      this.ggnControlEmosi.sort(function(a, b){return a - b})
+      this.totalRows = this.ggnControlEmosi.length;
+    })
   },
 
-  // watch: {
-  //   dataBase(newVal, oldVal) {
-  //     if (oldVal !== newVal) {
-  //       this.$refs.table.refresh();
-  //     }
-  //   },
-  // },
-
   methods: {
-    fetchDbEmosi() {
-        axios.get(ipBackend + '/gangguanEmosi/all', {
-            headers: {
-                'accessToken': localStorage.getItem('token')
-            }
-        })
-        .then(res => {
-            this.gangguanEmosiQs = res.data
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    },
-    
-    // dataQs() {
-    //   this.dataQ = data.respon[0];
-    // },
     infoQs(item, index, button) {
       this.infoModal.title = `EDIT PERTANYAAN GANGGUAN EMOSI`;
       // this.infoModal.id.toString()
       this.idQs = item.id;
-      this.infoModal = item;
-      this.gangguanEmosiQsEdit = item.pertanyaan;
+      this.infoModal.content = item;
+      this.ggnEmosiEdit = item.pertanyaan;
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-      console.log(this.idQs);
+      // console.log(this.idQs);
     },
     resetInfoModal() {
       this.infoModal.title = "";
@@ -345,7 +323,7 @@ export default {
         .post(
           ipBackend + "/ggnControlEmosi/register",
           {
-            pertanyaan: this.gangguanEmosiQs,
+            pertanyaan: vm.ggnControlEmosi.pertanyaan,
           },
           {
             headers: {
@@ -355,9 +333,8 @@ export default {
         )
         .then(function (response) {
           alert("Berhasil Menambahkan Pertanyaan");
-          vm.items.unshift(response.data);
+          vm.ggnControlEmosi.unshift(response.data);
           vm.$root.$emit("bv::hide:modal", "modal-1");
-          vm.this = '';
           // vm.$router.push({ path: "/gangguanEmosi" });
         })
         .catch(function (error) {
@@ -370,7 +347,7 @@ export default {
         .post(
           ipBackend + "/ggnControlEmosi/update/" + this.idQs,
           {
-            pertanyaan: this.gangguanEmosiQsEdit,
+            pertanyaan: this.ggnControlEmosiEdit,
           },
           {
             headers: {
@@ -380,8 +357,8 @@ export default {
         )
         .then(function () {
           alert("Berhasil Mengubah Pertanyaan");
-          let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-          vm.items[idx].gangguanEmosiQs = vm.gangguanEmosiQsEdit;
+          let idx = vm.ggnControlEmosi.findIndex((o) => o.id === vm.idQs);
+          vm.ggnControlEmosi[idx].pertanyaan = vm.ggnEmosiEdit;
           vm.$root.$emit("bv::hide::modal");
         })
         .catch(function (error) {
@@ -399,9 +376,9 @@ export default {
         .then(function (response) {
           console.log(response);
           alert("Pertanyaan Telah dihapus");
-          let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-          vm.items.splice(idx, 1);
-          this.$root.$emit("bv::show::modal");
+          let idx = vm.ggnControlEmosi.findIndex((o) => o.id === vm.idQs);
+          vm.ggnControlEmosi.splice(idx, 1);
+          vm.$root.$emit("bv::show::modal");
         })
         .catch(function (error) {
           console.log(error);
