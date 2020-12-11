@@ -311,7 +311,7 @@ export default {
       // console.log('ini test mounted isinya ' + res);
       // console.log(res);
       this.formInput = res.data.respon;
-      this.formInput.sort(function(a, b){return a - b})
+      this.formInput.sort(function(a, b){return b.id - a.id})
       this.totalRows = this.formInput.length;
     })
   },

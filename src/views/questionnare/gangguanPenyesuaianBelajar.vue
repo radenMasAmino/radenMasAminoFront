@@ -190,7 +190,7 @@
                 <b-form-group label="Pertanyaan">
 
                   <b-form-input
-                    v-model="gangguanBelajarEdit"
+                    v-model="infoModal.content.pertanyaan"
                     required
                     placeholder=""
                   >
@@ -323,7 +323,7 @@ export default {
     editQs() {
       let vm = this;
       axios.post(ipBackend + "/ggnBelajar/update/" + vm.idQs, {
-        pertanyaan: vm.gangguanBelajarEdit,
+        pertanyaan: vm.infoModal.content.pertanyaan,
       }, {
         headers: {
           'accesstoken': localStorage.getItem("token"),
@@ -332,7 +332,7 @@ export default {
       .then(() => {
         alert("Berhasil Mengubah Pertanyaan");
         let idEdit = vm.items.findIndex((o) => o.id === vm.idQs);
-        vm.items[idEdit].pertanyaan = vm.gangguanBelajarEdit;
+        vm.items[idEdit] = vm.infoModal.content;
         vm.$root.$emit("bv::hide::modal", "info-modal");
       })
       .catch(err => {
@@ -341,8 +341,8 @@ export default {
     },
 
     resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content = "";
+      // this.infoModal.title = "";
+      // this.infoModal.content = "";
     },
     resetTambah(){
       this.gangguanBelajar = "";

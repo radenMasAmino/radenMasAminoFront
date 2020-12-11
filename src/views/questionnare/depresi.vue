@@ -194,7 +194,7 @@
                                  -->
 
                   <b-form-input
-                    v-model="depresiQsEdit"
+                    v-model="infoModal.content.pertanyaan"
                     required
                     placeholder=""
                   ></b-form-input>
@@ -288,7 +288,7 @@ export default {
     })
     .then(res => {
       this.items = res.data.respon;
-      this.items.sort(function(a, b){return a - b})
+      this.items.sort(function(a, b){return b.id - a.id})
       this.totalRows = this.items.length;
     })
   },
@@ -301,8 +301,8 @@ export default {
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
     resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content = "";
+      // this.infoModal.title = "";
+      // this.infoModal.content = "";
     },
     onFiltered(filteredItems) {
       this.totalRows = filteredItems.length;
@@ -330,7 +330,7 @@ export default {
     editQs() {
       let vm = this;
       axios.post(ipBackend + "/depresi/update/" + this.idQs, {
-        pertanyaan: this.depresiQsEdit,
+        pertanyaan: this.infoModal.content.pertanyaan,
       }, {
         headers: {
           accesstoken: localStorage.getItem("token"),
@@ -339,7 +339,7 @@ export default {
       .then(function () {
         alert("Berhasil Mengubah Pertanyaan");
         let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-        vm.items[idx].pertanyaan = vm.depresiQsEdit;
+        vm.items[idx] = vm.infoModal.content;
         vm.$root.$emit("bv::hide::modal", "info-modal");
       })
       .catch(function (error) {

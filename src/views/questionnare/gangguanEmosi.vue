@@ -192,7 +192,7 @@
                 <b-form-group label="Pertanyaan">
 
                   <b-form-input
-                    v-model="editPertanyaan"
+                    v-model="infoModal.content.pertanyaan"
                     required
                     placeholder=""
                   >
@@ -364,8 +364,9 @@ export default {
     },
 
     editData() {
+      let vm=this
       axios.post(ipBackend + '/ggnControlEmosi/update/' + this.idEdit, {
-        pertanyaan: this.editPertanyaan
+        pertanyaan: this.infoModal.content.pertanyaan
       }, {
         headers: {
           'accesstoken': localStorage.getItem('token')
@@ -373,8 +374,9 @@ export default {
       })
       .then(res => {
         console.log(res.data);
-        let idE = this.gangguanEmosi.findIndex(o => o.id === this.idEdit );
-        this.gangguanEmosi[idE].pertanyaan = this.editPertanyaan;
+        alert('Berhasil Mengubah Pertanyaan')
+        let idNew = this.gangguanEmosi.findIndex(o => o.id === this.idEdit );
+        vm.gangguanEmosi[idNew] = vm.infoModal.content;
         this.$root.$emit("bv::hide::modal", "info-modal");
       })
       .catch(err => {
@@ -428,8 +430,8 @@ export default {
     },
     
     resetInfoModal() {
-      this.infoModal.title = ''
-      this.infoModal.content = ''
+      // this.infoModal.title = ''
+      // this.infoModal.content = ''
     },
 
   },
