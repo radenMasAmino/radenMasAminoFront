@@ -179,13 +179,22 @@
                     label="Pertanyaan" 
                 >                                   
                 <b-form-input
-                    v-model="editPertanyaan"
+                    v-model="infoModal.content.pertanyaan"
                     required
                     placeholder=""
                 >
                 </b-form-input>
+                     </b-form-group>
+                 <b-form-group label="Descending">
+                    <b-form-select
+                      v-model="infoModal.content.descending"
+                      :options="listDescending"
+                      required
+                    >
+                    </b-form-select>
+                  </b-form-group>
                 <b-button @click="editQs" variant="primary" class="m-t-15">Simpan</b-button>
-                </b-form-group>
+           
               </b-form>
 
             </b-modal>
@@ -238,7 +247,10 @@ export default {
   data() {
     return {
       formInput: [], // changed from object{ } to array[ ]
-
+      listDescending:[
+        { value: '0', text: '1 - 4' },
+        { value: '1', text: '4 - 1' },
+      ],
       addPertanyaan: [],
 
       editPertanyaan: "",
@@ -333,8 +345,8 @@ export default {
     },
 
     resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content = "";
+      // this.infoModal.title = "";
+      // this.infoModal.content = "";
     },
 
     onFiltered(filteredItems) {
@@ -369,7 +381,8 @@ export default {
     editQs() {
       let vm = this;
       axios.post("http://147.139.169.33:8805/kecemasan/update/" + vm.idEdit, {
-        pertanyaan: vm.editPertanyaan,
+        pertanyaan: vm.infoModal.content.pertanyaan,
+        descending: vm.infoModal.content.descending
       }, {
         headers: {
           'accessToken': localStorage.getItem("token"),
@@ -380,7 +393,7 @@ export default {
         alert("berhasil");
         // vm.$store.dispatch("Data/listPertanyaan");
         let idNew = vm.formInput.findIndex((o) => o.id === vm.idEdit);
-        vm.formInput[idNew].pertanyaan = vm.editPertanyaan;
+        vm.formInput[idNew] = vm.infoModal.content;
         // vm.formInput.unshift(res.data);
         // console.log(`ini ${vm.idNew}`);
         // console.log(`ini ${vm.formInput[idNew].pertanyaan}`);
