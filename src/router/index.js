@@ -72,6 +72,14 @@ const routes = [
         requiresAuth: true
     }
   },
+  {
+    path: '/srq',
+    name: 'srq',
+    component: () => import('../views/questionnare/SRQ.vue'),
+    meta: {
+        requiresAuth: true
+    }
+  },
 ];
 
 const router = new VueRouter({

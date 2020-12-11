@@ -1,5 +1,5 @@
 <template>
-  <div id="depresi">
+  <div id="srq">
     <myheader></myheader>
     <b-container>
       <b-row>
@@ -8,7 +8,7 @@
             <b-row>
               <b-col md="12">
                 <h3 class="text-center m-t-0 m-b-0">
-                  <strong>DATA MASTER DEPRESI</strong>
+                  <strong>DATA MASTER SRQ</strong>
                 </h3>
               </b-col>
             </b-row>
@@ -28,7 +28,7 @@
                     </router-link>
                   </b-breadcrumb-item>
                   <b-breadcrumb-item active
-                    >Data Master Depresi</b-breadcrumb-item
+                    >Data Master SRQ</b-breadcrumb-item
                   >
                 </b-breadcrumb>
               </b-col>
@@ -99,7 +99,7 @@
                   >
                     <b-form-checkbox-group>
                       <b-form-checkbox value=""
-                        >Pertanyaan Depresi</b-form-checkbox
+                        >Pertanyaan SRQ</b-form-checkbox
                       >
                     </b-form-checkbox-group>
                   </b-form-group>
@@ -194,7 +194,7 @@
                                  -->
 
                   <b-form-input
-                    v-model="depresiQsEdit"
+                    v-model="srqQsEdit"
                     required
                     placeholder=""
                   ></b-form-input>
@@ -213,13 +213,13 @@
       id="modal-1"
       hide-footer
       centered
-      title="TAMBAH DATA MASTER DEPRESI"
+      title="TAMBAH DATA MASTER SRQ"
     >
       <b-form class="bv-example-row">
         <b-form-group label="Pertanyaan">
           <b-form-input
             required
-            v-model="depresiQs"
+            v-model="srqQs"
             placeholder="Masukan Pertanyaan.."
           ></b-form-input>
           <b-button variant="primary" class="m-t-15" @click="addQs"
@@ -236,15 +236,15 @@ import myheader from "../../components/header";
 import axios from "axios";
 import { ipBackend } from "@/config.js";
 export default {
-  name: "depresi",
+  name: "srq",
   components: {
     myheader,
   },
   data() {
     return {
-      depresiQs: "",
+      srqQs: "",
       idQs: "",
-      depresiQsEdit: "",
+      srqQsEdit: "",
       items: [],
       fields: [
         {
@@ -281,7 +281,7 @@ export default {
     },
   },
   mounted() {
-    axios.get(ipBackend + '/depresi/all', {
+    axios.get(ipBackend + '/srq/all', {
       headers: {
         'accessToken': localStorage.getItem('token')
       }
@@ -294,10 +294,10 @@ export default {
   },
   methods: {
     infoQs(item, index, button) {
-      this.infoModal.title = `EDIT PERTANYAAN DEPRESI`;
+      this.infoModal.title = `EDIT PERTANYAAN SRQ`;
       this.idQs = item.id;
       this.infoModal.content = item;
-      this.depresiQsEdit = item.pertanyaan;
+      this.srqQsEdit = item.pertanyaan;
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
     resetInfoModal() {
@@ -310,8 +310,8 @@ export default {
     },
     addQs() {
       let vm = this;
-      axios.post(ipBackend + "/depresi/register", {
-        pertanyaan: this.depresiQs,
+      axios.post(ipBackend + "/srq/register", {
+        pertanyaan: this.srqQs,
       }, {
         headers: {
           accesstoken: localStorage.getItem("token"),
@@ -321,7 +321,7 @@ export default {
         alert("Berhasil Menambahkan Pertanyaan");
         vm.items.unshift(res.data);
         vm.$root.$emit("bv::hide::modal", "modal-1");
-        vm.depresiQs = '';
+        vm.srqQs = '';
       })
       .catch(function (err) {
         console.log(err);
@@ -329,8 +329,8 @@ export default {
     },
     editQs() {
       let vm = this;
-      axios.post(ipBackend + "/depresi/update/" + this.idQs, {
-        pertanyaan: this.depresiQsEdit,
+      axios.post(ipBackend + "/srq/update/" + this.idQs, {
+        pertanyaan: this.srqQsEdit,
       }, {
         headers: {
           accesstoken: localStorage.getItem("token"),
@@ -339,7 +339,7 @@ export default {
       .then(function () {
         alert("Berhasil Mengubah Pertanyaan");
         let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-        vm.items[idx].pertanyaan = vm.depresiQsEdit;
+        vm.items[idx].pertanyaan = vm.srqQsEdit;
         vm.$root.$emit("bv::hide::modal", "info-modal");
       })
       .catch(function (error) {
@@ -348,7 +348,7 @@ export default {
     },
     deleteQs(id) {
       let vm = this;
-      axios.delete(ipBackend + "/depresi/delete/" + id, {
+      axios.delete(ipBackend + "/srq/delete/" + id, {
         headers: {
           accesstoken: localStorage.getItem("token"),
         },
