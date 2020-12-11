@@ -365,6 +365,7 @@ export default {
         alert("berhasil");
         vm.formInput.unshift(res.data);
         vm.$root.$emit("bv::hide::modal", "modal-1");
+        vm.this=''
         // vm.$store.dispatch("Data/listPertanyaan");
       })
       .catch(err => {

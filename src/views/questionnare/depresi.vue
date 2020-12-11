@@ -5,7 +5,7 @@
     <b-container>
       <b-row>
         <b-col md="12" style="margin-top: 60px; margin-bottom: 60px">
-          <div class="box" v-if="stateGetApi">
+          <div class="box">
             <b-row>
               <b-col md="12">
                 <h3 class="text-center m-t-0 m-b-0">
@@ -53,21 +53,12 @@
                     style="font-weight: bold"
                   >
                     <b-input-group>
-                      <b-form-select
-                        v-model="sortBy"
-                        id="sortBySelect"
-                        :options="sortOptions"
-                        class="w-75"
-                      >
+                      <b-form-select id="sortBySelect" class="w-75">
                         <template v-slot:first>
                           <option value="">-- Nama Kolom --</option>
                         </template>
                       </b-form-select>
-                      <b-form-select
-                        v-model="sortDesc"
-                        :disabled="!sortBy"
-                        class="w-25"
-                      >
+                      <b-form-select class="w-25">
                         <option :value="false">Kecil-Besar</option>
                         <option :value="true">Besar-Kecil</option>
                       </b-form-select>
@@ -111,8 +102,7 @@
               show-empty
               bordered
               hover
-              ref="table"
-              :items="stateGetApi.data.respon"
+              :items="items"
               :fields="fields"
               :current-page="currentPage"
               :per-page="perPage"
@@ -122,6 +112,7 @@
               :sort-desc.sync="sortDesc"
               :sort-direction="sortDirection"
               @filtered="onFiltered"
+              ref="table"
               responsive
             >
               <!-- <template v-slot:cell(name)="row">
@@ -132,17 +123,12 @@
                 <b-button
                   size="sm"
                   variant="warning"
-                  @click="infoQs(row.item, row.index, $event.target)"
+                  @click="infoQs(row.item, row.id, $event.target)"
                   class="mr-1"
                 >
                   Edit
                 </b-button>
-                <b-button
-                  size="sm"
-                  variant="danger"
-                  @click="deleteQs(row.item.id)"
-                  class="mr-1"
-                >
+                <b-button size="sm" variant="danger" class="mr-1">
                   Hapus
                 </b-button>
               </template>
@@ -160,12 +146,7 @@
                   label-for="perPageSelect"
                   class="mb-0"
                 >
-                  <b-form-select
-                    v-model="perPage"
-                    id="perPageSelect"
-                    size="sm"
-                    :options="pageOptions"
-                  ></b-form-select>
+                  <b-form-select id="perPageSelect" size="sm"></b-form-select>
                 </b-form-group>
               </b-col>
 
@@ -180,27 +161,21 @@
 
             <!-- Info modal -->
             <b-modal
-              :id="infoModal.id"
+              :id="infoModal.content.id"
+              :title="infoModal.title"
               hide-footer
               centered
-              :title="infoModal.title"
               ok-only
               @hide="resetInfoModal"
             >
               <!-- <pre>{{ infoModal.content.namaPenyakit }}</pre> -->
-              <b-form class="bv-example-rtes12345ow">
+              <b-form class="bv-example-row">
                 <b-form-group label="Pertanyaan">
                   <!-- {{infoModal.content.namaPenyakit}}
                                  -->
 
-                  <b-form-input
-                    v-model="depresiQsEdit"
-                    required
-                    placeholder=""
-                  ></b-form-input>
-                  <b-button @click="editQs" variant="primary" class="m-t-15"
-                    >Simpan</b-button
-                  >
+                  <b-form-input v-model="depresiEdit" required placeholder=""></b-form-input>
+                  <b-button variant="primary" class="m-t-15">Simpan</b-button>
                 </b-form-group>
               </b-form>
             </b-modal>
@@ -218,8 +193,8 @@
       <b-form class="bv-example-row">
         <b-form-group label="Pertanyaan">
           <b-form-input
-            required
             v-model="depresiQs"
+            required
             placeholder="Masukan Pertanyaan.."
           ></b-form-input>
           <b-button variant="primary" class="m-t-15" @click="addQs"
@@ -234,7 +209,7 @@
 import myheader from "../../components/header";
 import axios from "axios";
 import { ipBackend } from "@/config.js";
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 export default {
   name: "depresi",
   components: {
@@ -243,11 +218,13 @@ export default {
   data() {
     return {
       depresiQs: "",
+      depresiEdit: "",
       idQs: "",
-      depresiQsEdit: "",
-      // dataQ: "",
-      items: [{ pertanyaan: "Data Pertanyaannya" }],
+
+      items: [],
+
       fields: [
+        {key:'id', label:'id'},
         {
           key: "pertanyaan",
           label: "Pertanyaan",
@@ -256,81 +233,62 @@ export default {
         },
         { key: "actions", label: "Actions" },
       ],
+
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
-      pageOptions: [5, 10, 15, 50, 100],
+      pageOptions: [5, 10, 15, { value: 100, text: "Show a lot" }],
       sortBy: "",
       sortDesc: false,
       sortDirection: "asc",
       filter: null,
       filterOn: [],
       infoModal: {
-        id: "",
+        id: "info-modal",
         title: "",
         content: "",
       },
     };
   },
-  computed: {
-    sortOptions() {
-      return this.fields
-        .filter((f) => f.sortable)
-        .map((f) => {
-          return { text: f.label, value: f.key };
-        });
-    },
-    ...mapState("ModGetAPI", ["stateGetApi"]),
-  },
-  // props: {
-  //   id: { type: Number },
-  // },
-  created() {
-    // axios
-    //   .get(ipBackend + "/depresi/all", {
-    //     headers: {
-    //       accesstoken: localStorage.getItem("token"),
-    //     },
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //     this.items = data.data.respon;
-    //     this.totalRows = this.items.length;
-    //   });
-    this.$store.dispatch("ModGetAPI/actGetApi");
-    // this.items = this.stateGetApi.data.respon;
-  },
 
-  watch: {
-    dataBase(newVal, oldVal) {
-      if (oldVal !== newVal) {
-        this.$refs.table.refresh();
-      }
-    },
+  mounted() {
+    axios
+      .get(ipBackend + "/depresi/all", {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        console.log(res, "INI HASIL MOUNTED");
+        this.items = res.data.respon;
+        this.totalRows = this.items.length;
+      });
   },
 
   methods: {
-    // dataQs() {
-    //   this.dataQ = data.respon[0];
-    // },
     infoQs(item, index, button) {
-      this.infoModal.title = `EDIT PERTANYAAN DEPRESI`;
-      // this.infoModal.id.toString()
-      this.idQs = item.id;
-      this.infoModal = item;
-      this.depresiQsEdit = item.pertanyaan;
-      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-      console.log(this.idQs);
+      this.infoModal.title = `EDIT DATA MASTER KECEMASAN`;
+      this.infoModal.content = item;
+      // console.log("log nya info", this.infoModal.content.id);
+      // console.log('bikin aja', item.id);
+      this.idQs = item.id.toString();
+      // this.idChoose = item.id.toString();
+      this.editPertanyaan = item.pertanyaan;
+      console.log("ini lhoooooooooo", this.editPertanyaan);
+      this.$root.$emit("bv::show::modal", this.infoModal.content.id, button);
     },
+
     resetInfoModal() {
       this.infoModal.title = "";
       this.infoModal.content = "";
     },
+
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
+
     addQs() {
       let vm = this;
       axios
@@ -341,69 +299,18 @@ export default {
           },
           {
             headers: {
-              accesstoken: localStorage.getItem("token"),
+              accessToken: localStorage.getItem("token"),
             },
           }
         )
-        .then(function (response) {
-          console.log(response);
-          alert("Berhasil Menambahkan Pertanyaan");
-          vm.stateGetApi.data.respon.unshift(response.data);
-          vm.$root.$emit("bv::hide:modal", "modal-1");
+        .then((res) => {
+          alert("Berhasil Menambah Pertanyaan");
+          vm.depresiQs.unshift(res.data);
+          vm.$root.$emit("bv::hide::modal", "modal-1");
           vm.this = "";
-          // vm.$router.push({ path: "/depresi" });
         })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    editQs() {
-      let vm = this;
-      axios
-        .post(
-          ipBackend + "/depresi/update/" + this.idQs,
-          {
-            pertanyaan: this.depresiQsEdit,
-          },
-          {
-            headers: {
-              accesstoken: localStorage.getItem("token"),
-            },
-          }
-        )
-        .then(function (res) {
-          console.log(res);
-          alert("Berhasil Mengubah Pertanyaan");
-          vm.$store.dispatch("ModGetAPI/actGetApi");
-          vm.stateGetApi.data.respon.unshift(res.data);
-          let idx = vm.stateGetApi.data.respon.findIndex(
-            (o) => o.id === vm.idQs
-          );
-          vm.depresiQs.data.respon[idx].pertanyaan = vm.depresiQsEdit;
-          // console.log(vm.pertanyaan);
-          vm.$root.$emit("bv::hide::modal");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    deleteQs(id) {
-      let vm = this;
-      axios
-        .delete(ipBackend + "/depresi/delete/" + id, {
-          headers: {
-            accesstoken: localStorage.getItem("token"),
-          },
-        })
-        .then(function (response) {
-          console.log(response);
-          alert("Pertanyaan Telah dihapus");
-          let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-          vm.items.splice(idx, 1);
-          this.$root.$emit("bv::show::modal");
-        })
-        .catch(function (error) {
-          console.log(error);
+        .catch((err) => {
+          console.log(err);
         });
     },
   },
