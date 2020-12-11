@@ -89,9 +89,7 @@
                         placeholder="Type to Search"
                       ></b-form-input>
                       <b-input-group-append>
-                        <b-button :disabled="!filter" @click="filter = ''"
-                          >Clear</b-button
-                        >
+                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
@@ -130,7 +128,7 @@
                 >
 
                 <template v-slot:cell(actions)="row">
-                    <b-button size="sm" variant="warning" @click="info(row.item, row.index, $event.target)" class="mr-1">
+                    <b-button size="sm" variant="warning" @click="editInfo(row.item, row.index, $event.target)" class="mr-1">
                         Edit
                     </b-button>
                       <b-button size="sm" variant="danger" @click="delQs(row.item.id)" class="mr-1">
@@ -174,20 +172,29 @@
             </b-row>
 
             <!-- Info modal -->
-            <b-modal :id="infoModal.content.id" hide-footer centered :title="infoModal.title" ok-only @hide="resetInfoModal">
+            <b-modal :id="infoModal.id" hide-footer centered :title="infoModal.title" ok-only @hide="resetInfoModal">
 
               <b-form class="bv-example-row">
                 <b-form-group 
                     label="Pertanyaan" 
                 >                                   
                 <b-form-input
-                    v-model="editPertanyaan"
+                    v-model="infoModal.content.pertanyaan"
                     required
                     placeholder=""
                 >
                 </b-form-input>
+                     </b-form-group>
+                 <b-form-group label="Descending">
+                    <b-form-select
+                      v-model="infoModal.content.descending"
+                      :options="listDescending"
+                      required
+                    >
+                    </b-form-select>
+                  </b-form-group>
                 <b-button @click="editQs" variant="primary" class="m-t-15">Simpan</b-button>
-                </b-form-group>
+           
               </b-form>
 
             </b-modal>
@@ -202,7 +209,7 @@
         <b-form class="bv-example-row">
           <b-form-group label="Pertanyaan">
             <b-form-input
-              v-model="formInput.pertanyaan"
+              v-model="addPertanyaan.pertanyaan"
               required
               placeholder="" 
             >
@@ -211,7 +218,7 @@
             
           <b-form-group label="Descending">
             <b-form-select
-              v-model="formInput.descending"
+              v-model="addPertanyaan.descending"
               :options="listDescending"
               required
             >
@@ -240,12 +247,13 @@ export default {
   data() {
     return {
       formInput: [], // changed from object{ } to array[ ]
+      listDescending:[
+        { value: '0', text: '1 - 4' },
+        { value: '1', text: '4 - 1' },
+      ],
+      addPertanyaan: [],
 
       editPertanyaan: "",
-
-      listDescending: [
-        { text: "Select One", value: null }, 0, 1
-      ],
 
       fields: [
         {
@@ -271,8 +279,9 @@ export default {
       
       filter: null,
       filterOn: [],
+
       infoModal: {
-        id: "",
+        id: "info-modal",
         title: "",
         content: "",
       },
@@ -299,8 +308,8 @@ export default {
       }
     })
     .then(res => {
-      console.log('ini test mounted isinya ' + res);
-      console.log(res);
+      // console.log('ini test mounted isinya ' + res);
+      // console.log(res);
       this.formInput = res.data.respon;
       this.formInput.sort(function(a, b){return a - b})
       this.totalRows = this.formInput.length;
@@ -314,34 +323,30 @@ export default {
   },
 
   methods: {
-    dispatchData() { // get data on created
-      axios.get(ipBackend + '/kecemasan/all', {
-        headers: {
-          'accessToken': localStorage.getItem('token')
-        }
-      })
-      .then(res => {
-        console.log(`ini test mounted isinya ${res}`);
-        console.log(res);
-        this.formInput = res.data.respon;
-      })
-    },
+    // dispatchData() { // get data on created
+    //   axios.get(ipBackend + '/kecemasan/all', {
+    //     headers: {
+    //       'accessToken': localStorage.getItem('token')
+    //     }
+    //   })
+    //   .then(res => {
+    //     console.log(`ini test mounted isinya ${res}`);
+    //     console.log(res);
+    //     this.formInput = res.data.respon;
+    //   })
+    // },
 
-    info(item, index, button) {
+    editInfo(item, index, button) {
       this.infoModal.title = `EDIT DATA MASTER KECEMASAN`;
       this.infoModal.content = item;
-      // console.log("log nya info", this.infoModal.content.id);
-      // console.log('bikin aja', item.id);
-      this.idCs = item.id;
-      // this.idChoose = item.id.toString();
+      this.idEdit = item.id;
       this.editPertanyaan = item.pertanyaan;
-      console.log("pertanyaan", this.infoModal.content.pertanyaan);
-      this.$root.$emit("bv::show::modal", this.infoModal.content.id, button);
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
 
     resetInfoModal() {
-      this.infoModal.title = "";
-      this.infoModal.content = "";
+      // this.infoModal.title = "";
+      // this.infoModal.content = "";
     },
 
     onFiltered(filteredItems) {
@@ -353,8 +358,8 @@ export default {
     addQs() {
       let vm = this;
       axios.post(ipBackend + "/kecemasan/register", {
-        pertanyaan: vm.formInput.pertanyaan,
-        descending: vm.formInput.descending,
+        pertanyaan: this.addPertanyaan.pertanyaan,
+        descending: this.addPertanyaan.descending,
       }, {
         headers: {
           accessToken: localStorage.getItem("token"),
@@ -367,6 +372,7 @@ export default {
         vm.$root.$emit("bv::hide::modal", "modal-1");
         vm.this=''
         // vm.$store.dispatch("Data/listPertanyaan");
+        vm.addPertanyaan = {};
       })
       .catch(err => {
         console.log(err);
@@ -375,22 +381,24 @@ export default {
 
     editQs() {
       let vm = this;
-      axios.post("http://147.139.169.33:8805/kecemasan/update/" + vm.idCs, {
-        pertanyaan: vm.editPertanyaan,
+      axios.post("http://147.139.169.33:8805/kecemasan/update/" + vm.idEdit, {
+        pertanyaan: vm.infoModal.content.pertanyaan,
+        descending: vm.infoModal.content.descending
       }, {
         headers: {
-          accessToken: localStorage.getItem("token"),
+          'accessToken': localStorage.getItem("token"),
         },
       })
-      .then(res => {
+      .then(() => {
         // console.log(res.data);
         alert("berhasil");
         // vm.$store.dispatch("Data/listPertanyaan");
-        let idNew = vm.formInput.findIndex((o) => o.id === vm.idCs);
-        vm.formInput[idNew].pertanyaan = vm.editPertanyaan;
-        vm.formInput.unshift(res.data);
-        console.log(vm.formInput[idNew].pertanyaan);
-        vm.$root.$emit("bv::hide::modal");
+        let idNew = vm.formInput.findIndex((o) => o.id === vm.idEdit);
+        vm.formInput[idNew] = vm.infoModal.content;
+        // vm.formInput.unshift(res.data);
+        // console.log(`ini ${vm.idNew}`);
+        // console.log(`ini ${vm.formInput[idNew].pertanyaan}`);
+        vm.$root.$emit("bv::hide::modal", "info-modal");
       })
       .catch(err=> {
         console.log(err);
@@ -398,15 +406,15 @@ export default {
     },
 
     delQs(idData) {
-      console.log(`ini delQs idData ${idData}`);
+      // console.log(`ini delQs idData ${idData}`);
       let vm = this;
       axios.delete(ipBackend + "/kecemasan/delete/" + idData, {
         headers: {
-          accesstoken: localStorage.getItem("token"),
+          'accesstoken': localStorage.getItem("token"),
         },
       })
-      .then(res => {
-        console.log(res);
+      .then(() => {
+        // console.log(res);
         alert("berhasil");
         // vm.$store.dispatch("Data/listPertanyaan");
         let idParam = vm.formInput.findIndex((o) => o.id === idData);

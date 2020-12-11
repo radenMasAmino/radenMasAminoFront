@@ -73,12 +73,13 @@
                   >
                     <b-input-group>
                       <b-form-input
+                        v-model="filter"
                         type="search"
                         id="filterInput"
                         placeholder="Type to Search"
                       ></b-form-input>
                       <b-input-group-append>
-                        <b-button>Clear</b-button>
+                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
@@ -102,6 +103,7 @@
               show-empty
               bordered
               hover
+              ref="table"
               :items="items"
               :fields="fields"
               :current-page="currentPage"
@@ -112,7 +114,6 @@
               :sort-desc.sync="sortDesc"
               :sort-direction="sortDirection"
               @filtered="onFiltered"
-              ref="table"
               responsive
             >
               <!-- <template v-slot:cell(name)="row">
@@ -205,11 +206,11 @@
     </b-modal>
   </div>
 </template>
+
 <script>
 import myheader from "../../components/header";
 import axios from "axios";
 import { ipBackend } from "@/config.js";
-// import { mapState } from "vuex";
 export default {
   name: "depresi",
   components: {
@@ -220,9 +221,8 @@ export default {
       depresiQs: "",
       depresiEdit: "",
       idQs: "",
-
+      depresiQsEdit: "",
       items: [],
-
       fields: [
         {key:'id', label:'id'},
         {
@@ -250,32 +250,36 @@ export default {
       },
     };
   },
+  computed: {
+    sortOptions() {
+      return this.fields
+        .filter((f) => f.sortable)
+        .map((f) => {
+          return { text: f.label, value: f.key };
+        });
+    },
+  },
 
   mounted() {
-    axios
-      .get(ipBackend + "/depresi/all", {
-        headers: {
-          accessToken: localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        console.log(res, "INI HASIL MOUNTED");
-        this.items = res.data.respon;
-        this.totalRows = this.items.length;
-      });
+    axios.get(ipBackend + '/depresi/all', {
+      headers: {
+        'accessToken': localStorage.getItem('token')
+      }
+    })
+    .then(res => {
+      this.items = res.data.respon;
+      this.items.sort(function(a, b){return a - b})
+      this.totalRows = this.items.length;
+    })
   },
 
   methods: {
     infoQs(item, index, button) {
-      this.infoModal.title = `EDIT DATA MASTER KECEMASAN`;
+      this.infoModal.title = `EDIT PERTANYAAN DEPRESI`;
+      this.idQs = item.id;
       this.infoModal.content = item;
-      // console.log("log nya info", this.infoModal.content.id);
-      // console.log('bikin aja', item.id);
-      this.idQs = item.id.toString();
-      // this.idChoose = item.id.toString();
-      this.editPertanyaan = item.pertanyaan;
-      console.log("ini lhoooooooooo", this.editPertanyaan);
-      this.$root.$emit("bv::show::modal", this.infoModal.content.id, button);
+      this.depresiQsEdit = item.pertanyaan;
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
 
     resetInfoModal() {
@@ -284,34 +288,65 @@ export default {
     },
 
     onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
 
     addQs() {
       let vm = this;
-      axios
-        .post(
-          ipBackend + "/depresi/register",
-          {
-            pertanyaan: this.depresiQs,
-          },
-          {
-            headers: {
-              accessToken: localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((res) => {
-          alert("Berhasil Menambah Pertanyaan");
-          vm.depresiQs.unshift(res.data);
-          vm.$root.$emit("bv::hide::modal", "modal-1");
-          vm.this = "";
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      axios.post(ipBackend + "/depresi/register", {
+        pertanyaan: this.depresiQs,
+      }, {
+        headers: {
+          accesstoken: localStorage.getItem("token"),
+        },
+      })
+      .then(function (res) {
+        alert("Berhasil Menambahkan Pertanyaan");
+        vm.items.unshift(res.data);
+        vm.$root.$emit("bv::hide::modal", "modal-1");
+        vm.depresiQs = '';
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+    },
+
+    editQs() {
+      let vm = this;
+      axios.post(ipBackend + "/depresi/update/" + this.idQs, {
+        pertanyaan: this.depresiQsEdit,
+      }, {
+        headers: {
+          accesstoken: localStorage.getItem("token"),
+        },
+      })
+      .then(function () {
+        alert("Berhasil Mengubah Pertanyaan");
+        let idx = vm.items.findIndex((o) => o.id === vm.idQs);
+        vm.items[idx].pertanyaan = vm.depresiQsEdit;
+        vm.$root.$emit("bv::hide::modal", "info-modal");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+    deleteQs(id) {
+      let vm = this;
+      axios.delete(ipBackend + "/depresi/delete/" + id, {
+        headers: {
+          accesstoken: localStorage.getItem("token"),
+        },
+      })
+      .then(() => {
+        alert("Pertanyaan Telah dihapus");
+        let idx = vm.items.findIndex((o) => o.id === id);
+        vm.items.splice(idx, 1);
+        this.$root.$emit("bv::show::modal");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     },
   },
 };

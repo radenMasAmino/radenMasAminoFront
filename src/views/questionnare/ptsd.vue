@@ -1,7 +1,7 @@
 
 <template>
   <div id="ptsd">
-    <myheader></myheader>
+    <MyHeader></MyHeader>
     <b-container>
       <b-row>
         <b-col md="12" style="margin-top: 60px; margin-bottom: 60px">
@@ -82,12 +82,13 @@
                   >
                     <b-input-group>
                       <b-form-input
+                        v-model="filter"
                         type="search"
                         id="filterInput"
                         placeholder="Type to Search"
                       ></b-form-input>
                       <b-input-group-append>
-                        <b-button>Clear</b-button>
+                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
@@ -123,10 +124,6 @@
               @filtered="onFiltered"
               responsive
             >
-              <!-- <template v-slot:cell(name)="row">
-                                {{ row.value.first }} {{ row.value.last }}
-                            </template> -->
-
               <template v-slot:cell(actions)="row">
                 <b-button
                   size="sm"
@@ -193,7 +190,7 @@
                                  -->
 
                   <b-form-input
-                    v-model="ptsdQs"
+                    v-model="ptsdQsEdit"
                     required
                     placeholder=""
                   ></b-form-input>
@@ -229,21 +226,24 @@
     </b-modal>
   </div>
 </template>
+
 <script>
-import myheader from "../../components/header";
+import MyHeader from "../../components/header";
 import axios from "axios";
 import { ipBackend } from "@/config.js";
 export default {
   name: "ptsd",
   components: {
-    myheader,
+    MyHeader,
   },
   data() {
     return {
       ptsdQs: "",
       idQs: "",
       ptsdQsEdit: "",
-      items: [{ pertanyaan: "Data Pertanyaannya" }],
+
+      items: [],
+
       fields: [
         {
           key: "pertanyaan",
@@ -253,6 +253,7 @@ export default {
         },
         { key: "actions", label: "Actions" },
       ],
+
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
@@ -262,13 +263,15 @@ export default {
       sortDirection: "asc",
       filter: null,
       filterOn: [],
+
       infoModal: {
-        id: "",
+        id: "info-modal",
         title: "",
         content: "",
       },
     };
   },
+
   computed: {
     sortOptions() {
       return this.fields
@@ -278,9 +281,7 @@ export default {
         });
     },
   },
-  // props: {
-  //   id: { type: Number },
-  // },
+
   mounted() {
     axios
       .get(ipBackend + "/ptsd/all", {
@@ -288,21 +289,20 @@ export default {
           accesstoken: localStorage.getItem("token"),
         },
       })
-      .then((data) => {
-        // console.log(data);
-        this.items = data.data.respon;
+      .then(res => {
+        this.items = res.data.respon;
+        this.items.sort(function(a, b){return a - b})
         this.totalRows = this.items.length;
       });
   },
+
   methods: {
     infoQs(item, index, button) {
-      this.infoModal.title = `EDIT PERTANYAAN ptsd`;
-      // this.infoModal.id.toString()
+      this.infoModal.title = `EDIT PERTANYAAN PTSD`;
+      this.infoModal.content = item;
       this.idQs = item.id;
-      this.infoModal = item;
-      this.ptsdQsEdit = item.ptsdQs;
+      this.ptsdQsEdit = item.pertanyaan;
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
-      console.log(this.idQs);
     },
     resetInfoModal() {
       this.infoModal.title = "";
@@ -313,76 +313,68 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
+
     addQs() {
       let vm = this;
-      axios
-        .post(
-          ipBackend + "/ptsd/register",
-          {
-            pertanyaan: this.ptsdQs,
-          },
-          {
-            headers: {
-              accesstoken: localStorage.getItem("token"),
-            },
-          }
-        )
-        .then(function () {
-          alert("Berhasil Menambahkan Pertanyaan");
-          // vm.items.unshift(response.data);
-          vm.$root.$emit("bv::hide:modal", "modal=1");
-          // vm.this = '';
-          // vm.$router.push({ path: "/ptsd" });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      axios.post(ipBackend + "/ptsd/register", {
+        pertanyaan: this.ptsdQs,
+      }, {
+        headers: {
+          accesstoken: localStorage.getItem("token"),
+        },
+      })
+      .then(res => {
+        alert("Berhasil Menambahkan Pertanyaan");
+        vm.items.unshift(res.data);
+        vm.$root.$emit("bv::hide::modal", "modal-1");
+        // vm.this = '';
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     },
+
     editQs() {
       let vm = this;
-      axios
-        .post(
-          ipBackend + "/ptsd/update/" + this.idQs,
-          {
-            pertanyaan: this.ptsdQsEdit,
-          },
-          {
-            headers: {
-              accesstoken: localStorage.getItem("token"),
-            },
-          }
-        )
-        .then(function () {
-          alert("Berhasil Mengubah Pertanyaan");
-          let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-          vm.item[idx].ptsdQs = vm.ptsdQsEdit;
-          vm.$root.$emit("bv::hide::modal");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      axios.post(ipBackend + "/ptsd/update/" + this.idQs, {
+        pertanyaan: this.ptsdQsEdit,
+      }, {
+        headers: {
+          'accesstoken': localStorage.getItem("token"),
+        },
+      })
+      .then(() => {
+        alert("Berhasil Mengubah Pertanyaan");
+        let idx = vm.items.findIndex((o) => o.id === vm.idQs);
+        vm.items[idx].pertanyaan = vm.ptsdQsEdit;
+        vm.$root.$emit("bv::hide::modal", "info-modal");
+      })
+      .catch(err => {
+        console.log(err);
+      });
     },
+
     deleteQs(id) {
       let vm = this;
-      axios
-        .delete("/ptsd/delete/" + id, {
-          headers: {
-            accesstoken: localStorage.getItem("token"),
-          },
-        })
-        .then(function (response) {
-          console.log(response);
-          alert("Pertanyaan Telah dihapus");
-          let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-          vm.items.splice(idx, 1);
-          // this.$root.$emit('bv::show::modal')
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      axios.delete(ipBackend + "/ptsd/delete/" + id, {
+        headers: {
+          'accesstoken': localStorage.getItem("token"),
+        },
+      })
+      .then(() => {
+        alert("Pertanyaan Telah dihapus");
+        let idx = vm.items.findIndex((o) => o.id === vm.idQs);
+        vm.items.splice(idx, 1);
+        this.$root.$emit('bv::show::modal')
+      })
+      .catch(err => {
+        console.log(err);
+      });
     },
   },
+
 };
 </script>
+
 <style scoped>
 </style>
