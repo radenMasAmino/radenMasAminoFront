@@ -116,7 +116,7 @@
 // @ is an alias to /src
 import { mapState, mapGetters, mapActions } from "vuex";
 import myheader from "../../components/header";
-import axios from "axios";
+// import axios from "axios";
 // import myfooter from "../../components/footer"
 export default {
   name: "dashboard",
@@ -136,13 +136,7 @@ export default {
     ...mapState("Login", ["token"]),
     ...mapGetters("Login", ["cekLogin"]),
   },
-  mounted() {
-    let vm = this;
-    axios.get("http://sideku.org:8801/pasien/count").then((ree) => {
-      vm.jmlTotal = ree.data.jml;
-      // console.log(ree)
-    });
-  },
+
   methods: {
     ...mapActions("Login", ["doLogin", "doLogout"]),
 
