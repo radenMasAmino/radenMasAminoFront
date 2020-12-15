@@ -33,6 +33,14 @@ const routes = [
     }
   },
   {
+    path: '/daftar',
+    name: 'daftar',
+    component: () => import ('../views/loggedin/Daftar.vue'),
+    meta: {
+        requiresAuth: false
+    }
+  },
+  {
     path: '/kecemasan',
     name: 'kecemasan',
     component: () => import('../views/questionnare/kecemasan.vue'),
