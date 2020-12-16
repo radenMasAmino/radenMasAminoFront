@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/loggedin/Login.vue";
+import Daftar from "../views/loggedin/Daftar.vue";
 import Dashboard from "../views/loggedin/dashboard.vue";
 
 Vue.use(VueRouter);
@@ -13,6 +14,14 @@ const routes = [
     component: Home,
     meta: {
       guest: true
+    }
+  },
+  {
+    path: "/daftar",
+    name: "Daftar",
+    component: Daftar,
+    meta: {
+      guest: false
     }
   },
   {

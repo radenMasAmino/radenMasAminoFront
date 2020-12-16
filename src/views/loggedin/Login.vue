@@ -34,7 +34,8 @@
                 </b-form-group>
 
                 <div v-if="proses">Loading...</div>
-                <b-button @click="logindong" variant="primary">Login</b-button>
+                <b-button class="m-1" @click="logindong" variant="primary">Login</b-button>
+                <b-button class="m-1" to="/daftar" variant="info">Register</b-button>
               </b-form>
               
             </div>
@@ -71,9 +72,9 @@ export default {
       if(newValue!= oldValue && newValue!=''&& newValue!= undefined){
           //lempar ke halaman dashboard
           (this.$route.query.tujuan)?
-          this.$router.push({ path: this.$route.query.tujuan}): 
-          this.$router.push({ name:"dashboard"})
-          this.$swal.close()
+            this.$router.push({ path: this.$route.query.tujuan}): 
+            this.$router.push({ name:"dashboard"})
+            this.$swal.close()
       }
 
    },
@@ -81,19 +82,13 @@ export default {
    proses(newValue){
      let vm = this;
      if(newValue==true){
-       this.loading()
+        this.loading()
      }else{
-         vm.$swal.close()
+        vm.$swal.close()
      }
    }
 
   },
-
- 
-
-  // mounted:function(){
-  //     console.log(this.$route.query.tujuan)
-  // },
 
   computed: {
   ...mapState('Login', ['token', 'pesan', 'proses']),
@@ -112,7 +107,6 @@ export default {
 
     loading(){
       let vm = this;
-
       vm.$swal({
         title: 'Mohon Tunggu...',
         allowEscapeKey: false,
