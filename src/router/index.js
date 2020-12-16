@@ -1,6 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import daftarFront from "../views/daftarFront.vue";
+import dashboardFront from "../views/dashboardFront.vue";
+import kecemasanFront from "../views/kecemasanFront.vue";
+import depresiFront from "../views/depresiFront.vue";
+import gangguanEmosiFront from "../views/gangguanEmosiFront.vue";
+import ptsdFront from "../views/ptsdFront.vue";
+import gangguanPenyesuaianBelajarFront from "../views/gangguanPenyesuaianBelajarFront.vue";
+import srq from "../views/srq.vue";
 import Login from "../views/loggedin/Login.vue";
 import Dashboard from "../views/loggedin/dashboard.vue";
 
@@ -15,6 +23,79 @@ const routes = [
       guest: true
     }
   },
+
+  {
+    path: "/daftarFront",
+    name: "daftarFront",
+    component: daftarFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/srq",
+    name: "srq",
+    component: srq,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/dashboardFront",
+    name: "dashboardFront",
+    component: dashboardFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/kecemasanFront",
+    name: "kecemasanFront",
+    component: kecemasanFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/depresiFront",
+    name: "depresiFront",
+    component: depresiFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/gangguanEmosiFront",
+    name: "gangguanEmosiFront",
+    component: gangguanEmosiFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/ptsdFront",
+    name: "ptsdFront",
+    component: ptsdFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/gangguanPenyesuaianBelajarFront",
+    name: "gangguanPenyesuaianBelajarFront",
+    component: gangguanPenyesuaianBelajarFront,
+    meta: {
+      guest: true
+    }
+  },
+
   {
     path: "/login",
     name: "login",
