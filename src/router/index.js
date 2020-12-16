@@ -1,16 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Login from "../views/Login.vue";
-import dashboard from "../views/loggedin/dashboard.vue";
-import kecemasan from "../views/loggedin/kecemasan.vue";
-import depresi from "../views/loggedin/depresi.vue";
-import gangguanEmosi from "../views/loggedin/gangguanEmosi.vue";
-import ptsd from "../views/loggedin/ptsd.vue";
-import gangguanPenyesuaianBelajar from "../views/loggedin/gangguanPenyesuaianBelajar.vue";
-
-
-
+import Login from "../views/loggedin/Login.vue";
+import Dashboard from "../views/loggedin/dashboard.vue";
 
 Vue.use(VueRouter);
 
@@ -28,59 +20,70 @@ const routes = [
     name: "login",
     component: Login,
     meta: {
-      guest: true
+      guest: false
     }
   },
   
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: dashboard,
+    component: Dashboard,
     meta: {
         requiresAuth: true
     }
   },
-
+  {
+    path: '/daftar',
+    name: 'daftar',
+    component: () => import ('../views/loggedin/Daftar.vue'),
+    meta: {
+        requiresAuth: false
+    }
+  },
   {
     path: '/kecemasan',
     name: 'kecemasan',
-    component: kecemasan,
+    component: () => import('../views/questionnare/kecemasan.vue'),
     meta: {
         requiresAuth: true
     }
   },
-
   {
     path: '/depresi',
     name: 'depresi',
-    component: depresi,
+    component: () => import('../views/questionnare/depresi.vue'),
     meta: {
         requiresAuth: true
     }
   },
-
   {
     path: '/gangguanEmosi',
     name: 'gangguanEmosi',
-    component: gangguanEmosi,
+    component: () => import('../views/questionnare/gangguanEmosi.vue'),
     meta: {
         requiresAuth: true
     }
   },
-
   {
     path: '/ptsd',
     name: 'ptsd',
-    component: ptsd,
+    component: () => import('../views/questionnare/ptsd.vue'),
     meta: {
         requiresAuth: true
     }
   },
-
   {
     path: '/gangguanPenyesuaianBelajar',
     name: 'gangguanPenyesuaianBelajar',
-    component: gangguanPenyesuaianBelajar,
+    component: () => import('../views/questionnare/gangguanPenyesuaianBelajar.vue'),
+    meta: {
+        requiresAuth: true
+    }
+  },
+  {
+    path: '/srq',
+    name: 'srq',
+    component: () => import('../views/questionnare/SRQ.vue'),
     meta: {
         requiresAuth: true
     }
@@ -114,6 +117,7 @@ router.beforeEach((to, from, next) => {
           // }
           next()
       }
+
   } else if(to.matched.some(record => record.meta.guest)) {
     // console.log(localStorage.getItem('token'))
       if(!localStorage.getItem('token') || localStorage.getItem('token')  == "undefined" || localStorage.getItem('token') == '' ){
@@ -122,9 +126,10 @@ router.beforeEach((to, from, next) => {
       else{
           next({ name: 'dashboard'})
       }
-  }else {
+  } else {
       next()
   }
+
 })
 
 export default router;
