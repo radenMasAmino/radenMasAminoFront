@@ -16,7 +16,7 @@
                 label="Username" 
                 >
                   <b-form-input
-                    v-model="email"
+                    v-model="username"
                     required
                     placeholder="Enter Username"
                   ></b-form-input>
@@ -55,7 +55,7 @@ export default {
   data (){
     return{
       isLogin: false,
-      email: '',
+      username: '',
       password: ''
      
     };
@@ -100,7 +100,7 @@ export default {
     ...mapActions('Login', [ 'actLogin']),
     logindong: function(){
      
-      this.actLogin({email: this.email, password:this.password})
+      this.actLogin({username: this.username, password:this.password})
       //didalam do login state token di isi
     
     },

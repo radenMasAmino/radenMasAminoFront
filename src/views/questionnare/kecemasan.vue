@@ -251,6 +251,7 @@ export default {
         { value: '0', text: '1 - 4' },
         { value: '1', text: '4 - 1' },
       ],
+      
       addPertanyaan: [],
 
       editPertanyaan: "",

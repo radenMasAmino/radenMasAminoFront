@@ -1,8 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import DaftarFront from "../views/DaftarFront.vue";
+import DashboardFront from "../views/dashboardFront.vue";
+import KecemasanFront from "../views/kecemasanFront.vue";
+import DepresiFront from "../views/depresiFront.vue";
+import GangguanEmosiFront from "../views/gangguanEmosiFront.vue";
+import PTSDFront from "../views/ptsdFront.vue";
+import GangguanPenyesuaianBelajarFront from "../views/gangguanPenyesuaianBelajarFront.vue";
+import SRQFront from "../views/srqFront.vue";
 import Login from "../views/loggedin/Login.vue";
-import Daftar from "../views/loggedin/Daftar.vue";
 import Dashboard from "../views/loggedin/dashboard.vue";
 
 Vue.use(VueRouter);
@@ -16,14 +23,79 @@ const routes = [
       guest: true
     }
   },
+
   {
-    path: "/daftar",
-    name: "Daftar",
-    component: Daftar,
+    path: "/daftarFront",
+    name: "daftarFront",
+    component: DaftarFront,
     meta: {
-      guest: false
+      guest: true
     }
   },
+
+  {
+    path: "/srqFront",
+    name: "srqFront",
+    component: SRQFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/dashboardFront",
+    name: "dashboardFront",
+    component: DashboardFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/kecemasanFront",
+    name: "kecemasanFront",
+    component: KecemasanFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/depresiFront",
+    name: "depresiFront",
+    component: DepresiFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/gangguanEmosiFront",
+    name: "gangguanEmosiFront",
+    component: GangguanEmosiFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/ptsdFront",
+    name: "ptsdFront",
+    component: PTSDFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/gangguanPenyesuaianBelajarFront",
+    name: "gangguanPenyesuaianBelajarFront",
+    component: GangguanPenyesuaianBelajarFront,
+    meta: {
+      guest: true
+    }
+  },
+  // --------------------- bawah non-front --------------------------- //
   {
     path: "/login",
     name: "login",
@@ -32,7 +104,14 @@ const routes = [
       guest: false
     }
   },
-  
+  {
+    path: '/daftar',
+    name: 'daftar',
+    component: () => import ('../views/loggedin/Daftar.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
   {
     path: '/dashboard',
     name: 'dashboard',
@@ -98,6 +177,12 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  if(to.path == '/sukses') {
+      localStorage.setItem('token', to.query.token)
+          next({
+            path: "/daftarFront"
+          })
+  }
   if(to.matched.some(record => record.meta.requiresAuth)) {
       if (!localStorage.getItem('token') || localStorage.getItem('token')  == "undefined" || localStorage.getItem('token') == '' ) {
           next({
@@ -125,11 +210,19 @@ router.beforeEach((to, from, next) => {
           next()
       }
       else{
-          next({ name: 'dashboard'})
+          // next({ name: 'dashboardFront'})
+          next()
       }
   } else {
       next()
   }
+
+  // if(to.path == '/sukses'){
+  //   localStorage.setItem('token', to.query.token)
+  //   next({
+  //     path: "/daftarFront"
+  //   })
+  // }
 
 })
 
