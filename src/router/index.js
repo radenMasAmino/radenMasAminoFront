@@ -1,14 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import daftarFront from "../views/daftarFront.vue";
+import daftarFront from "../views/DaftarFront.vue";
 import dashboardFront from "../views/dashboardFront.vue";
 import kecemasanFront from "../views/kecemasanFront.vue";
 import depresiFront from "../views/depresiFront.vue";
 import gangguanEmosiFront from "../views/gangguanEmosiFront.vue";
 import ptsdFront from "../views/ptsdFront.vue";
 import gangguanPenyesuaianBelajarFront from "../views/gangguanPenyesuaianBelajarFront.vue";
-import srq from "../views/srq.vue";
+import srqFront from "../views/srqFront.vue";
 import Login from "../views/loggedin/Login.vue";
 import Dashboard from "../views/loggedin/dashboard.vue";
 
@@ -29,16 +29,16 @@ const routes = [
     name: "daftarFront",
     component: daftarFront,
     meta: {
-      guest: true
+      guest: false
     }
   },
 
   {
-    path: "/srq",
-    name: "srq",
-    component: srq,
+    path: "/srqFront",
+    name: "srqFront",
+    component: srqFront,
     meta: {
-      guest: true
+      guest: false
     }
   },
 
@@ -47,7 +47,7 @@ const routes = [
     name: "dashboardFront",
     component: dashboardFront,
     meta: {
-      guest: true
+      guest: false
     }
   },
 
@@ -56,7 +56,7 @@ const routes = [
     name: "kecemasanFront",
     component: kecemasanFront,
     meta: {
-      guest: true
+      guest: false
     }
   },
 
@@ -65,7 +65,7 @@ const routes = [
     name: "depresiFront",
     component: depresiFront,
     meta: {
-      guest: true
+      guest: false
     }
   },
 
@@ -74,7 +74,7 @@ const routes = [
     name: "gangguanEmosiFront",
     component: gangguanEmosiFront,
     meta: {
-      guest: true
+      guest: false
     }
   },
 
@@ -83,7 +83,7 @@ const routes = [
     name: "ptsdFront",
     component: ptsdFront,
     meta: {
-      guest: true
+      guest: false
     }
   },
 
@@ -110,7 +110,7 @@ const routes = [
     name: 'dashboard',
     component: Dashboard,
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
   {
@@ -166,7 +166,7 @@ const routes = [
     name: 'srq',
     component: () => import('../views/questionnare/SRQ.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: false
     }
   },
 ];
