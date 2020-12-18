@@ -24,15 +24,28 @@
                         <div class="box">
                             <b-row>
                                 <b-col md="12" lg="12">
-                                    <h2><strong>DAFTAR</strong></h2>
+                                    <h2><strong>LENGKAPI PROFIL ANDA</strong></h2>
                                     <hr>
                                 </b-col>
                             </b-row>
 
                             <b-row>
                                 <b-col md="12" lg="12">
+                                
+                                  
+
+                                    <b-form-group label="Email">
+                                    <b-form-input 
+                                        v-model="responden.email"
+                                        disabled
+                                        required
+                                        placeholder=""
+                                    ></b-form-input>
+                                    </b-form-group>
+
                                     <b-form-group label="Nama">
                                     <b-form-input 
+                                        v-model="responden.nama"
                                         required
                                         placeholder=""
                                     ></b-form-input>
@@ -40,6 +53,7 @@
 
                                     <b-form-group label="Usia">
                                     <b-form-input 
+                                        v-model="responden.usia"
                                         required
                                         placeholder=""
                                     ></b-form-input>
@@ -47,6 +61,7 @@
 
                                     <b-form-group label="Pekerjaan">
                                     <b-form-input 
+                                        v-model="responden.pekerjaan"
                                         required
                                         placeholder=""
                                     ></b-form-input>
@@ -54,13 +69,15 @@
 
                                     <b-form-group label="Alamat">
                                     <b-form-input 
+                                        v-model="responden.alamat"
                                         required
                                         placeholder=""
                                     ></b-form-input>
                                     </b-form-group>
-
                                     
-                                    <router-link :to="'srq'"><b-button variant="primary">Daftar</b-button></router-link>
+                                    <!-- <router-link :to="'/SRQFront'"> -->
+                                        <b-button @click="daftarUpdate" variant="primary">Lanjut</b-button>
+                                    <!-- </router-link> -->
                                     
                                 </b-col>
                             </b-row>
@@ -82,8 +99,61 @@
 </template>
 
 <script>
+import { ipBackend } from "@/config.js";
+import axios from "axios";
+
 export default {
     name:"daftarFront",
+    data() {
+        return {
+            responden: [],
+        }
+    },
+
+    mounted() {
+        // get profile
+        // let idProfile = localStorage.getItem('token.id')
+        axios.get(ipBackend + '/users/profil', {
+            headers: {
+                'accessToken': localStorage.getItem('token')
+            }
+        })
+        .then(res => {
+        // console.log('mounted profile', res);
+        // console.log(res.data.respon);
+        this.responden = res.data.respon[0]
+        // console.log(this.responden.id);
+        })
+        .catch(err => {
+            console.log('mounted nya', err);
+        })
+    },
+
+    methods: {
+        daftarUpdate() {
+            axios.post(ipBackend + '/users/update', {
+                nama: this.responden.nama,
+                alamat: this.responden.alamat,
+                usia: this.responden.usia,
+                pekerjaan: this.responden.pekerjaan,
+            }, {
+                headers: {
+                    'accessToken': localStorage.getItem('token')
+                }
+            })
+            .then(() => {
+                alert('ini berhasil')
+                // console.log('log setelah "click" daftar',res);
+                this.$router.push({ path: '/dashboardFront' })
+
+            })
+            .catch(err => {
+                alert('ini gagal')
+                console.log(err);
+
+            })
+        }
+    }
 }
 </script>
 

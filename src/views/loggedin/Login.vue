@@ -16,7 +16,7 @@
                 label="Username" 
                 >
                   <b-form-input
-                    v-model="email"
+                    v-model="username"
                     required
                     placeholder="Enter Username"
                   ></b-form-input>
@@ -34,7 +34,8 @@
                 </b-form-group>
 
                 <div v-if="proses">Loading...</div>
-                <b-button @click="logindong" variant="primary">Login</b-button>
+                <b-button class="m-1" @click="logindong" variant="primary">Login</b-button>
+                <b-button class="m-1" to="/daftar" variant="info">Register</b-button>
               </b-form>
               
             </div>
@@ -54,7 +55,7 @@ export default {
   data (){
     return{
       isLogin: false,
-      email: '',
+      username: '',
       password: ''
      
     };
@@ -71,9 +72,9 @@ export default {
       if(newValue!= oldValue && newValue!=''&& newValue!= undefined){
           //lempar ke halaman dashboard
           (this.$route.query.tujuan)?
-          this.$router.push({ path: this.$route.query.tujuan}): 
-          this.$router.push({ name:"dashboard"})
-          this.$swal.close()
+            this.$router.push({ path: this.$route.query.tujuan}): 
+            this.$router.push({ name:"dashboard"})
+            this.$swal.close()
       }
 
    },
@@ -81,19 +82,13 @@ export default {
    proses(newValue){
      let vm = this;
      if(newValue==true){
-       this.loading()
+        this.loading()
      }else{
-         vm.$swal.close()
+        vm.$swal.close()
      }
    }
 
   },
-
- 
-
-  // mounted:function(){
-  //     console.log(this.$route.query.tujuan)
-  // },
 
   computed: {
   ...mapState('Login', ['token', 'pesan', 'proses']),
@@ -105,14 +100,13 @@ export default {
     ...mapActions('Login', [ 'actLogin']),
     logindong: function(){
      
-      this.actLogin({email: this.email, password:this.password})
+      this.actLogin({username: this.username, password:this.password})
       //didalam do login state token di isi
     
     },
 
     loading(){
       let vm = this;
-
       vm.$swal({
         title: 'Mohon Tunggu...',
         allowEscapeKey: false,

@@ -32,7 +32,7 @@ export default  {
         actLogin ({  commit }, dataLogin){
             commit('rubahProses', true)
             axios.post(ipBackend + '/users/login', {
-                 username: dataLogin.email,
+                 username: dataLogin.username,
                  password: dataLogin.password
               })
               

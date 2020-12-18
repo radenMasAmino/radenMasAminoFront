@@ -16,6 +16,27 @@
                         </div>
                     </b-col>
 
+                    <b-col cols="6" md="4" lg="4">
+                        <div class="parttwo">
+                            <b-dropdown
+                                right
+                                variant="link"
+                                toggle-class="text-decoration-none"
+                                no-caret
+                            >
+                                <template v-slot:button-content>
+                                    <div class="account">
+                                        <img src="../assets/user.png" style="height: 8vh" class="invert"/>
+                                    </div>
+                                </template>
+
+                                <b-dropdown-item to="/daftarFront">Profile</b-dropdown-item>
+                                <b-dropdown-item @click="ClickLogout">Logout</b-dropdown-item>
+                                
+                            </b-dropdown>
+                        </div>
+                    </b-col>
+
                     
                 </b-row>
             </b-container>
@@ -26,6 +47,21 @@
                 <b-row>
                    <b-col md="12" lg="12">
                        <div class="partone">
+                            <div class="boxmenu">
+                            <router-link
+                                :to="'srqFront'"
+                                style="text-decoration: none; color: #333"
+                            >
+                                <center>
+                                <img
+                                    src="../assets/medical-record.png"
+                                    style="height: 100px"
+                                />
+                                <h6 class="m-t-15 m-b-0"><strong>SRQ</strong></h6>
+                                </center>
+                            </router-link>
+                            </div>
+
                             <div class="boxmenu">
                             <router-link
                                 :to="'kecemasanFront'"
@@ -55,6 +91,13 @@
                                 </center>
                             </router-link>
                             </div>
+                            
+                        </div>
+                   </b-col>
+
+                   <b-col md="12" lg="12" style="margin-top:15px">
+                       <div class="partone">
+
 
                             <div class="boxmenu">
                             <router-link
@@ -71,13 +114,7 @@
                             </router-link>
                             </div>
 
-                            
-                        </div>
-                   </b-col>
-
-                   <b-col md="12" lg="12" style="margin-top:15px">
-                       <div class="partone">
-                           <div class="boxmenu">
+                            <div class="boxmenu">
                                 <router-link
                                     :to="'ptsdFront'"
                                     style="text-decoration: none; color: #333"
@@ -92,7 +129,7 @@
                                 </router-link>
                                 </div>
 
-                                <div class="boxmenu">
+                            <div class="boxmenu">
                                 <router-link
                                     :to="'gangguanPenyesuaianBelajarFront'"
                                     style="text-decoration: none; color: #333"
@@ -108,6 +145,7 @@
                                     </center>
                                 </router-link>
                             </div>
+                            
                        </div>
                    </b-col>
                 </b-row>
@@ -128,6 +166,13 @@
 <script>
 export default {
     name:"dashboardFront",
+    methods: {
+        ClickLogout() {
+            alert('terima kasih');
+            localStorage.setItem('token', '');
+            this.$router.push({ path: "/"})
+        }
+    }
 }
 </script>
 
@@ -204,7 +249,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 520px;
-  background-color: pink;
+  /* background-color: pink; */
 }
 
 #dashboardFront .parttwo .boxmenu {
@@ -222,5 +267,17 @@ export default {
 
 #dashboardFront .parttwo .boxmenu img {
   border-radius: 100%;
+  color: #fff;
 }
+
+/*Filter styles*/
+.saturate { filter: saturate(3); }
+.grayscale { filter: grayscale(100%); }
+.contrast { filter: contrast(160%); }
+.brightness { filter: brightness(0.25); }
+.blur { filter: blur(3px); }
+.invert { filter: invert(100%); }
+.sepia { filter: sepia(100%); }
+.huerotate { filter: hue-rotate(180deg); }
+.rss.opacity { filter: opacity(50%); }
 </style>
