@@ -157,17 +157,18 @@ export default {
            this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban
         },
         simpanData() {
+            let vm = this;
             // let data = [ this.dataPertanyaan.id, this.dataJawaban, this.selection ]
             Axios.post(ipBackend + "/poolSRQ/screening", this.dataPertanyaan, {
                 headers: {
                     accessToken: localStorage.getItem("token"),
                 },
             })
-            .then((res) => {
-                alert("Berhasil Mengisi SRQ"),
-                console.log('ini simpan nya');
-                console.log(res);
-                // vm.$router.push({ path: "/dashboardFront" });
+            .then( ()=> {
+                alert("Berhasil Mengisi SRQ");
+                // console.log('ini simpan nya');
+                // console.log(res);
+                vm.$router.push({ path: "/dashboardFront" });
             })
             .catch((err) => {
                 console.log('ini error nya');
