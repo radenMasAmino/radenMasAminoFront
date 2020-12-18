@@ -28,30 +28,15 @@
                         <div class="box">
                             <b-row>
                                 <b-col md="12" lg="12">
-                                    <h2><strong>DAFTAR</strong></h2>
+                                    <h2><strong>LENGKAPI PROFIL ANDA</strong></h2>
                                     <hr>
                                 </b-col>
                             </b-row>
 
                             <b-row>
                                 <b-col md="12" lg="12">
-                                    <b-form-group label="Username">
-                                    <b-form-input 
-                                        v-model="responden.username"
-                                        disabled
-                                        required
-                                        placeholder=""
-                                    ></b-form-input>
-                                    </b-form-group>
-
-                                    <b-form-group label="Password">
-                                    <b-form-input 
-                                        v-model="responden.password"
-                                        disabled
-                                        required
-                                        placeholder=""
-                                    ></b-form-input>
-                                    </b-form-group>
+                                
+                                  
 
                                     <b-form-group label="Email">
                                     <b-form-input 
@@ -95,7 +80,7 @@
                                     </b-form-group>
                                     
                                     <!-- <router-link :to="'/SRQFront'"> -->
-                                        <b-button @click="daftarUpdate" variant="primary">Daftar</b-button>
+                                        <b-button @click="daftarUpdate" variant="primary">Lanjut</b-button>
                                     <!-- </router-link> -->
                                     
                                 </b-col>

@@ -34,14 +34,15 @@
                                     <b-form-group>
                                         <ol id="list-pertanyaan">
                                             <template>
-                                            <li v-for="item in dataPertanyaan" :key="item.id">
+                                            <li v-for="(item, index) in dataPertanyaan" :key="item.id">
                                                 {{ item.pertanyaan }}
                                                 <b-form-select
-                                                    v-model="dataJawaban"
-                                                    :options="selection"
-                                                    @change="updateSelect = null"
+                                                    v-model="item.jawaban"
+                                                 
+                                                    @change="updatePoint(index)"
                                                 >
-
+                                                                 <b-form-select-option value="0">Tidak</b-form-select-option>
+                                                                <b-form-select-option value="1">Ya</b-form-select-option>
                                                 </b-form-select>
                                                 <!-- <b-form-select
                                                     v-model="dataPertanyaan.jawabannya"
@@ -109,40 +110,34 @@ export default {
     name:"srqFront",
     data() {
         return {
-            idPertanyaan: '',
-            dataPertanyaan: [],
-            dataJawaban: [],
-            poolSRQ: [],
-            selection:[
-                { value: [1, "ya"], text: 'Ya' },
-                { value: [0, 'tidak'], text: 'Tidak' },
-            ],
+            dataPertanyaan: [], 
         }
     },
 
     mounted() {
-        Axios.all([
-            Axios.get(ipBackend + '/srq/all', {
-                headers: {
-                    'accesstoken': localStorage.getItem('token')}
-            }),
-            Axios.get(ipBackend + '/poolSRQ/all', {
+     
+            Axios.get(ipBackend + '/srq/history', {
                 headers: {
                     'accesstoken': localStorage.getItem('token')}
             })
-        ])
+      
         .then(res => {
-            console.log('biar keliatan klo ini mounted nya jalan');
-            // console.log(res[0]);
-            this.dataPertanyaan = res[0].data.respon
-            // this.idPertanyaan = this.dataPertanyaan.id
-            console.log(this.dataPertanyaan);
-            // console.log(this.idPertanyaan);
-            // console.log(res[1]);
-            this.dataJawaban = res[1].data.respon
-            // console.log(this.dataJawaban);
-            this.poolSRQ.jawaban = this.dataPertanyaan
-            console.log(this.poolSRQ);
+            // console.log('biar keliatan klo ini mounted nya jalan');      
+            res.data.respon.forEach((element) => {
+                    let ob = {
+                        SRQId : element.id,
+                        userId : res.data.idUser,
+                        pertanyaan: element.pertanyaan
+                    }
+                    if(element.poolSRQs.length >0){
+                        ob.jawaban = element.poolSRQs[0].jawaban
+                        ob.point = element.poolSRQs[0].point
+                    }else{
+                        ob.jawaban = 0
+                        ob.point = 0
+                    }
+                     this.dataPertanyaan.push(ob)
+                });
         })
         .catch(err => {
             console.log('ini gagal oi ' + err);
@@ -158,19 +153,12 @@ export default {
     },
 
     methods: {
-        updateSelect() {
-            this.poolSRQ.jawaban.push(this.dataJawaban)
+        updatePoint(i) {
+           this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban
         },
         simpanData() {
             // let data = [ this.dataPertanyaan.id, this.dataJawaban, this.selection ]
-            console.log('lho', this.dataJawaban);
-            console.log(this.dataPertanyaan.id);
-            Axios.post(ipBackend + "/poolSRQ/screening", { 
-                // SRQId: this.dataPertanyaan.id,
-                // point: this.dataJawaban[0],
-                // jawaban: this.dataJawaban[1] 
-                // data
-            }, {
+            Axios.post(ipBackend + "/poolSRQ/screening", this.dataPertanyaan, {
                 headers: {
                     accessToken: localStorage.getItem("token"),
                 },
