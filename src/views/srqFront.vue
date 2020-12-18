@@ -126,7 +126,6 @@ export default {
             res.data.respon.forEach((element) => {
                     let ob = {
                         SRQId : element.id,
-                        userId : res.data.idUser,
                         pertanyaan: element.pertanyaan
                     }
                     if(element.poolSRQs.length >0){
