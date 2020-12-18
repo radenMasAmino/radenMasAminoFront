@@ -46,7 +46,7 @@
             <div class="box">
               <b-row>
                 <b-col md="12" lg="12">
-                  <h2><strong>Post Traumatic Syndrome Disorder</strong></h2>
+                  <h2><strong>KUISIONER REGULASI PTSD</strong></h2>
                   <hr />
                 </b-col>
               </b-row>
@@ -159,7 +159,7 @@ export default {
         },
       })
         .then(() => {
-          alert("Berhasil Mengisi SRQ");
+          alert("Berhasil Mengisi Jawaban");
           // console.log('ini simpan nya');
         //   console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });

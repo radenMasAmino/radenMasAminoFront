@@ -159,7 +159,7 @@ export default {
         },
       })
         .then(() => {
-          alert("Berhasil Mengisi SRQ");
+          alert("Berhasil Mengisi Jawaban");
           // console.log('ini simpan nya');
         //   console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });

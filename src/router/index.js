@@ -101,7 +101,7 @@ const routes = [
     name: "login",
     component: Login,
     meta: {
-      guest: false
+      guest: true
     }
   },
   {
@@ -165,7 +165,7 @@ const routes = [
     name: 'srq',
     component: () => import('../views/questionnare/SRQ.vue'),
     meta: {
-        requiresAuth: false
+        requiresAuth: true
     }
   },
 ];
