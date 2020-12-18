@@ -38,11 +38,10 @@
                                                 {{ item.pertanyaan }}
                                                 <b-form-select
                                                     v-model="item.jawaban"
-                                                 
                                                     @change="updatePoint(index)"
                                                 >
-                                                                 <b-form-select-option value="0">Tidak</b-form-select-option>
-                                                                <b-form-select-option value="1">Ya</b-form-select-option>
+                                                    <b-form-select-option value="1">Ya</b-form-select-option>
+                                                    <b-form-select-option value="0">Tidak</b-form-select-option>
                                                 </b-form-select>
                                                 <!-- <b-form-select
                                                     v-model="dataPertanyaan.jawabannya"
@@ -116,27 +115,27 @@ export default {
 
     mounted() {
      
-            Axios.get(ipBackend + '/srq/history', {
-                headers: {
-                    'accesstoken': localStorage.getItem('token')}
-            })
+        Axios.get(ipBackend + '/srq/history', {
+            headers: {
+                'accesstoken': localStorage.getItem('token')}
+        })
       
         .then(res => {
             // console.log('biar keliatan klo ini mounted nya jalan');      
             res.data.respon.forEach((element) => {
-                    let ob = {
-                        SRQId : element.id,
-                        pertanyaan: element.pertanyaan
-                    }
-                    if(element.poolSRQs.length >0){
-                        ob.jawaban = element.poolSRQs[0].jawaban
-                        ob.point = element.poolSRQs[0].point
-                    }else{
-                        ob.jawaban = 0
-                        ob.point = 0
-                    }
-                     this.dataPertanyaan.push(ob)
-                });
+                let ob = {
+                    SRQId : element.id,
+                    pertanyaan: element.pertanyaan
+                }
+                if(element.poolSRQs.length >0){
+                    ob.jawaban = element.poolSRQs[0].jawaban
+                    ob.point = element.poolSRQs[0].point
+                }else{
+                    ob.jawaban = 0
+                    ob.point = 0
+                }
+                    this.dataPertanyaan.push(ob)
+            });
         })
         .catch(err => {
             console.log('ini gagal oi ' + err);
