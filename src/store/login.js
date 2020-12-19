@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { ipBackend } from '@/config';
+
 export default  {
     namespaced: true,
     state: () => ({ 
@@ -13,27 +15,27 @@ export default  {
             localStorage.setItem('token', data)
             state.token = data;
        
-          },
-          rubahPesan (state, data) {
-            // `state` is the local module state
-        
-            state.pesan = data;
-          },
-          rubahProses (state, data) {
-            // `state` is the local module state
-        
-            state.proses = data;
-          }
+        },
+        rubahPesan (state, data) {
+          // `state` is the local module state
+      
+          state.pesan = data;
+        },
+        rubahProses (state, data) {
+          // `state` is the local module state
+      
+          state.proses = data;
+        }
      },
+
     actions: { 
-    
-        doLogin ({  commit }, dataLogin){
+        actLogin ({  commit }, dataLogin){
             commit('rubahProses', true)
-            axios.post('http://sideku.org:8801/user/login', {
-                 username: dataLogin.email,
+            axios.post(ipBackend + '/users/login', {
+                 username: dataLogin.username,
                  password: dataLogin.password
-               
               })
+              
               .then(function (response) {
                 commit('rubahProses', false)
                 commit('rubahToken', response.data.token)
@@ -43,12 +45,9 @@ export default  {
                 console.log(error);
                 commit('rubahProses', false)
                 commit('rubahToken', '')
-              });
-            
-         
+              })
         },
-        doLogout({commit}){
-           
+        actLogout({commit}){
             commit('rubahToken', '')
         }
      },

@@ -1,7 +1,6 @@
-
 <template>
 
-    <div id="gangguanEmosi">
+    <div id="user">
         <myheader></myheader>
         <b-container>
             <b-row>
@@ -9,7 +8,7 @@
                     <div class="box">
                         <b-row>
                           <b-col md="12">
-                            <h3 class="text-center m-t-0 m-b-0"><strong>DATA MASTER GANGGUAN EMOSI</strong></h3>
+                            <h3 class="text-center m-t-0 m-b-0"><strong>DATA USER</strong></h3>
                           </b-col>
                         </b-row>
 
@@ -22,7 +21,7 @@
                                             Dashboard
                                         </router-link>
                                     </b-breadcrumb-item>
-                                    <b-breadcrumb-item active>Data Master Gangguan Emosi</b-breadcrumb-item>
+                                    <b-breadcrumb-item active>Data User</b-breadcrumb-item>
                                 </b-breadcrumb>
                             </b-col>
                         </b-row>
@@ -75,15 +74,15 @@
                                         </b-input-group>
                                     </b-form-group>
 
-                                    <b-form-group
+                                    <!-- <b-form-group
                                         label="Pencarian Berdasarkan"
                                         description="Hilangkan semua centang, jika ingin semua kolom"
                                         style="font-weight:bold;">
                                         <b-form-checkbox-group v-model="filterOn">
-                                            <b-form-checkbox value="">Pertanyaan Gangguan Emosi</b-form-checkbox>
+                                            <b-form-checkbox value="">Pertanyaan Depresi</b-form-checkbox>
                                          
                                         </b-form-checkbox-group>
-                                    </b-form-group>
+                                    </b-form-group> -->
                                 </b-alert>
                             </b-col>
                         </b-row>
@@ -110,9 +109,12 @@
                             </template> -->
 
                             <template v-slot:cell(actions)="row">
-                                <b-button size="sm" variant="warning" @click="info(row.item, row.index, $event.target)" class="mr-1">
+                                <router-link :to="'screeninguser'">
+                                <b-button size="sm" variant="success" class="mr-1">Detail</b-button>
+                                </router-link>
+                                <!-- <b-button size="sm" variant="warning" @click="info(row.item, row.index, $event.target)" class="mr-1">
                                Edit
-                                </b-button>
+                                </b-button> -->
                                  <b-button size="sm" variant="danger" @click="hapus(row.item.id)" class="mr-1">
                                 Hapus
                                 </b-button>
@@ -164,7 +166,7 @@
                                  -->
                                    
                                   <b-form-input
-                                  v-model="gangguanEmosi"
+                                  v-model="depresi"
                                     required
                                     placeholder=""
                      
@@ -180,20 +182,86 @@
             </b-row>
         </b-container>
 
-        <b-modal id="modal-1" hide-footer centered title="TAMBAH DATA MASTER GANGGUAN EMOSI">
+        <b-modal id="modal-1" hide-footer centered title="TAMBAH DATA USER">
             <b-form class="bv-example-row">
                 <b-form-group 
-                label="Pertanyaan" 
+                label="Username" 
                 >
                   <b-form-input
-                  v-model="depresi"
                     required
                     placeholder=""
                    
                   ></b-form-input>
-                    <b-button @click="tambah" variant="primary" class="m-t-15">Simpan</b-button>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Password" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Nama" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Usia" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Pekerjaan" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Alamat" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Email" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
                 </b-form-group>
                 
+                <b-button @click="tambah" variant="primary" class="m-t-15">Simpan</b-button>
             </b-form>
         </b-modal>
 
@@ -202,11 +270,10 @@
     
 </template>
 <script>
-
 import myheader from "../../components/header"
 // import axios from 'axios';
 export default {
-    name:"gangguanEmosi",
+    name:"user",
     components:{
         myheader
     },
@@ -216,11 +283,12 @@ export default {
         // idChoose: '',
         // namaPenyakitEdit:'',
         items: [
-         {  pertanyaan: 'Data Pertanyaannya'}
+         {  nama: 'Namanya', alamat: 'Alamat' }
         ],
         fields: [
         //   { key: 'namaPenyakit', label: 'Nama Penyakit', sortable: true, sortDirection: 'desc' },
-          { key: 'pertanyaan', label: 'Pertanyaan', sortable: true, sortDirection: 'desc' },
+          { key: 'nama', label: 'Nama', sortable: true, sortDirection: 'desc' },
+          { key: 'alamat', label: 'Alamat', sortable: true, sortDirection: 'desc' },
           // { key: 'age', label: 'Person age', sortable: true, class: 'text-center' },
           // {
           //   key: 'isActive',
@@ -275,7 +343,7 @@ export default {
     },
     methods: {
       info(item, index, button) {
-        this.infoModal.title = `EDIT DATA MASTER GANGGUAN EMOSI`
+        this.infoModal.title = `EDIT DATA USER`
         // this.infoModal.content = item
         // console.log( item.namaPenyakit)
         //keluarkan model sesuai id
@@ -315,7 +383,6 @@ export default {
                
     //           });
     //   },
-
     //     edit(){
     //         let vm = this;
     //        axios.patch('http://sideku.org:8801/penyakit/'+this.idChoose, {
@@ -363,9 +430,6 @@ export default {
     //   }
     }
 }
-
-
 </script>
 <style scoped>
-
 </style>
