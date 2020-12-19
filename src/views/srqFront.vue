@@ -123,124 +123,112 @@
 </template>
 
 <script>
-import Axios from 'axios'
-import { ipBackend } from '@/config.js'
-
+import Axios from "axios";
+import { ipBackend } from "@/config.js";
 export default {
-    name:"srqFront",
-    data() {
-        return {
-            dataPertanyaan: [], 
-        }
-    },
+  name: "srqFront",
+  data() {
+    return {
+      dataPertanyaan: [],
+    };
+  },
+  mounted() {
+    Axios.get(ipBackend + "/srq/history", {
+      headers: {
+        accesstoken: localStorage.getItem("token"),
+      },
+    })
 
-    mounted() {
-     
-            Axios.get(ipBackend + '/srq/history', {
-                headers: {
-                    'accesstoken': localStorage.getItem('token')}
-            })
-      
-        .then(res => {
-            // console.log('biar keliatan klo ini mounted nya jalan');      
-            res.data.respon.forEach((element) => {
-                    let ob = {
-                        SRQId : element.id,
-                        pertanyaan: element.pertanyaan
-                    }
-                    if(element.poolSRQs.length >0){
-                        ob.jawaban = element.poolSRQs[0].jawaban
-                        ob.point = element.poolSRQs[0].point
-                    }else{
-                        ob.jawaban = 0
-                        ob.point = 0
-                    }
-                     this.dataPertanyaan.push(ob)
-                });
-        })
-        .catch(err => {
-            console.log('ini gagal oi ' + err);
-        })
+      .then((res) => {
+        // console.log('biar keliatan klo ini mounted nya jalan');
+        res.data.respon.forEach((element) => {
+          let ob = {
+            SRQId: element.id,
+            pertanyaan: element.pertanyaan,
+          };
+          if (element.poolSRQs.length > 0) {
+            ob.jawaban = element.poolSRQs[0].jawaban;
+            ob.point = element.poolSRQs[0].point;
+          } else {
+            ob.jawaban = 0;
+            ob.point = 0;
+          }
+          this.dataPertanyaan.push(ob);
+        });
+      })
+      .catch((err) => {
+        console.log("ini gagal oi " + err);
+      });
+  },
+  computed: {
+    filteredSelect() {
+      return this.selection.filter((obj) => {
+        return obj.value === this.selection.text;
+      });
     },
-
-    computed: {
-        filteredSelect() {
-            return this.selection.filter(obj => {
-                return obj.value === this.selection.text
-            })
-        }
+  },
+  methods: {
+    updatePoint(i) {
+      this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
     },
-
-    methods: {
-        updatePoint(i) {
-           this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban
+    simpanData() {
+      let vm = this;
+      Axios.post(ipBackend + "/poolSRQ/screening", this.dataPertanyaan, {
+        headers: {
+          accessToken: localStorage.getItem("token"),
         },
-        simpanData() {
-            let vm = this;
-            // let data = [ this.dataPertanyaan.id, this.dataJawaban, this.selection ]
-            Axios.post(ipBackend + "/poolSRQ/screening", this.dataPertanyaan, {
-                headers: {
-                    accessToken: localStorage.getItem("token"),
-                },
-            })
-            .then( ()=> {
-                alert("Berhasil Mengisi SRQ");
-                // console.log('ini simpan nya');
-                // console.log(res);
-                vm.$router.push({ path: "/dashboardFront" });
-            })
-            .catch((err) => {
-                console.log('ini error nya');
-                console.log(err);
-            });
-        },
+      })
+        .then(() => {
+          alert("Berhasil Mengisi SRQ");
+          // console.log('ini simpan nya');
+          // console.log(res);
+          vm.$router.push({ path: "/dashboardFront" });
+        })
+        .catch((err) => {
+          console.log("ini error nya");
+          console.log(err);
+        });
     },
-
-    
-}
+  },
+};
 </script>
 
 <style scoped>
-.btn-primary{
+.btn-primary {
   background-color: #2c3e50;
   border-color: #000;
 }
-
-#daftarFront .bgheader{
-    background-color: #2c3e50;
-    box-shadow: 0 7px 20px 0 rgba(0,0,0,.2);
-    color: #fff;
+#daftarFront .bgheader {
+  background-color: #2c3e50;
+  box-shadow: 0 7px 20px 0 rgba(0, 0, 0, 0.2);
+  color: #fff;
 }
-
-#daftarFront .bgheader .partone{
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 65px;
-    flex-direction: column;
+#daftarFront .bgheader .partone {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 65px;
+  flex-direction: column;
 }
-
-
-#daftarFront .bgheader .parttwo{
-    width: 100%;
-    height: 65px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+#daftarFront .bgheader .parttwo {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
-#daftarFront .bgheader .parttwo img{
-    border-radius: 100%;
+#daftarFront .bgheader .parttwo img {
+  border-radius: 100%;
 }
-#daftarFront .bgheader .parttwo .account{
-    display: flex;
-    height: 50px;
-    align-items: center;
+#daftarFront .bgheader .parttwo .account {
+  display: flex;
+  height: 50px;
+  align-items: center;
 }
-#daftarFront .bgheader .parttwo .accountname{
-    display: flex;
-    flex-direction: column;
-    margin-right: 10px;
-    
+#daftarFront .bgheader .parttwo .accountname {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
 }
 ol{
     padding-left: 20px;

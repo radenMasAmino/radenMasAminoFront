@@ -182,20 +182,86 @@
             </b-row>
         </b-container>
 
-        <b-modal id="modal-1" hide-footer centered title="TAMBAH DATA MASTER DEPRESI">
+        <b-modal id="modal-1" hide-footer centered title="TAMBAH DATA USER">
             <b-form class="bv-example-row">
                 <b-form-group 
-                label="Pertanyaan" 
+                label="Username" 
                 >
                   <b-form-input
-                  v-model="depresi"
                     required
                     placeholder=""
                    
                   ></b-form-input>
-                    <b-button @click="tambah" variant="primary" class="m-t-15">Simpan</b-button>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Password" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Nama" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Usia" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Pekerjaan" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Alamat" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
+                </b-form-group>
+
+                <b-form-group 
+                label="Email" 
+                >
+                  <b-form-input
+                    required
+                    placeholder=""
+                   
+                  ></b-form-input>
+               
                 </b-form-group>
                 
+                <b-button @click="tambah" variant="primary" class="m-t-15">Simpan</b-button>
             </b-form>
         </b-modal>
 
@@ -207,7 +273,7 @@
 import myheader from "../../components/header"
 // import axios from 'axios';
 export default {
-    name:"depresi",
+    name:"user",
     components:{
         myheader
     },
@@ -217,7 +283,7 @@ export default {
         // idChoose: '',
         // namaPenyakitEdit:'',
         items: [
-         {  nama: 'Data Pertanyaannya', alamat: 'Data Pertanyaannya' }
+         {  nama: 'Namanya', alamat: 'Alamat' }
         ],
         fields: [
         //   { key: 'namaPenyakit', label: 'Nama Penyakit', sortable: true, sortDirection: 'desc' },
@@ -277,7 +343,7 @@ export default {
     },
     methods: {
       info(item, index, button) {
-        this.infoModal.title = `EDIT DATA PERTANYAAN DEPRESI`
+        this.infoModal.title = `EDIT DATA USER`
         // this.infoModal.content = item
         // console.log( item.namaPenyakit)
         //keluarkan model sesuai id
