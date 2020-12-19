@@ -101,7 +101,7 @@ const routes = [
     name: "login",
     component: Login,
     meta: {
-      guest: false
+      guest: true
     }
   },
   {

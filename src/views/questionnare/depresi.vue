@@ -217,11 +217,29 @@
     >
       <b-form class="bv-example-row">
         <b-form-group label="Pertanyaan">
+          
           <b-form-input
             required
-            v-model="depresiQs"
+            v-model="depresiQs.skala1"
+            placeholder="Masukan Pernyataan"
+          ></b-form-input>
+          <!-- <b-form-radio name="some-radios" value="A">Option 0</b-form-radio> -->
+          <b-form-input
+            required
+            v-model="depresiQs.skala2"
             placeholder="Masukan Pertanyaan.."
           ></b-form-input>
+          <b-form-input
+            required
+            v-model="depresiQs.skala3"
+            placeholder="Masukan Pertanyaan.."
+          ></b-form-input>
+          <b-form-input
+            required
+            v-model="depresiQs.skala4"
+            placeholder="Masukan Pertanyaan.."
+          ></b-form-input>
+
           <b-button variant="primary" class="m-t-15" @click="addQs"
             >Simpan</b-button
           >
@@ -242,7 +260,7 @@ export default {
   },
   data() {
     return {
-      depresiQs: "",
+      depresiQs: [],
       idQs: "",
       depresiQsEdit: "",
       items: [],
@@ -318,6 +336,7 @@ export default {
         },
       })
       .then(function (res) {
+        console.log(res);
         alert("Berhasil Menambahkan Pertanyaan");
         vm.items.unshift(res.data);
         vm.$root.$emit("bv::hide::modal", "modal-1");
