@@ -60,17 +60,17 @@
                           v-for="(item, index) in dataPertanyaan"
                           :key="item.id"
                         >
-                          {{ item.pertanyaan }}
+                      
                           <b-form-select
                             v-model="item.jawaban"
                             @change="updatePoint(index)"
                           >
-                            <b-form-select-option value="0"
-                              >Tidak</b-form-select-option
+                         
+                            <b-form-select-option  v-for="(itemm, indexx) in item.isi"
+                          :key="indexx" :value="itemm.score"
+                              >{{itemm.pertanyaan}}</b-form-select-option
                             >
-                            <b-form-select-option value="1"
-                              >Ya</b-form-select-option
-                            >
+                          
                           </b-form-select>
                         </li>
                       </template>
@@ -121,20 +121,39 @@ export default {
 
       .then((res) => {
         // console.log('biar keliatan klo ini mounted nya jalan');
+        let p = [];
+        let no = 0;
         res.data.respon.forEach((element) => {
-          let ob = {
-            SRQId: element.id,
-            pertanyaan: element.pertanyaan,
-          };
-          if (element.poolDepresis.length > 0) {
-            ob.jawaban = element.poolDepresis[0].jawaban;
-            ob.point = element.poolDepresis[0].point;
-          } else {
-            ob.jawaban = 0;
-            ob.point = 0;
+          if(no==0){
+               no = element.nomor;
           }
-          this.dataPertanyaan.push(ob);
+            if(no != element.nomor){
+            let data = {
+              nomor: element.nomor,
+              depresiId: element.id,
+              isi: p
+            }
+             if (element.poolDepresis.length > 0) {
+                data.jawaban = element.poolDepresis[0].jawaban;
+                data.point = element.poolDepresis[0].point;
+              } else {
+                data.jawaban = 0;
+                data.point = 0;
+              }
+              this.dataPertanyaan.push(data);
+              no = element.nomor;
+              p=[];
+          }
+         let obj = {
+            depresiId: element.id,
+            pertanyaan: element.pertanyaan,
+            score: element.score
+          };
+         
+          p.push(obj);
+        
         });
+        console.log( this.dataPertanyaan)
       })
       .catch((err) => {
         console.log("ini gagal oi " + err);
@@ -153,6 +172,7 @@ export default {
     },
     simpanData() {
       let vm = this;
+      console.log(this.dataPertanyaan)
       Axios.post(ipBackend + "/poolDepresi/screening", this.dataPertanyaan, {
         headers: {
           accessToken: localStorage.getItem("token"),

@@ -51,34 +51,39 @@
 
                             <b-row>
                                 <b-col md="12" lg="12">
-                                    <b-form-group label="pertanyaan diambil dari master Kecemasan"> 
-                                        <b-form-select>
-                                            <b-form-select-option >Tidak Pernah</b-form-select-option>
-                                            <b-form-select-option >Kadang-kadang</b-form-select-option> 
-                                            <b-form-select-option >Sering</b-form-select-option> 
-                                            <b-form-select-option >Selalu</b-form-select-option> 
-                                        </b-form-select>
-                                    </b-form-group>
+                                  
 
-                                    <b-form-group label="pertanyaan diambil dari master Kecemasan"> 
-                                        <b-form-select>
-                                            <b-form-select-option >Tidak Pernah</b-form-select-option>
-                                            <b-form-select-option >Kadang-kadang</b-form-select-option> 
-                                            <b-form-select-option>Sering</b-form-select-option> 
-                                            <b-form-select-option >Selalu</b-form-select-option> 
-                                        </b-form-select>
-                                    </b-form-group>
+                                  
+                                         
+                                             <b-form-group  v-for="(item, index) in dataPertanyaan"
+                                                        :key="item.id" :label="item.pertanyaan"> 
+                                                      
+                                                        <b-form-select 
+                                                            v-model="item.jawaban"
+                                                            @change="updatePoint(index)"
+                                                            v-if="item.descending"
+                                                        >
+                                                             <b-form-select-option value='1' >Tidak Pernah</b-form-select-option>
+                                                            <b-form-select-option value='2' >Kadang-kadang</b-form-select-option> 
+                                                            <b-form-select-option  value='3'>Sering</b-form-select-option> 
+                                                            <b-form-select-option  value='4'>Selalu</b-form-select-option> 
+                                                        </b-form-select>
 
-                                    <b-form-group label="pertanyaan diambil dari master Kecemasan"> 
-                                        <b-form-select>
-                                            <b-form-select-option >Tidak Pernah</b-form-select-option>
-                                            <b-form-select-option >Kadang-kadang</b-form-select-option> 
-                                            <b-form-select-option>Sering</b-form-select-option> 
-                                            <b-form-select-option >Selalu</b-form-select-option> 
-                                        </b-form-select>
-                                    </b-form-group>
+                                                           <b-form-select 
+                                                            v-model="item.jawaban"
+                                                            @change="updatePoint(index)"
+                                                            v-else
+                                                        >
+                                                             <b-form-select-option value='4' >Tidak Pernah</b-form-select-option>
+                                                            <b-form-select-option value='3' >Kadang-kadang</b-form-select-option> 
+                                                            <b-form-select-option  value='2'>Sering</b-form-select-option> 
+                                                            <b-form-select-option  value='1'>Selalu</b-form-select-option> 
+                                                        </b-form-select>
+                                                       </b-form-group>
+                                                   
+                                 
                                     
-                                    <b-button variant="primary">Simpan</b-button>
+                                    <b-button @click="simpanData" variant="primary">Simpan</b-button>
                                 </b-col>
                             </b-row>
                         </div>
@@ -99,9 +104,75 @@
 </template>
 
 <script>
+import Axios from "axios";
+import { ipBackend } from "@/config.js";
 export default {
-    name:"kecemasanFront",
-}
+  name: "kecemasan",
+  data() {
+    return {
+      dataPertanyaan: [],
+    };
+  },
+  mounted() {
+    Axios.get(ipBackend + "/kecemasan/history", {
+      headers: {
+        accesstoken: localStorage.getItem("token"),
+      },
+    })
+
+      .then((res) => {
+        // console.log('biar keliatan klo ini mounted nya jalan');
+        res.data.respon.forEach((element) => {
+          let ob = {
+            kecemasanId: element.id,
+            pertanyaan: element.pertanyaan,
+            descending: element.descending,
+          };
+          if (element.poolKecemasans.length > 0) {
+            ob.jawaban = element.poolKecemasans[0].jawaban;
+            ob.point = element.poolKecemasans[0].point;
+          } else {
+            ob.jawaban = 0;
+            ob.point = 0;
+          }
+          this.dataPertanyaan.push(ob);
+        });
+      })
+      .catch((err) => {
+        console.log("ini gagal oi " + err);
+      });
+  },
+  computed: {
+    filteredSelect() {
+      return this.selection.filter((obj) => {
+        return obj.value === this.selection.text;
+      });
+    },
+  },
+  methods: {
+    updatePoint(i) {
+      this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
+    },
+    simpanData() {
+      let vm = this;
+      Axios.post(ipBackend + "/poolKecemasan/screening", this.dataPertanyaan, {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      })
+        .then(() => {
+          alert("Berhasil Mengisi Jawaban");
+          // console.log('ini simpan nya');
+        //   console.log(res, '<<<<< ini');
+          vm.$router.push({ path: "/dashboardFront" });
+        })
+        .catch((err) => {
+          console.log("ini error nya");
+          console.log(err);
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>

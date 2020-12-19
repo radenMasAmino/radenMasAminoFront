@@ -123,7 +123,7 @@ export default {
         // console.log('biar keliatan klo ini mounted nya jalan');
         res.data.respon.forEach((element) => {
           let ob = {
-            SRQId: element.id,
+            PTSDId: element.id,
             pertanyaan: element.pertanyaan,
           };
           if (element.poolPTSDs.length > 0) {
