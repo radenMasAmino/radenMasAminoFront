@@ -11,6 +11,8 @@ import GangguanPenyesuaianBelajarFront from "../views/gangguanPenyesuaianBelajar
 import SRQFront from "../views/srqFront.vue";
 import Login from "../views/loggedin/Login.vue";
 import Dashboard from "../views/loggedin/dashboard.vue";
+import user from "../views/loggedin/user.vue";
+import screeninguser from "../views/loggedin/screeninguser.vue";
 
 Vue.use(VueRouter);
 
@@ -116,6 +118,22 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
+    meta: {
+        requiresAuth: true
+    }
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: user,
+    meta: {
+        requiresAuth: true
+    }
+  },
+  {
+    path: '/screeninguser',
+    name: 'screeninguser',
+    component: screeninguser,
     meta: {
         requiresAuth: true
     }

@@ -20,6 +20,26 @@
         <section style="padding-top:60px;padding-bottom:60px">
             <b-container>
                 <b-row>
+                    <b-col md="12" lg="12">
+                        <b-breadcrumb>
+                        <b-breadcrumb-item>
+                            <router-link :to="'dashboardFront'">
+                            <b-icon
+                                icon="house-fill"
+                                scale="1.25"
+                                shift-v="1.25"
+                                aria-hidden="true"
+                            ></b-icon>
+                            Dashboard
+                            </router-link>
+                        </b-breadcrumb-item>
+                        <b-breadcrumb-item active
+                            >Self Reporting Questionnaire (SRQ)</b-breadcrumb-item
+                        >
+                        </b-breadcrumb>
+                    </b-col>
+                </b-row>
+                <b-row>
                     <b-col xs="12" sm="12" md="12" lg="12">
                         <div class="box">
                             <b-row>
@@ -34,7 +54,7 @@
                                     <b-form-group>
                                         <ol id="list-pertanyaan">
                                             <template>
-                                            <li v-for="(item, index) in dataPertanyaan" :key="item.id">
+                                            <li v-for="(item, index) in dataPertanyaan" :key="item.id" style="margin-top:10px">
                                                 {{ item.pertanyaan }}
                                                 <b-form-select
                                                     v-model="item.jawaban"
@@ -221,5 +241,8 @@ export default {
     flex-direction: column;
     margin-right: 10px;
     
+}
+ol{
+    padding-left: 20px;
 }
 </style>
