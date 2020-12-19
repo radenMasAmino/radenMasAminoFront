@@ -42,6 +42,25 @@
     <section style="padding-top: 60px; padding-bottom: 60px">
       <b-container>
         <b-row>
+          <b-col md="12" lg="12">
+            <b-breadcrumb>
+              <b-breadcrumb-item>
+                <router-link :to="'dashboardFront'">
+                  <b-icon
+                    icon="house-fill"
+                    scale="1.25"
+                    shift-v="1.25"
+                    aria-hidden="true"
+                  ></b-icon>
+                  Dashboard
+                </router-link>
+              </b-breadcrumb-item>
+              <b-breadcrumb-item active>Kuisioner Depresi</b-breadcrumb-item>
+            </b-breadcrumb>
+          </b-col>
+        </b-row>
+
+        <b-row>
           <b-col xs="12" sm="12" md="12" lg="12">
             <div class="box">
               <b-row>
@@ -60,16 +79,15 @@
                           v-for="(item, index) in dataPertanyaan"
                           :key="item.id"
                         >
-                          {{ item.pertanyaan }}
                           <b-form-select
                             v-model="item.jawaban"
                             @change="updatePoint(index)"
                           >
-                            <b-form-select-option value="0"
-                              >Tidak</b-form-select-option
-                            >
-                            <b-form-select-option value="1"
-                              >Ya</b-form-select-option
+                            <b-form-select-option
+                              v-for="(itemm, indexx) in item.isi"
+                              :key="indexx"
+                              :value="itemm.score"
+                              >{{ itemm.pertanyaan }}</b-form-select-option
                             >
                           </b-form-select>
                         </li>
@@ -121,20 +139,38 @@ export default {
 
       .then((res) => {
         // console.log('biar keliatan klo ini mounted nya jalan');
+        let p = [];
+        let no = 0;
         res.data.respon.forEach((element) => {
-          let ob = {
-            SRQId: element.id,
-            pertanyaan: element.pertanyaan,
-          };
-          if (element.poolDepresis.length > 0) {
-            ob.jawaban = element.poolDepresis[0].jawaban;
-            ob.point = element.poolDepresis[0].point;
-          } else {
-            ob.jawaban = 0;
-            ob.point = 0;
+          if (no == 0) {
+            no = element.nomor;
           }
-          this.dataPertanyaan.push(ob);
+          if (no != element.nomor) {
+            let data = {
+              nomor: element.nomor,
+              depresiId: element.id,
+              isi: p,
+            };
+            if (element.poolDepresis.length > 0) {
+              data.jawaban = element.poolDepresis[0].jawaban;
+              data.point = element.poolDepresis[0].point;
+            } else {
+              data.jawaban = 0;
+              data.point = 0;
+            }
+            this.dataPertanyaan.push(data);
+            no = element.nomor;
+            p = [];
+          }
+          let obj = {
+            depresiId: element.id,
+            pertanyaan: element.pertanyaan,
+            score: element.score,
+          };
+
+          p.push(obj);
         });
+        console.log(this.dataPertanyaan);
       })
       .catch((err) => {
         console.log("ini gagal oi " + err);
@@ -153,6 +189,7 @@ export default {
     },
     simpanData() {
       let vm = this;
+      console.log(this.dataPertanyaan);
       Axios.post(ipBackend + "/poolDepresi/screening", this.dataPertanyaan, {
         headers: {
           accessToken: localStorage.getItem("token"),
@@ -161,7 +198,7 @@ export default {
         .then(() => {
           alert("Berhasil Mengisi Jawaban");
           // console.log('ini simpan nya');
-        //   console.log(res, '<<<<< ini');
+          //   console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {

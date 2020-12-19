@@ -3,7 +3,7 @@
     <myheader></myheader>
     <b-container class="bv-example-row">
       <b-row class="d-none d-sm-block">
-        <b-col>
+        <b-col xs="12" sm="12" md="10" lg="10" offset-md="1" offset-lg="1">
           <div class="partone">
             <div class="boxmenu">
               <router-link
@@ -101,6 +101,24 @@
                   <h6 class="m-t-0 m-b-0">
                     <strong>SRQ</strong>
                   </h6>
+                </center>
+              </router-link>
+            </div>
+
+            <div class="boxmenu">
+              <router-link
+                :to="'user'"
+                style="text-decoration: none; color: #333"
+              >
+                <center>
+                  <img
+                    src="../../assets/medical-record.png"
+                    style="height: 100px"
+                  />
+                  <h5 class="m-t-15 m-b-0"><strong>USER</strong></h5>
+                  <!-- <h6 class="m-t-0 m-b-0">
+                    <strong>SRQ</strong>
+                  </h6> -->
                 </center>
               </router-link>
             </div>
