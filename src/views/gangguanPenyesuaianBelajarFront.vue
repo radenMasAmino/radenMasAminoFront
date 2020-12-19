@@ -1,5 +1,5 @@
 <template>
-  <div id="daftarFront">
+  <div id="gangguanPenyesuaianBelajarFront">
     <section class="bgheader">
       <b-container>
         <b-row>
@@ -42,11 +42,31 @@
     <section style="padding-top: 60px; padding-bottom: 60px">
       <b-container>
         <b-row>
+          <b-col md="12" lg="12">
+            <b-breadcrumb>
+              <b-breadcrumb-item>
+                <router-link :to="'dashboardFront'">
+                  <b-icon
+                    icon="house-fill"
+                    scale="1.25"
+                    shift-v="1.25"
+                    aria-hidden="true"
+                  ></b-icon>
+                  Dashboard
+                </router-link>
+              </b-breadcrumb-item>
+              <b-breadcrumb-item active
+                >Kuisioner Efikasi Diri Dalam Belajar</b-breadcrumb-item
+              >
+            </b-breadcrumb>
+          </b-col>
+        </b-row>
+        <b-row>
           <b-col xs="12" sm="12" md="12" lg="12">
             <div class="box">
               <b-row>
                 <b-col md="12" lg="12">
-                  <h2><strong>KUISIONER REGULASI GANGGUAN PENYESUAIAN BELAJAR</strong></h2>
+                  <h2><strong>KUISIONER EFIKASI DIRI DALAM BELAJAR</strong></h2>
                   <hr />
                 </b-col>
               </b-row>
@@ -66,10 +86,18 @@
                             @change="updatePoint(index)"
                           >
                             <b-form-select-option value="0"
-                              >Tidak</b-form-select-option
+                              >Sangat Tidak Sesuai</b-form-select-option
                             >
-                            <b-form-select-option value="1"
-                              >Ya</b-form-select-option
+                            <b-form-select-option value="2"
+                              >Tidak Sesuai</b-form-select-option
+                            >
+
+                            <b-form-select-option value="3"
+                              >Cukup Sesuai</b-form-select-option
+                            >
+
+                            <b-form-select-option value="4"
+                              >Sangat Sesuai</b-form-select-option
                             >
                           </b-form-select>
                         </li>
@@ -116,14 +144,14 @@ export default {
     Axios.get(ipBackend + "/ggnBelajar/history", {
       headers: {
         accesstoken: localStorage.getItem("token"),
-      },    
+      },
     })
 
       .then((res) => {
         // console.log('biar keliatan klo ini mounted nya jalan');
         res.data.respon.forEach((element) => {
           let ob = {
-            SRQId: element.id,
+            kecemasanId: element.id,
             pertanyaan: element.pertanyaan,
           };
           if (element.poolGgnBelajars.length > 0) {
@@ -161,7 +189,7 @@ export default {
         .then(() => {
           alert("Berhasil Mengisi Jawaban");
           // console.log('ini simpan nya');
-        //   console.log(res, '<<<<< ini');
+          //   console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {

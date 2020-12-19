@@ -142,7 +142,7 @@ export default {
                 }
             })
             .then(() => {
-                alert('ini berhasil')
+                alert('Berhasil Melengkapi Data')
                 // console.log('log setelah "click" daftar',res);
                 this.$router.push({ path: '/dashboardFront' })
 
