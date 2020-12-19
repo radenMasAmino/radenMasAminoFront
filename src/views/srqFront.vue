@@ -1,105 +1,125 @@
 <template>
-  <div id="daftarFront">
-    <section class="bgheader">
-      <b-container>
-        <b-row>
-          <b-col cols="12" md="8" lg="8" style="background-color: ">
-            <div class="partone">
-              <h3
-                style="margin: 0 !important; padding: 0 !important"
-                class="d-none d-md-block d-lg-none d-none d-lg-block d-xl-none d-none d-xl-block"
-              >
-                <strong>ONME RADEN MAS AMINO</strong>
-              </h3>
-              <h6
-                style="margin: 0 !important; padding: 0 !important"
-                class="d-none d-md-block d-lg-none d-none d-lg-block d-xl-none d-none d-xl-block"
-              >
-                <strong>Online Nurse Mental Health Care Raden Mas Amino</strong>
-              </h6>
-              <h4
-                style="margin: 0 !important; padding: 0 !important"
-                class="d-block d-sm-none d-none d-sm-block d-md-none"
-              >
-                <strong>ONME RADEN MAS AMINO</strong>
-              </h4>
-              <h6
-                style="
-                  margin: 0 !important;
-                  padding: 0 !important;
-                  font-size: 12px;
-                "
-                class="d-block d-sm-none d-none d-sm-block d-md-none"
-              >
-                <strong>Online Nurse Mental Health Care Raden Mas Amino</strong>
-              </h6>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </section>
+    <div id="daftarFront">
+        <section class="bgheader">
+            <b-container>
+                <b-row>
+                    <b-col cols="12" md="8" lg="8" style="background-color:">
+                        <div class="partone">
+                            <h3 style="margin:0 !important;padding:0 !important;" class="d-none d-md-block d-lg-none d-none d-lg-block d-xl-none d-none d-xl-block"><strong>ONME RADEN MAS AMINO</strong></h3>
+                            <h6 style="margin:0 !important;padding:0 !important;" class="d-none d-md-block d-lg-none d-none d-lg-block d-xl-none d-none d-xl-block"><strong>Online Nurse Mental Health Care Raden Mas Amino</strong></h6>
+                            <h4 style="margin:0 !important;padding:0 !important;" class="d-block d-sm-none d-none d-sm-block d-md-none"><strong>ONME RADEN MAS AMINO</strong></h4>
+                            <h6 style="margin:0 !important;padding:0 !important;font-size:12px" class="d-block d-sm-none d-none d-sm-block d-md-none"><strong>Online Nurse Mental Health Care Raden Mas Amino</strong></h6>
+                        </div>
+                    </b-col>
 
-    <section style="padding-top: 60px; padding-bottom: 60px">
-      <b-container>
-        <b-row>
-          <b-col xs="12" sm="12" md="12" lg="12">
-            <div class="box">
-              <b-row>
-                <b-col md="12" lg="12">
-                  <h2><strong>SELF REPORTING QUESTIONNAIRE (SRQ)</strong></h2>
-                  <hr />
-                </b-col>
-              </b-row>
+                    
+                </b-row>
+            </b-container>
+        </section>
 
-              <b-row>
-                <b-col md="12" lg="12">
-                  <b-form-group>
-                    <ol id="list-pertanyaan">
-                      <template>
-                        <li
-                          v-for="(item, index) in dataPertanyaan"
-                          :key="item.id"
+        <section style="padding-top:60px;padding-bottom:60px">
+            <b-container>
+                <b-row>
+                    <b-col md="12" lg="12">
+                        <b-breadcrumb>
+                        <b-breadcrumb-item>
+                            <router-link :to="'dashboardFront'">
+                            <b-icon
+                                icon="house-fill"
+                                scale="1.25"
+                                shift-v="1.25"
+                                aria-hidden="true"
+                            ></b-icon>
+                            Dashboard
+                            </router-link>
+                        </b-breadcrumb-item>
+                        <b-breadcrumb-item active
+                            >Self Reporting Questionnaire (SRQ)</b-breadcrumb-item
                         >
-                          {{ item.pertanyaan }}
-                          <b-form-select
-                            v-model="item.jawaban"
-                            @change="updatePoint(index)"
-                          >
-                            <b-form-select-option value="0"
-                              >Tidak</b-form-select-option
-                            >
-                            <b-form-select-option value="1"
-                              >Ya</b-form-select-option
-                            >
-                          </b-form-select>
-                        </li>
-                      </template>
-                    </ol>
-                  </b-form-group>
-                  <b-button @click="simpanData" variant="primary"
-                    >Simpan</b-button
-                  >
-                </b-col>
-              </b-row>
-            </div>
-          </b-col>
-        </b-row>
-      </b-container>
-    </section>
-    <footer style="background-color: #2c3e50">
-      <b-container>
-        <b-row>
-          <b-col md="12" lg="12">
-            <h6
-              style="margin: 0; padding: 15px; color: #fff; text-align: center"
-            >
-              <strong>© 2020 RSJD Amino Gondohutomo</strong>
-            </h6>
-          </b-col>
-        </b-row>
-      </b-container>
-    </footer>
-  </div>
+                        </b-breadcrumb>
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col xs="12" sm="12" md="12" lg="12">
+                        <div class="box">
+                            <b-row>
+                                <b-col md="12" lg="12">
+                                    <h2><strong>SELF REPORTING QUESTIONNAIRE (SRQ)</strong></h2>
+                                    <hr>
+                                </b-col>
+                            </b-row>
+
+                            <b-row>
+                                <b-col md="12" lg="12">
+                                    <b-form-group>
+                                        <ol id="list-pertanyaan">
+                                            <template>
+                                            <li v-for="(item, index) in dataPertanyaan" :key="item.id" style="margin-top:10px">
+                                                {{ item.pertanyaan }}
+                                                <b-form-select
+                                                    v-model="item.jawaban"
+                                                 
+                                                    @change="updatePoint(index)"
+                                                >
+                                                                 <b-form-select-option value="0">Tidak</b-form-select-option>
+                                                                <b-form-select-option value="1">Ya</b-form-select-option>
+                                                </b-form-select>
+                                                <!-- <b-form-select
+                                                    v-model="dataPertanyaan.jawabannya"
+                                                    required>
+                                                    <b-form-select-option v-for="select in filteredSelect" :key="select" :value="select.value"></b-form-select-option>
+                                                </b-form-select> -->
+                                            </li>
+                                            </template>
+                                        </ol>
+                                        <!-- <b-form-input v-for="item in dataPertanyaan" :key="item.id">
+                                            {{ dataPertanyaan.pertanyaan }}
+                                        </b-form-input> -->
+                                        <!-- <span>{{ dataPertanyaan.pertanyaan }}</span> -->
+                                        <!-- <b-form-select v-model="dataJawaban">
+                                            <b-form-select-option value="0">Tidak</b-form-select-option>
+                                            <b-form-select-option value="1">Ya</b-form-select-option> 
+                                        </b-form-select> -->
+                                    </b-form-group>
+
+                                    <!-- <b-form-group label="Diambil dari master SRQ"> 
+                                        <b-form-select>
+                                            <b-form-select-option value="0">Tidak Pernah</b-form-select-option>
+                                            <b-form-select-option value="1">Kadang-kadang</b-form-select-option> 
+                                            <b-form-select-option value="2">Sering</b-form-select-option> 
+                                            <b-form-select-option value="3">Selalu</b-form-select-option> 
+                                        </b-form-select>
+                                    </b-form-group>
+
+                                    <b-form-group label="Diambil dari master SRQ"> 
+                                        <b-form-select>
+                                            <b-form-select-option value="0">Tidak Pernah</b-form-select-option>
+                                            <b-form-select-option value="1">Kadang-kadang</b-form-select-option> 
+                                            <b-form-select-option value="2">Sering</b-form-select-option> 
+                                            <b-form-select-option value="3">Selalu</b-form-select-option> 
+                                        </b-form-select>
+                                    </b-form-group> -->
+                                    
+                                    <!-- <router-link :to="'dashboardFront'"> -->
+                                    <b-button @click="simpanData" variant="primary">Simpan</b-button>
+                                    <!-- </router-link> -->
+                                </b-col>
+                            </b-row>
+                        </div>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </section>
+        <footer style="background-color:#2c3e50">
+            <b-container>
+                <b-row>
+                    <b-col md="12" lg="12">
+                        <h6 style="margin:0;padding:15px;color:#fff;text-align:center"><strong>© 2020 RSJD Amino Gondohutomo</strong></h6>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </footer>
+    </div>
 </template>
 
 <script>
@@ -209,5 +229,8 @@ export default {
   display: flex;
   flex-direction: column;
   margin-right: 10px;
+}
+ol{
+    padding-left: 20px;
 }
 </style>
