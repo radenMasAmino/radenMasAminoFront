@@ -151,7 +151,7 @@ export default {
         // console.log('biar keliatan klo ini mounted nya jalan');
         res.data.respon.forEach((element) => {
           let ob = {
-            ggnControlEmosiID: element.id,
+            ggnControlEmosiId: element.id,
             pertanyaan: element.pertanyaan,
           };
           if (element.poolGgnControlEmosis.length > 0) {

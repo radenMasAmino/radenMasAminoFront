@@ -151,7 +151,7 @@ export default {
         // console.log('biar keliatan klo ini mounted nya jalan');
         res.data.respon.forEach((element) => {
           let ob = {
-            kecemasanId: element.id,
+            ggnBelajarId: element.id,
             pertanyaan: element.pertanyaan,
           };
           if (element.poolGgnBelajars.length > 0) {
