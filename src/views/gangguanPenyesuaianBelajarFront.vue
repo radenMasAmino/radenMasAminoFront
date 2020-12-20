@@ -187,9 +187,7 @@ export default {
         },
       })
         .then(() => {
-          alert("Berhasil Mengisi Jawaban");
-          // console.log('ini simpan nya');
-          //   console.log(res, '<<<<< ini');
+          alert("Berhasil");
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {

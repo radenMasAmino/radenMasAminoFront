@@ -138,7 +138,6 @@ export default {
     })
 
       .then((res) => {
-        // console.log('biar keliatan klo ini mounted nya jalan');
         let p = [];
         let no = 0;
         res.data.respon.forEach((element) => {
@@ -196,9 +195,7 @@ export default {
         },
       })
         .then(() => {
-          alert("Berhasil Mengisi Jawaban");
-          // console.log('ini simpan nya');
-          //   console.log(res, '<<<<< ini');
+          alert("Berhasil");
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {

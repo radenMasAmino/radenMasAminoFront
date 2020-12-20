@@ -384,33 +384,6 @@ export default {
       })
     },
 
-    // eraseModal(item, index, button) {
-    //   this.clearModal.title = `${index+1}. YAKIN ANDA MAU DELETE = ${item.id}`
-    //   this.clearModal.content = item
-    //   this.idDelete = item.id
-    //   this.deletePertanyaan = item.pertanyaan
-    //   this.$root.$emit('bv::show::modal', this.clearModal.id, button)
-    // },
-
-    // eraseData(idDelete) {
-    //   axios.delete(ipBackend + '/ggnControlEmosi/delete/' + idDelete, {
-    //     id: this.idDelete
-    //   }, {
-    //     headers: {
-    //       'accesstoken': localStorage.getItem('token')
-    //     }
-    //   })
-    //   .then(res => {
-    //     console.log(res.data);
-    //     let idD = this.gangguanEmosi.findIndex(o => o.id === this.idDelete );
-    //     this.gangguanEmosi.splice(idD, 1);
-    //     this.$root.$emit("bv::hide::modal", "clear-modal");
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   })
-    // },
-
     eraseModal(idData) {
       axios.delete(ipBackend + "/ggnControlEmosi/delete/" + idData, {
         headers: {

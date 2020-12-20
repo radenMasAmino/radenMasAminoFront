@@ -148,7 +148,6 @@ export default {
     })
 
       .then((res) => {
-        // console.log('biar keliatan klo ini mounted nya jalan');
         res.data.respon.forEach((element) => {
           let ob = {
             PTSDId: element.id,
@@ -186,10 +185,10 @@ export default {
           accessToken: localStorage.getItem("token"),
         },
       })
-        .then(() => {
-          alert("Berhasil Mengisi Jawaban");
+        .then((res) => {
+          alert("Berhasil");
           // console.log('ini simpan nya');
-          //   console.log(res, '<<<<< ini');
+            console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {

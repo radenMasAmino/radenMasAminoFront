@@ -159,7 +159,6 @@ export default {
     })
 
       .then((res) => {
-        // console.log('biar keliatan klo ini mounted nya jalan');
         res.data.respon.forEach((element) => {
           let ob = {
             kecemasanId: element.id,
@@ -199,9 +198,7 @@ export default {
         },
       })
         .then(() => {
-          alert("Berhasil Mengisi Jawaban");
-          // console.log('ini simpan nya');
-          //   console.log(res, '<<<<< ini');
+          alert("Berhasil");
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {
