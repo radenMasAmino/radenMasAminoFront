@@ -138,42 +138,134 @@ export default {
     })
 
       .then((res) => {
-        // console.log('biar keliatan klo ini mounted nya jalan');
-        let p = [];
-        let no = 0;
-        res.data.respon.forEach((element) => {
-          if (no == 0) {
-            no = element.nomor;
-          }
-          if (no != element.nomor) {
-            let data = {
-              nomor: element.nomor,
-              depresiId: element.id,
-              isi: p,
-            };
-            if (element.poolDepresis.length > 0) {
-              data.jawaban = element.poolDepresis[0].jawaban;
-              data.point = element.poolDepresis[0].point;
-            } else {
-              data.jawaban = 0;
-              data.point = 0;
-            }
-            this.dataPertanyaan.push(data);
-            no = element.nomor;
-            p = [];
-          }
+        // // console.log(res.data.respon);
+        // let p = [];
+        // let no = 0;
+        // res.data.respon.forEach((element) => {
+        //   if (no == 0) {
+        //     no = element.nomor;
+        //     console.log('if 1');
+        //     // console.log(no);
+        //   }
+
+        //   if (no != element.nomor) {
+        //     console.log(no);
+        //     console.log(element.nomor);
+        //     let data = {
+        //       nomor: element.nomor,
+        //       depresiId: element.id,
+        //       isi: p,
+        //     }; // data.nomor - data.depresiId - data.isi
+        //     console.log(data.nomor, data.depresiId);
+        //     if (element.poolDepresis.length > 0) {
+        //       data.jawaban = element.poolDepresis[0].jawaban;
+        //       data.point = element.poolDepresis[0].point;
+        //     } else {
+        //       data.jawaban = 0;
+        //       data.point = 0;
+        //     }
+        //     // console.log(data);
+        //     this.dataPertanyaan.push(data);
+        //     no = element.nomor;
+        //     p = [];
+        //     // console.log(no);
+        //   }
+        //   let obj = {
+        //     depresiId: element.id,
+        //     pertanyaan: element.pertanyaan,
+        //     score: element.score,
+        //   };
+
+        //   p.push(obj);
+        // });
+        // console.log('ini mounted');
+        // // console.log(this.dataPertanyaan);
+        console.log('ini mounted');
+        let history = res.data.respon
+        let isiPertanyaan = []
+        let no = 0
+        console.log('ini length nya', history.length);
+        for (let index = 0; index < history.length; index++) {
+          const element = history[index];
+          // console.log(element.nomor);
           let obj = {
             depresiId: element.id,
             pertanyaan: element.pertanyaan,
-            score: element.score,
-          };
+            score: element.score
+          }
+          // isiPertanyaan.push(obj)
 
-          p.push(obj);
-        });
-        console.log(this.dataPertanyaan);
+          if (no == 0) {
+            no = element.nomor
+            // console.log(no); // nomor terakhir
+          }
+          if (no != element.nomor) {
+            // no = element.nomor // kenapa no terakhir ga masuk
+            // console.log(element.nomor);
+            console.log(no);
+            let data = {
+              nomor: element.nomor,
+              depresiId: element.id,
+              isi: isiPertanyaan,
+            }
+            if (element.poolDepresis.length > 0) {
+              data.jawaban = element.poolDepresis.jawaban
+              data.point = element.poolDepresis.point
+            }
+            else {
+              data.jawaban = 0
+              data.point = 0
+            }
+            this.dataPertanyaan.push(data)
+            no = 0
+            isiPertanyaan = []
+          }
+          // else if ((index+1) == history.length) {
+          //   // let lastNumb = element.nomor
+          //   // console.log('ini else ', lastNumb);
+          //   console.log(`ini index ke ${index}`);
+          //   console.log(`ini id ke ${element.id}`);
+          //   console.log(isiPertanyaan);
+          //   let data = {
+          //     nomor: element.nomor,
+          //     depresiId: element.id,
+          //     isi: isiPertanyaan,
+          //   }
+          //   if (element.poolDepresis.length > 0) {
+          //     data.jawaban = element.poolDepresis.jawaban
+          //     data.point = element.poolDepresis.point
+          //   }
+          //   else {
+          //     data.jawaban = 0
+          //     data.point = 0
+          //   }
+          //   this.dataPertanyaan.push(data)
+          //   no = 0
+          //   isiPertanyaan = []
+          //   // if (lastNumb >= element.nomor) {
+          //   //   console.log('ini else ', lastNumb);
+              
+          //   // }
+          // }
+          // else if (history[index-1] ===history.length) {
+          //   console.log(`'last id' ${element.id}`);
+          // }
+          // let obj = {
+          //   depresiId: element.id,
+          //   pertanyaan: element.pertanyaan,
+          //   score: element.score
+          // }
+          // console.log(obj);
+          isiPertanyaan.push(obj)
+          if (index == history.length-1) {
+            console.log(no);
+          }
+        }
+        // console.log(this.dataPertanyaan);
       })
       .catch((err) => {
-        console.log("ini gagal oi " + err);
+        console.log("ini gagal oi");
+        console.log(err);
       });
   },
   computed: {

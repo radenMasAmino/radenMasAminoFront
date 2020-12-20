@@ -1,5 +1,4 @@
 <template>
-
     <div id="user">
         <myheader></myheader>
         <b-container>
@@ -26,11 +25,11 @@
                             </b-col>
                         </b-row>
 
-                        <b-row class="m-t-30">
+                        <!-- <b-row class="m-t-30">
                            <b-col md="12">
                                 <b-button v-b-modal.modal-1 variant="primary">Tambah Data</b-button>
                            </b-col>
-                        </b-row>
+                        </b-row> -->
 
                         <b-row class="m-t-15">
                             <b-col lg="12">
@@ -110,14 +109,14 @@
 
                             <template v-slot:cell(actions)="row">
                                 <router-link :to="'screeninguser'">
-                                <b-button size="sm" variant="success" class="mr-1">Detail</b-button>
+                                <b-button size="sm" variant="success" @click="addDetail(row.item.id)" class="mr-1">Detail</b-button>
                                 </router-link>
                                 <!-- <b-button size="sm" variant="warning" @click="info(row.item, row.index, $event.target)" class="mr-1">
                                Edit
                                 </b-button> -->
-                                 <b-button size="sm" variant="danger" @click="hapus(row.item.id)" class="mr-1">
+                                 <!-- <b-button size="sm" variant="danger" @click="hapus(row.item.id)" class="mr-1">
                                 Hapus
-                                </b-button>
+                                </b-button> -->
                             </template>
 
                          
@@ -156,14 +155,11 @@
                             </b-col>
                         </b-row>
                         <!-- Info modal -->
-                        <b-modal :id="infoModal.id" hide-footer centered :title="infoModal.title" ok-only @hide="resetInfoModal">
-                            <!-- <pre>{{ infoModal.content.namaPenyakit }}</pre> -->
+                        <!-- <b-modal :id="infoModal.id" hide-footer centered :title="infoModal.title" ok-only @hide="resetInfoModal">
                              <b-form class="bv-example-row">
                                 <b-form-group 
                                 label="Pertanyaan" 
                                 >
-                                <!-- {{infoModal.content.namaPenyakit}}
-                                 -->
                                    
                                   <b-form-input
                                   v-model="depresi"
@@ -175,14 +171,14 @@
                                 </b-form-group>
                                 
                             </b-form>
-                        </b-modal>
+                        </b-modal> -->
                     </div>
                     
                 </b-col>
             </b-row>
         </b-container>
 
-        <b-modal id="modal-1" hide-footer centered title="TAMBAH DATA USER">
+        <!-- <b-modal id="modal-1" hide-footer centered title="TAMBAH DATA USER">
             <b-form class="bv-example-row">
                 <b-form-group 
                 label="Username" 
@@ -263,7 +259,7 @@
                 
                 <b-button @click="tambah" variant="primary" class="m-t-15">Simpan</b-button>
             </b-form>
-        </b-modal>
+        </b-modal> -->
 
        
     </div>
@@ -271,7 +267,8 @@
 </template>
 <script>
 import myheader from "../../components/header"
-// import axios from 'axios';
+import Axios from 'axios';
+import { ipBackend } from '@/config.js';
 export default {
     name:"user",
     components:{
@@ -279,27 +276,11 @@ export default {
     },
     data() {
       return {
-        // namaPenyakit: '',
-        // idChoose: '',
-        // namaPenyakitEdit:'',
-        items: [
-         {  nama: 'Namanya', alamat: 'Alamat' }
-        ],
+        items: [],
         fields: [
-        //   { key: 'namaPenyakit', label: 'Nama Penyakit', sortable: true, sortDirection: 'desc' },
+          { key: 'id', label: 'Id', sortable: true, sortDirection: 'desc' },
           { key: 'nama', label: 'Nama', sortable: true, sortDirection: 'desc' },
           { key: 'alamat', label: 'Alamat', sortable: true, sortDirection: 'desc' },
-          // { key: 'age', label: 'Person age', sortable: true, class: 'text-center' },
-          // {
-          //   key: 'isActive',
-          //   label: 'is Active',
-          //   formatter: (value) => {
-          //     return value ? 'Yes' : 'No'
-          //   },
-          //   sortable: true,
-          //   sortByFormatted: true,
-          //   filterByFormatted: true
-          // },
           { key: 'actions', label: 'Actions' }
         ],
         totalRows: 1,
@@ -329,19 +310,24 @@ export default {
       }
     },
     mounted() {
-      // Set the initial number of items
-    
-        // axios.get('http://sideku.org:8801/penyakit/all',{
-        //    headers: {
-        //           'accesstoken': localStorage.getItem('token')
-        //       }
-        // }).then(data=>{
-        //        console.log(data)
-        //         this.items = data.data.respon
-        //          this.totalRows = this.items.length
-        //       })
+      Axios.get(ipBackend + '/users/all', {
+        headers: {
+          'accessToken': localStorage.getItem('token')
+        }
+      })
+      .then(res => {
+        console.log(res);
+        this.items = res.data.respon
+        this.totalRows = this.items.length
+      })
+      .catch(err => {
+        console.log(err);
+      })
     },
     methods: {
+      addDetail(id){
+        this.$router.push({ path: '/screeninguser', query: { id } })
+      },
       info(item, index, button) {
         this.infoModal.title = `EDIT DATA USER`
         // this.infoModal.content = item
