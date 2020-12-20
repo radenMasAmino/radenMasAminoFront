@@ -330,8 +330,8 @@
 
 <script>
 import Axios from 'axios';
-import { ipBackend } from '@/config.js';
 import myheader from "../../components/header";
+import { ipBackend } from "@/config.js";
 
 export default {
   name: "screeninguser",
