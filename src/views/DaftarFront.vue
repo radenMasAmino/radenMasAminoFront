@@ -32,8 +32,6 @@
                             <b-row>
                                 <b-col md="12" lg="12">
                                 
-                                  
-
                                     <b-form-group label="Email">
                                     <b-form-input 
                                         v-model="responden.email"

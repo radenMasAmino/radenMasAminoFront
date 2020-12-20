@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
 /dist
+/src/views/loggedin/screeninguser.vue
+/src/views/loggedin/user.vue
 
 
 # local env files

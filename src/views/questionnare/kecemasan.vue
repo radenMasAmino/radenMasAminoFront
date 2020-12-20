@@ -382,7 +382,7 @@ export default {
 
     editQs() {
       let vm = this;
-      axios.post("http://147.139.169.33:8805/kecemasan/update/" + vm.idEdit, {
+      axios.post(ipBackend + "/kecemasan/update/" + vm.idEdit, {
         pertanyaan: vm.infoModal.content.pertanyaan,
         descending: vm.infoModal.content.descending
       }, {

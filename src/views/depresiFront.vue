@@ -195,7 +195,7 @@ export default {
         },
       })
         .then(() => {
-          alert("Berhasil");
+          alert("Berhasil Mengisi Jawaban");
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {

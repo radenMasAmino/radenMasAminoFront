@@ -40,6 +40,31 @@
               <b-col md="12">
                 <b-alert show variant="primary">
                   <div style="width: 100%; display: table">
+
+                    <div style="display: table-row">
+                      <div style="display: table-cell; width: 15%">
+                        <h5>Id</h5>
+                      </div>
+                      <div style="display: table-cell; width: 2.5%">
+                        <h5>:</h5>
+                      </div>
+                      <div style="display: table-cell">
+                        <h5>{{ this.dataUser.id }}</h5>
+                      </div>
+                    </div>
+
+                    <div style="display: table-row">
+                      <div style="display: table-cell; width: 15%">
+                        <h5>Username</h5>
+                      </div>
+                      <div style="display: table-cell; width: 2.5%">
+                        <h5>:</h5>
+                      </div>
+                      <div style="display: table-cell">
+                        <h5>{{ this.dataUser.username }}</h5>
+                      </div>
+                    </div>
+
                     <div style="display: table-row">
                       <div style="display: table-cell; width: 15%">
                         <h5>Nama</h5>
@@ -48,7 +73,7 @@
                         <h5>:</h5>
                       </div>
                       <div style="display: table-cell">
-                        <h5>{{ items[0].nama }}</h5>
+                        <h5>{{ this.dataUser.nama }}</h5>
                       </div>
                     </div>
 
@@ -60,7 +85,7 @@
                         <h5>:</h5>
                       </div>
                       <div style="display: table-cell">
-                        <h5>{{ items[0].alamat }}</h5>
+                        <h5>{{ this.dataUser.alamat }}</h5>
                       </div>
                     </div>
                   </div>
@@ -384,13 +409,13 @@
                   </b-card>
                 </div>
               </b-col>
+
               <b-col md="12" lg="12" style="margin-top: 30px">
                 <b-button size="md" variant="primary" @click="simpanData"
                   >Simpan</b-button
                 >
               </b-col>
             </b-row>
-            <!-- <span>{{ items[0].id }}</span> -->
           </div>
         </b-col>
       </b-row>
@@ -399,16 +424,15 @@
 </template>
 
 <script>
+import Axios from 'axios';
 import myheader from "../../components/header";
 import { ipBackend } from "@/config.js";
-import axios from "axios";
 
 export default {
   name: "screeninguser",
   components: {
     myheader,
   },
-
   data() {
     return {
       idUser: "",
@@ -426,10 +450,8 @@ export default {
       idDepresi: [],
     };
   },
-
   mounted() {
     this.idUser = this.$route.query.idx;
-    // console.log(this.idUser);
     axios
       .get(ipBackend + "/users/profilByAdmin/" + this.idUser, {
         headers: {

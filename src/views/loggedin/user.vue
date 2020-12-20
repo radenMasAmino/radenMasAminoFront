@@ -105,8 +105,7 @@
               responsive
             >
               <template v-slot:cell(actions)="row">
-                <!-- <router-link :to="{ path: 'screeninguser' }">
-                </router-link> -->
+                
                 <b-button
                   size="sm"
                   variant="success"
@@ -115,14 +114,6 @@
                   >Detail</b-button
                 >
 
-                <!-- <b-button
-                  size="sm"
-                  variant="danger"
-                  @click="deleteUser(row.item.id)"
-                  class="mr-1"
-                >
-                  Hapus
-                </b-button> -->
               </template>
             </b-table>
 
@@ -215,8 +206,7 @@ export default {
     },
   },
   mounted() {
-    axios
-      .get(ipBackend + "/users/all", {
+    axios.get(ipBackend + "/users/all", {
         headers: {
           accessToken: localStorage.getItem("token"),
         },
