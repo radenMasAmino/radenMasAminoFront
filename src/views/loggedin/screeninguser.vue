@@ -49,7 +49,7 @@
                         <h5>:</h5>
                       </div>
                       <div style="display: table-cell">
-                        <h5>{{ item[0].id }}</h5>
+                        <h5>{{ items[0].id }}</h5>
                       </div>
                     </div>
 
@@ -61,7 +61,7 @@
                         <h5>:</h5>
                       </div>
                       <div style="display: table-cell">
-                        <h5>{{ item[0].username }}</h5>
+                        <h5>{{ items[0].username }}</h5>
                       </div>
                     </div>
 
@@ -73,7 +73,7 @@
                         <h5>:</h5>
                       </div>
                       <div style="display: table-cell">
-                        <h5>{{ item[0].nama }}</h5>
+                        <h5>{{ items[0].nama }}</h5>
                       </div>
                     </div>
 
@@ -85,7 +85,7 @@
                         <h5>:</h5>
                       </div>
                       <div style="display: table-cell">
-                        <h5>{{ item[0].alamat }}</h5>
+                        <h5>{{ items[0].alamat }}</h5>
                       </div>
                     </div>
                   </div>
