@@ -354,7 +354,7 @@ export default {
     },
     popupChat(userId){
          this.$socket.emit('join', userId)
-           this.$socket.emit('allchat', userId)
+           this.$socket.emit('allchat', userId, 1)
            this.selectedUserId = userId
     },
 

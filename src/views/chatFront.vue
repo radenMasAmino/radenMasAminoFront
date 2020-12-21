@@ -201,7 +201,7 @@ export default {
         // console.log(res.data.respon);
         this.responden = res.data.respon[0]
          this.$socket.emit('join', this.responden.id)
-           this.$socket.emit('allchat', this.responden.id)
+        this.$socket.emit('allchat', this.responden.id, 0)
          
         // console.log(this.responden.id);
         })

@@ -32,7 +32,9 @@ const routes = [
     name: "daftarFront",
     component: DaftarFront,
     meta: {
-      guest: true
+  
+      requiresAuth: true,
+      google:true
     }
   },
 
@@ -41,7 +43,9 @@ const routes = [
     name: "srqFront",
     component: SRQFront,
     meta: {
-      guest: true
+
+      requiresAuth: true,
+      google:true
     }
   },
 
@@ -50,7 +54,9 @@ const routes = [
     name: "chatFront",
     component: chatFront,
     meta: {
-      guest: true
+    
+      requiresAuth: true,
+      google:true
     }
   },
 
@@ -59,7 +65,9 @@ const routes = [
     name: "dashboardFront",
     component: DashboardFront,
     meta: {
-      guest: true
+
+      requiresAuth: true,
+      google:true
     }
   },
 
@@ -68,7 +76,9 @@ const routes = [
     name: "kecemasanFront",
     component: KecemasanFront,
     meta: {
-      guest: true
+ 
+      requiresAuth: true,
+      google:true
     }
   },
 
@@ -77,7 +87,9 @@ const routes = [
     name: "depresiFront",
     component: DepresiFront,
     meta: {
-      guest: true
+
+      requiresAuth: true,
+      google:true
     }
   },
 
@@ -86,7 +98,9 @@ const routes = [
     name: "gangguanEmosiFront",
     component: GangguanEmosiFront,
     meta: {
-      guest: true
+
+      requiresAuth: true,
+      google:true
     }
   },
 
@@ -95,7 +109,9 @@ const routes = [
     name: "ptsdFront",
     component: PTSDFront,
     meta: {
-      guest: true
+
+      requiresAuth: true,
+      google:true
     }
   },
 
@@ -104,7 +120,9 @@ const routes = [
     name: "gangguanPenyesuaianBelajarFront",
     component: GangguanPenyesuaianBelajarFront,
     meta: {
-      guest: true
+    
+      requiresAuth: true,
+      google:true
     }
   },
   // --------------------- bawah non-front --------------------------- //
@@ -121,7 +139,8 @@ const routes = [
     name: 'daftar',
     component: () => import ('../views/loggedin/Daftar.vue'),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      google:false
     }
   },
   {
@@ -129,7 +148,8 @@ const routes = [
     name: 'dashboard',
     component: Dashboard,
     meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        google:false
     }
   },
   {
@@ -137,7 +157,8 @@ const routes = [
     name: 'user',
     component: user,
     meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        google:false
     }
   },
   {
@@ -145,7 +166,8 @@ const routes = [
     name: 'screeninguser',
     component: screeninguser,
     meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        google:false
     }
   },
   {
@@ -153,7 +175,8 @@ const routes = [
     name: 'kecemasan',
     component: () => import('../views/questionnare/kecemasan.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        google:false
     }
   },
   {
@@ -161,7 +184,8 @@ const routes = [
     name: 'depresi',
     component: () => import('../views/questionnare/depresi.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        google:false
     }
   },
   {
@@ -169,7 +193,8 @@ const routes = [
     name: 'gangguanEmosi',
     component: () => import('../views/questionnare/gangguanEmosi.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        google:false
     }
   },
   {
@@ -177,7 +202,8 @@ const routes = [
     name: 'ptsd',
     component: () => import('../views/questionnare/ptsd.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        google:false
     }
   },
   {
@@ -185,7 +211,8 @@ const routes = [
     name: 'gangguanPenyesuaianBelajar',
     component: () => import('../views/questionnare/gangguanPenyesuaianBelajar.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        google:false
     }
   },
   {
@@ -193,18 +220,20 @@ const routes = [
     name: 'srq',
     component: () => import('../views/questionnare/SRQ.vue'),
     meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        google:false
     }
   },
 ];
-
+import axios from "axios";
+import { ipBackend } from "@/config.js";
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if(to.path == '/sukses') {
       localStorage.setItem('token', to.query.token)
           next({
@@ -212,35 +241,46 @@ router.beforeEach((to, from, next) => {
           })
   }
   if(to.matched.some(record => record.meta.requiresAuth)) {
+    
       if (!localStorage.getItem('token') || localStorage.getItem('token')  == "undefined" || localStorage.getItem('token') == '' ) {
           next({
               path: '/login',
               query: { tujuan: to.fullPath }
           })
       } else {
-          // let user = JSON.parse(localStorage.getItem('user'))
-          // if(to.matched.some(record => record.meta.is_admin)) {
-          //     if(user.is_admin == 1){
-          //         next()
-          //     }
-          //     else{
-          //         next({ name: 'userboard'})
-          //     }
-          // }else {
-          //     next()
-          // }
-          next()
+       let dataUser = await axios.get(ipBackend + '/users/profil', {
+          headers: {
+              'accessToken': localStorage.getItem('token')
+          }
+      })
+  
+          if(to.matched.some(record => record.meta.google)) {
+              if(dataUser.data.respon[0].role == 'guest'){
+                  next()
+              }
+              else{
+                next({
+                  path: '/login',
+                  query: { tujuan: to.fullPath }
+              })
+              }
+          }else {
+            if(dataUser.data.respon[0].role == 'admin'){
+              next()
+          }
+          else{
+            next({
+              path: '/login',
+              query: { tujuan: to.fullPath }
+          })
+          }
+          
+          }
       }
 
   } else if(to.matched.some(record => record.meta.guest)) {
     // console.log(localStorage.getItem('token'))
-      if(!localStorage.getItem('token') || localStorage.getItem('token')  == "undefined" || localStorage.getItem('token') == '' ){
-          next()
-      }
-      else{
-          // next({ name: 'dashboardFront'})
-          next()
-      }
+    next()
   } else {
       next()
   }
