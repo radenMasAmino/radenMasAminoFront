@@ -69,37 +69,14 @@
                             <div class="box">
                                 <b-row>
                                     <b-col md="12" lg="12">
-                                        <div style="width:100%;height:60vh;background-color:;overflow-y:auto;overflow-x:hidden">
-                                            <b-row>
-                                                <b-col md="12" lg="12">
-                                                    <div style="width: 90%;padding: 10px;background-color: #2C3D50;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-left:10%">
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                <h6 style="margin:0;text-align:right">Waktu</h6>
-                                                            </b-col>
-                                                        </b-row>
+                                        <div style="width:100%;height:60vh;background-color:;overflow-y:auto;overflow-x:hidden" id="chatnya">
 
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                <hr style="margin:10px 0;">
-                                                            </b-col>
-                                                        </b-row>
-
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                <p>PERTANYAANNYA : Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, esse accusamus, rem optio aliquid impedit assumenda minima asperiores veniam placeat, voluptate similique dolorem! Quibusdam libero illum necessitatibus quisquam, nemo dicta.</p>
-                                                            </b-col>
-                                                        </b-row>
-                                                    </div>
-                                                </b-col>
-                                            </b-row>
-
-                                            <b-row style="margin-top:30px">
-                                                <b-col md="12" lg="12">
+                                            <b-row v-for="item in chat" :key="item.id">
+                                                  <b-col md="12" lg="12" v-if="item.adminId">
                                                     <div style="width: 90%;padding: 5px 15px;background-color: #007bff;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-right:10%">
                                                         <b-row>
                                                             <b-col md="12" lg="12">
-                                                                <h6 style="margin:0;text-align:right">Waktu</h6>
+                                                                <h6 style="margin:0;text-align:right">{{item.createdAt}}</h6>
                                                             </b-col>
                                                         </b-row>
 
@@ -111,12 +88,35 @@
 
                                                         <b-row>
                                                             <b-col md="12" lg="12">
-                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, esse accusamus, rem optio aliquid impedit assumenda minima asperiores veniam placeat, voluptate similique dolorem! Quibusdam libero illum necessitatibus quisquam, nemo dicta.</p>
+                                                                <p>{{item.isi}}</p>
+                                                            </b-col>
+                                                        </b-row>
+                                                    </div>
+                                                </b-col>
+                                                <b-col md="12" lg="12" v-else>
+                                                    <div style="width: 90%;padding: 10px;background-color: #2C3D50;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-left:10%">
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                <h6 style="margin:0;text-align:right">{{item.createdAt}}</h6>
+                                                            </b-col>
+                                                        </b-row>
+
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                <hr style="margin:10px 0;">
+                                                            </b-col>
+                                                        </b-row>
+
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                   <p>{{item.isi}}</p>
                                                             </b-col>
                                                         </b-row>
                                                     </div>
                                                 </b-col>
                                             </b-row>
+
+                                         
                                         </div>
                                     </b-col>
                                 </b-row>
@@ -131,11 +131,12 @@
                                         <b-form-input 
                                             required
                                             placeholder=""
+                                            v-model="isi"
                                         ></b-form-input>
                                     </div>
                                     <div style="width:2.5%"></div>
                                     <div style="width:7.5%">
-                                        <b-button variant="primary" block>Kirim</b-button>
+                                        <b-button variant="primary" block @click="kirimChat">Kirim</b-button>
                                     </div>
                                 </div>
                             </div>
@@ -163,8 +164,59 @@
 </template>
 
 <script>
+import { ipBackend } from "@/config.js";
+import axios from "axios";
 export default {
     name: "chatFront",
+       data() {
+        return {
+            responden: [],
+            chat: [],
+            isi:''
+        }
+    },
+  sockets: {
+    semuachat(data){
+        // console.log(data, 'aaa')
+        this.chat = data
+    
+    },
+
+      chatMasuk(data){
+        // console.log(data, 'aaa')
+        this.chat.push(data)
+
+      }
+  },
+    mounted() {
+        // get profile
+        // let idProfile = localStorage.getItem('token.id')
+        axios.get(ipBackend + '/users/profil', {
+            headers: {
+                'accessToken': localStorage.getItem('token')
+            }
+        })
+        .then(res => {
+        // console.log('mounted profile', res);
+        // console.log(res.data.respon);
+        this.responden = res.data.respon[0]
+         this.$socket.emit('join', this.responden.id)
+           this.$socket.emit('allchat', this.responden.id)
+         
+        // console.log(this.responden.id);
+        })
+        .catch(err => {
+            console.log('mounted nya', err);
+        })
+
+        
+    },
+    methods:{
+        kirimChat(){
+            this.$socket.emit('chat', this.responden.id, this.isi, 0)
+            this.isi = '';
+        }
+    }
 }
 </script>
 

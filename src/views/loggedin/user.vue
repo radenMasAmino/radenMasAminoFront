@@ -120,6 +120,7 @@
                   class="mr-1"
                   v-b-modal.modal-1
                   style="position:relative"
+                   @click="popupChat(row.item.id)"
                   >Chat
                   <div style="width:30px;height:30px;background-color:#007bff;border-radius:100%;display:flex;justify-content:center;align-items:center;position:absolute;top:-15px;right:-15px;"><h6 style="margin:0;padding:0;color:#fff"><strong>00</strong></h6></div>
                   </b-button
@@ -168,37 +169,14 @@
     <b-modal id="modal-1" size="lg" title="Chat" hide-footer>
       <b-row>
                                     <b-col md="12" lg="12">
-                                        <div style="width:100%;height:50vh;background-color:;overflow-y:auto;overflow-x:hidden">
-                                            <b-row>
-                                                <b-col md="12" lg="12">
-                                                    <div style="width: 90%;padding: 10px;background-color: #2C3D50;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-left:10%">
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                <h6 style="margin:0;text-align:right">Waktu</h6>
-                                                            </b-col>
-                                                        </b-row>
+                                          <div style="width:100%;height:60vh;background-color:;overflow-y:auto;overflow-x:hidden" id="chatnya">
 
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                <hr style="margin:10px 0;">
-                                                            </b-col>
-                                                        </b-row>
-
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                <p>PERTANYAANNYA : Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, esse accusamus, rem optio aliquid impedit assumenda minima asperiores veniam placeat, voluptate similique dolorem! Quibusdam libero illum necessitatibus quisquam, nemo dicta.</p>
-                                                            </b-col>
-                                                        </b-row>
-                                                    </div>
-                                                </b-col>
-                                            </b-row>
-
-                                            <b-row style="margin-top:30px">
-                                                <b-col md="12" lg="12">
+                                            <b-row v-for="item in chat" :key="item.id">
+                                                  <b-col md="12" lg="12" v-if="item.adminId">
                                                     <div style="width: 90%;padding: 5px 15px;background-color: #007bff;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-right:10%">
                                                         <b-row>
                                                             <b-col md="12" lg="12">
-                                                                <h6 style="margin:0;text-align:right">Waktu</h6>
+                                                                <h6 style="margin:0;text-align:right">{{item.createdAt}}</h6>
                                                             </b-col>
                                                         </b-row>
 
@@ -210,12 +188,35 @@
 
                                                         <b-row>
                                                             <b-col md="12" lg="12">
-                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, esse accusamus, rem optio aliquid impedit assumenda minima asperiores veniam placeat, voluptate similique dolorem! Quibusdam libero illum necessitatibus quisquam, nemo dicta.</p>
+                                                                <p>{{item.isi}}</p>
+                                                            </b-col>
+                                                        </b-row>
+                                                    </div>
+                                                </b-col>
+                                                <b-col md="12" lg="12" v-else>
+                                                    <div style="width: 90%;padding: 10px;background-color: #2C3D50;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-left:10%">
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                <h6 style="margin:0;text-align:right">{{item.createdAt}}</h6>
+                                                            </b-col>
+                                                        </b-row>
+
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                <hr style="margin:10px 0;">
+                                                            </b-col>
+                                                        </b-row>
+
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                   <p>{{item.isi}}</p>
                                                             </b-col>
                                                         </b-row>
                                                     </div>
                                                 </b-col>
                                             </b-row>
+
+                                         
                                         </div>
                                     </b-col>
       </b-row>
@@ -227,11 +228,12 @@
                                         <b-form-input 
                                             required
                                             placeholder=""
+                                                v-model="isi"
                                         ></b-form-input>
                                     </div>
                                     <div style="width:2.5%"></div>
                                     <div style="width:7.5%">
-                                        <b-button variant="primary" block>Kirim</b-button>
+                                       <b-button variant="primary" block @click="kirimChat">Kirim</b-button>
                                     </div>
                                 </div>
         </b-col>
@@ -255,6 +257,10 @@ export default {
   data() {
     return {
       items: [],
+       chat: [],
+       isi:'',
+       selectedUserId:0,
+      responden: [],
       fields: [
         { key: "id", label: "Id", sortable: true, sortDirection: "desc" },
         { key: "nama", label: "Nama", sortable: true, sortDirection: "desc" },
@@ -283,6 +289,19 @@ export default {
       userId: 0,
     };
   },
+    sockets: {
+    semuachat(data){
+        // console.log(data, 'aaa')
+        this.chat = data
+    },
+
+      chatMasuk(data){
+        // console.log(data, 'aaa')
+        this.chat.push(data)
+
+    }
+
+  },
   computed: {
     sortOptions() {
       // Create an options list from our fields
@@ -306,6 +325,23 @@ export default {
         });
         this.totalRows = this.items.length;
       });
+
+          axios.get(ipBackend + '/users/profil', {
+            headers: {
+                'accessToken': localStorage.getItem('token')
+            }
+        })
+        .then(res => {
+        // console.log('mounted profile', res);
+        // console.log(res.data.respon);
+        this.responden = res.data.respon[0]
+  
+         
+        // console.log(this.responden.id);
+        })
+        .catch(err => {
+            console.log('mounted nya', err);
+        })
   },
   methods: {
     detail(idx) {
@@ -316,6 +352,16 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
+    popupChat(userId){
+         this.$socket.emit('join', userId)
+           this.$socket.emit('allchat', userId)
+           this.selectedUserId = userId
+    },
+
+       kirimChat(){
+            this.$socket.emit('chat', this.selectedUserId, this.isi, this.responden.id)
+            this.isi = '';
+        }
   },
 };
 </script>
