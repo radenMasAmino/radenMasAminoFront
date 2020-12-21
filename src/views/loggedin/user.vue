@@ -114,6 +114,17 @@
                   >Detail</b-button
                 >
 
+                <b-button
+                  size="sm"
+                  variant="warning"
+                  class="mr-1"
+                  v-b-modal.modal-1
+                  style="position:relative"
+                  >Chat
+                  <div style="width:30px;height:30px;background-color:#007bff;border-radius:100%;display:flex;justify-content:center;align-items:center;position:absolute;top:-15px;right:-15px;"><h6 style="margin:0;padding:0;color:#fff"><strong>00</strong></h6></div>
+                  </b-button
+                >
+
               </template>
             </b-table>
 
@@ -153,8 +164,85 @@
         </b-col>
       </b-row>
     </b-container>
+
+    <b-modal id="modal-1" size="lg" title="Chat" hide-footer>
+      <b-row>
+                                    <b-col md="12" lg="12">
+                                        <div style="width:100%;height:50vh;background-color:;overflow-y:auto;overflow-x:hidden">
+                                            <b-row>
+                                                <b-col md="12" lg="12">
+                                                    <div style="width: 90%;padding: 10px;background-color: #2C3D50;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-left:10%">
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                <h6 style="margin:0;text-align:right">Waktu</h6>
+                                                            </b-col>
+                                                        </b-row>
+
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                <hr style="margin:10px 0;">
+                                                            </b-col>
+                                                        </b-row>
+
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                <p>PERTANYAANNYA : Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, esse accusamus, rem optio aliquid impedit assumenda minima asperiores veniam placeat, voluptate similique dolorem! Quibusdam libero illum necessitatibus quisquam, nemo dicta.</p>
+                                                            </b-col>
+                                                        </b-row>
+                                                    </div>
+                                                </b-col>
+                                            </b-row>
+
+                                            <b-row style="margin-top:30px">
+                                                <b-col md="12" lg="12">
+                                                    <div style="width: 90%;padding: 5px 15px;background-color: #007bff;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-right:10%">
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                <h6 style="margin:0;text-align:right">Waktu</h6>
+                                                            </b-col>
+                                                        </b-row>
+
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                <hr style="margin:10px 0;">
+                                                            </b-col>
+                                                        </b-row>
+
+                                                        <b-row>
+                                                            <b-col md="12" lg="12">
+                                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, esse accusamus, rem optio aliquid impedit assumenda minima asperiores veniam placeat, voluptate similique dolorem! Quibusdam libero illum necessitatibus quisquam, nemo dicta.</p>
+                                                            </b-col>
+                                                        </b-row>
+                                                    </div>
+                                                </b-col>
+                                            </b-row>
+                                        </div>
+                                    </b-col>
+      </b-row>
+
+      <b-row>
+        <b-col md="12" lg="12">
+          <div style="width:100%;height:10vh;background-color:;display:flex;justify-content:center;align-items:center">
+                                    <div style="width:90%">
+                                        <b-form-input 
+                                            required
+                                            placeholder=""
+                                        ></b-form-input>
+                                    </div>
+                                    <div style="width:2.5%"></div>
+                                    <div style="width:7.5%">
+                                        <b-button variant="primary" block>Kirim</b-button>
+                                    </div>
+                                </div>
+        </b-col>
+      </b-row>
+    </b-modal>
   </div>
+
+  
 </template>
+
+
 <script>
 import myheader from "../../components/header";
 import axios from "axios";

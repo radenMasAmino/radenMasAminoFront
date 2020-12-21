@@ -9,6 +9,7 @@ import GangguanEmosiFront from "../views/gangguanEmosiFront.vue";
 import PTSDFront from "../views/ptsdFront.vue";
 import GangguanPenyesuaianBelajarFront from "../views/gangguanPenyesuaianBelajarFront.vue";
 import SRQFront from "../views/srqFront.vue";
+import chatFront from "../views/chatFront.vue";
 import Login from "../views/loggedin/Login.vue";
 import Dashboard from "../views/loggedin/dashboard.vue";
 import user from "../views/loggedin/user.vue";
@@ -39,6 +40,15 @@ const routes = [
     path: "/srqFront",
     name: "srqFront",
     component: SRQFront,
+    meta: {
+      guest: true
+    }
+  },
+
+  {
+    path: "/chatFront",
+    name: "chatFront",
+    component: chatFront,
     meta: {
       guest: true
     }
