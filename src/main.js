@@ -16,7 +16,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueSweetalert2);
 Vue.use(new VueSocketIO({
-  debug: true,
+  debug: false,
   connection: 'http://backend.radenmasamino.org',
   
   // options: { path: "/my-app/" } //Optional options
