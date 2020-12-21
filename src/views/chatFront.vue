@@ -69,9 +69,9 @@
                             <div class="box">
                                 <b-row>
                                     <b-col md="12" lg="12">
-                                        <div style="width:100%;height:60vh;background-color:;overflow-y:auto;overflow-x:hidden" id="chatnya">
+                                        <div style="width:100%;height:60vh;background-color:;overflow-y:auto;overflow-x:hidden" id="chatnya" >
 
-                                            <b-row v-for="item in chat" :key="item.id">
+                                            <b-row v-for="(item, index) in chat" :key="item.id" :class="`index-${index}`" style="margin-top:20px">
                                                   <b-col md="12" lg="12" v-if="item.adminId">
                                                     <div style="width: 90%;padding: 5px 15px;background-color: #007bff;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-right:10%">
                                                         <b-row>
@@ -179,13 +179,16 @@ export default {
     semuachat(data){
         // console.log(data, 'aaa')
         this.chat = data
-    
+        let vm = this;
+        setTimeout(function(){ vm.scrollToEnd() }, 300);
+     
     },
 
       chatMasuk(data){
         // console.log(data, 'aaa')
         this.chat.push(data)
-
+          let vm = this;
+        setTimeout(function(){ vm.scrollToEnd() }, 300);
       }
   },
     mounted() {
@@ -212,6 +215,13 @@ export default {
         
     },
     methods:{
+    scrollToEnd() {    	
+        
+     const el = this.$el.getElementsByClassName('index-'+(this.chat.length-1))[0];
+      if (el) {
+        el.scrollIntoView({behavior: 'smooth'});
+        }
+    },
         kirimChat(){
             this.$socket.emit('chat', this.responden.id, this.isi, 0)
             this.isi = '';

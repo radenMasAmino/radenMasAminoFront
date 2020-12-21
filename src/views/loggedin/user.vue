@@ -122,7 +122,7 @@
                   style="position:relative"
                    @click="popupChat(row.item.id)"
                   >Chat
-                  <div style="width:30px;height:30px;background-color:#007bff;border-radius:100%;display:flex;justify-content:center;align-items:center;position:absolute;top:-15px;right:-15px;"><h6 style="margin:0;padding:0;color:#fff"><strong>00</strong></h6></div>
+                  <div v-if="row.item.jml>0" style="width:30px;height:30px;background-color:#007bff;border-radius:100%;display:flex;justify-content:center;align-items:center;position:absolute;top:-15px;right:-15px;"><h6 style="margin:0;padding:0;color:#fff"><strong>{{row.item.jml}}</strong></h6></div>
                   </b-button
                 >
 
@@ -169,9 +169,9 @@
     <b-modal id="modal-1" size="lg" title="Chat" hide-footer>
       <b-row>
                                     <b-col md="12" lg="12">
-                                          <div style="width:100%;height:60vh;background-color:;overflow-y:auto;overflow-x:hidden" id="chatnya">
+                                          <div style="width:100%;height:60vh;background-color:;overflow-y:auto;overflow-x:hidden" ref="chat" id="chatnya">
 
-                                            <b-row v-for="item in chat" :key="item.id">
+                                            <b-row v-for="(item) in chat" :key="item.id" style="margin-top:20px">
                                                   <b-col md="12" lg="12" v-if="item.adminId">
                                                     <div style="width: 90%;padding: 5px 15px;background-color: #007bff;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-right:10%">
                                                         <b-row>
@@ -293,14 +293,22 @@ export default {
     semuachat(data){
         // console.log(data, 'aaa')
         this.chat = data
+         let vm = this;
+        setTimeout(function(){ vm.scrollToEnd() }, 1000);
     },
 
       chatMasuk(data){
         // console.log(data, 'aaa')
         this.chat.push(data)
+         let vm = this;
+        setTimeout(function(){ vm.scrollToEnd() }, 1000);
+    },
+   updateJumlah(userId){
+        // console.log(data, 'aaa')
+       let idx = this.items.findIndex(x => x.id == userId);
 
+        this.items[idx].jml =parseInt(this.items[idx].jml)+1;
     }
-
   },
   computed: {
     sortOptions() {
@@ -313,13 +321,15 @@ export default {
     },
   },
   mounted() {
+
     axios.get(ipBackend + "/users/all", {
         headers: {
           accessToken: localStorage.getItem("token"),
         },
       })
       .then((res) => {
-        this.items = res.data.respon;
+
+        this.items = res.data.data;
         this.items.sort(function (a, b) {
           return b.id - a.id;
         });
@@ -344,6 +354,11 @@ export default {
         })
   },
   methods: {
+
+        scrollToEnd() {    	
+         var elem = document.getElementById('chatnya');
+  elem.scrollTop = elem.scrollHeight;
+    },
     detail(idx) {
       this.$router.push({path:'screeninguser', query: { idx }})
     },
@@ -353,6 +368,8 @@ export default {
       this.currentPage = 1;
     },
     popupChat(userId){
+      console.log(userId)
+      this.chat=[]
          this.$socket.emit('join', userId)
            this.$socket.emit('allchat', userId, 1)
            this.selectedUserId = userId
