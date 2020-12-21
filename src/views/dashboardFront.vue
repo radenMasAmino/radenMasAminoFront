@@ -170,7 +170,7 @@
                 </router-link>
               </div>
 
-              <div class="boxmenu" style="position:relative">
+              <div class="boxmenu" style="position: relative">
                 <router-link
                   :to="'chatFront'"
                   style="text-decoration: none; color: #333"

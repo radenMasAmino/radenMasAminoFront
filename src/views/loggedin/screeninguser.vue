@@ -655,7 +655,7 @@ export default {
   methods: {
     updateEmosi(i) {
       this.emosiRes[i].point = this.emosiRes[i].jawaban;
-      this.idEmosi[i] = this.emosiRes[i].id;
+      this.idEmosi = this.emosiRes[i].id;
 
       axios
         .post(
@@ -682,7 +682,7 @@ export default {
 
     updateBelajar(i) {
       this.belajarRes[i].point = this.belajarRes[i].jawaban;
-      this.idBelajar[i] = this.belajarRes[i].id;
+      this.idBelajar = this.belajarRes[i].id;
 
       axios
         .post(
@@ -709,8 +709,8 @@ export default {
 
     updatePTSD(i) {
       this.ptsdRes[i].point = this.ptsdRes[i].jawaban;
-      this.idPTSD[i] = this.ptsdRes[i].id;
-      // console.log(this.ptsdRes[i].id);
+      this.idPTSD = this.ptsdRes[i].id;
+      // console.log(this.ptsdRes[i].id);s
 
       axios
         .post(
@@ -737,7 +737,7 @@ export default {
 
     updateKecemasan(i) {
       this.kecemasanRes[i].point = this.kecemasanRes[i].jawaban;
-      this.idKecemasan[i] = this.kecemasanRes[i].id;
+      this.idKecemasan = this.kecemasanRes[i].id;
       // console.log(this.kecemasanRes[i]);
 
       axios

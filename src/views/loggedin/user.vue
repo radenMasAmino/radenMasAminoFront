@@ -227,6 +227,12 @@
 
                   <b-row>
                     <b-col md="12" lg="12">
+                      <hr style="margin: 10px 0" />
+                    </b-col>
+                  </b-row>
+
+                  <b-row>
+                    <b-col md="12" lg="12">
                       <p>{{ item.isi }}</p>
                     </b-col>
                   </b-row>
@@ -431,7 +437,7 @@ export default {
       this.currentPage = 1;
     },
     popupChat(userId) {
-      // console.log(userId);
+      console.log(userId);
       this.chat = [];
       this.$socket.emit("join", userId);
       this.$socket.emit("allchat", userId, 1);
