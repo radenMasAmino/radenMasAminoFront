@@ -178,9 +178,11 @@ export default {
   methods: {
     updatePoint(i) {
       this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
+      // console.log(this.dataPertanyaan[i]);
     },
     simpanData() {
       let vm = this;
+      console.log(vm);
       Axios.post(
         ipBackend + "/poolGgnControlEmosi/screening",
         this.dataPertanyaan,
@@ -190,10 +192,10 @@ export default {
           },
         }
       )
-        .then(() => {
+        .then((res) => {
           alert("Berhasil Mengisi Jawaban");
           // console.log('ini simpan nya');
-          //   console.log(res, '<<<<< ini');
+            console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {
@@ -210,34 +212,34 @@ export default {
   background-color: #2c3e50;
   border-color: #000;
 }
-#daftarFront .bgheader {
+#gangguanEmosiFront .bgheader {
   background-color: #2c3e50;
   box-shadow: 0 7px 20px 0 rgba(0, 0, 0, 0.2);
   color: #fff;
 }
-#daftarFront .bgheader .partone {
+#gangguanEmosiFront .bgheader .partone {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   height: 65px;
   flex-direction: column;
 }
-#daftarFront .bgheader .parttwo {
+#gangguanEmosiFront .bgheader .parttwo {
   width: 100%;
   height: 65px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
-#daftarFront .bgheader .parttwo img {
+#gangguanEmosiFront .bgheader .parttwo img {
   border-radius: 100%;
 }
-#daftarFront .bgheader .parttwo .account {
+#gangguanEmosiFront .bgheader .parttwo .account {
   display: flex;
   height: 50px;
   align-items: center;
 }
-#daftarFront .bgheader .parttwo .accountname {
+#gangguanEmosiFront .bgheader .parttwo .accountname {
   display: flex;
   flex-direction: column;
   margin-right: 10px;

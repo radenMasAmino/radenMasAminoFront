@@ -171,6 +171,9 @@
 
               <b-col sm="7" md="6" class="my-1">
                 <b-pagination
+                  v-model="currentPage"
+                  :total-rows="totalRows"
+                  :per-page="perPage"
                   align="fill"
                   size="sm"
                   class="my-0"
@@ -216,12 +219,40 @@
       title="TAMBAH DATA MASTER DEPRESI"
     >
       <b-form class="bv-example-row">
-        <b-form-group label="Pertanyaan">
+
+         <b-form-group label="Nomor">
           <b-form-input
             required
-            v-model="depresiQs"
-            placeholder="Masukan Pertanyaan.."
+            number
+            v-model="depresiQs.nomor"
+            placeholder="Masukan nomor"
           ></b-form-input>
+        </b-form-group>
+
+        <b-form-group label="Pernyataan">
+          <b-form-input
+            required
+            v-model="depresiQs.pernyataan"
+            placeholder="Masukan Pernyataan"
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group label="Score">
+          <b-form-select
+            required
+            v-model="depresiQs.score"
+            placeholder="Masukan score"
+            :options="scoreFields"
+          >
+            <!-- <b-form-select-option>0</b-form-select-option>
+            <b-form-select-option>1</b-form-select-option>
+            <b-form-select-option>2</b-form-select-option>
+            <b-form-select-option>3</b-form-select-option> -->
+          </b-form-select>
+        </b-form-group>
+
+        <b-form-group>
+
           <b-button variant="primary" class="m-t-15" @click="addQs"
             >Simpan</b-button
           >
@@ -242,18 +273,42 @@ export default {
   },
   data() {
     return {
-      depresiQs: "",
+      depresiQs: [
+        {
+          pernyataan: "",
+          nomor: 0,
+          score: 0
+        }
+      ],
+      scoreFields: [
+        { value: 0, text: 0 },
+        { value: 1, text: 1 },
+        { value: 2, text: 2 },
+        { value: 3, text: 3 },
+      ],
       idQs: "",
       depresiQsEdit: "",
       items: [],
       fields: [
+        {
+          key: "nomor",
+          label: "Nomor",
+          sortable: true,
+          sortDirection: "desc",
+        },
         {
           key: "pertanyaan",
           label: "Pertanyaan",
           sortable: true,
           sortDirection: "desc",
         },
-        { key: "actions", label: "Actions" },
+        {
+          key: "score",
+          label: "Score",
+        },
+        { key: "actions",
+          label: "Actions"
+        },
       ],
       totalRows: 1,
       currentPage: 1,
@@ -287,6 +342,7 @@ export default {
       }
     })
     .then(res => {
+      console.log(res);
       this.items = res.data.respon;
       this.items.sort(function(a, b){return b.id - a.id})
       this.totalRows = this.items.length;
@@ -311,17 +367,20 @@ export default {
     addQs() {
       let vm = this;
       axios.post(ipBackend + "/depresi/register", {
-        pertanyaan: this.depresiQs,
+        pertanyaan: this.depresiQs.pernyataan,
+        nomor: this.depresiQs.nomor,
+        score: this.depresiQs.score,
       }, {
         headers: {
           accesstoken: localStorage.getItem("token"),
         },
       })
       .then(function (res) {
-        alert("Berhasil Menambahkan Pertanyaan");
+        // console.log(res);
+        alert("berhasil");
         vm.items.unshift(res.data);
         vm.$root.$emit("bv::hide::modal", "modal-1");
-        vm.depresiQs = '';
+        vm.depresiQs = [];
       })
       .catch(function (err) {
         console.log(err);
@@ -337,7 +396,7 @@ export default {
         },
       })
       .then(function () {
-        alert("Berhasil Mengubah Pertanyaan");
+        alert("berhasil");
         let idx = vm.items.findIndex((o) => o.id === vm.idQs);
         vm.items[idx] = vm.infoModal.content;
         vm.$root.$emit("bv::hide::modal", "info-modal");
@@ -354,7 +413,7 @@ export default {
         },
       })
       .then(() => {
-        alert("Pertanyaan Telah dihapus");
+        alert("berhasil");
         let idx = vm.items.findIndex((o) => o.id === id);
         vm.items.splice(idx, 1);
         this.$root.$emit("bv::show::modal");

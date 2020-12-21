@@ -187,9 +187,7 @@ export default {
         },
       })
         .then(() => {
-          alert("Berhasil Mengisi Jawaban");
-          // console.log('ini simpan nya');
-          //   console.log(res, '<<<<< ini');
+          alert("Berhasil");
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {
@@ -206,34 +204,34 @@ export default {
   background-color: #2c3e50;
   border-color: #000;
 }
-#daftarFront .bgheader {
+#gangguanPenyesuaianBelajarFront .bgheader {
   background-color: #2c3e50;
   box-shadow: 0 7px 20px 0 rgba(0, 0, 0, 0.2);
   color: #fff;
 }
-#daftarFront .bgheader .partone {
+#gangguanPenyesuaianBelajarFront .bgheader .partone {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   height: 65px;
   flex-direction: column;
 }
-#daftarFront .bgheader .parttwo {
+#gangguanPenyesuaianBelajarFront .bgheader .parttwo {
   width: 100%;
   height: 65px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
-#daftarFront .bgheader .parttwo img {
+#gangguanPenyesuaianBelajarFront .bgheader .parttwo img {
   border-radius: 100%;
 }
-#daftarFront .bgheader .parttwo .account {
+#gangguanPenyesuaianBelajarFront .bgheader .parttwo .account {
   display: flex;
   height: 50px;
   align-items: center;
 }
-#daftarFront .bgheader .parttwo .accountname {
+#gangguanPenyesuaianBelajarFront .bgheader .parttwo .accountname {
   display: flex;
   flex-direction: column;
   margin-right: 10px;
