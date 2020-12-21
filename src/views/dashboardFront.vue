@@ -278,7 +278,7 @@ export default {
             }
         })
         .then(res => {
-          console.log(res.data.jumlahUnread)
+          // console.log(res.data.jumlahUnread)
         // console.log('mounted profile', res);
         this.chatCount = res.data.jumlahUnread;
       

@@ -105,7 +105,6 @@
               responsive
             >
               <template v-slot:cell(actions)="row">
-                
                 <b-button
                   size="sm"
                   variant="success"
@@ -119,13 +118,29 @@
                   variant="warning"
                   class="mr-1"
                   v-b-modal.modal-1
-                  style="position:relative"
-                   @click="popupChat(row.item.id)"
+                  style="position: relative"
+                  @click="popupChat(row.item.id)"
                   >Chat
-                  <div v-if="row.item.jml>0" style="width:30px;height:30px;background-color:#007bff;border-radius:100%;display:flex;justify-content:center;align-items:center;position:absolute;top:-15px;right:-15px;"><h6 style="margin:0;padding:0;color:#fff"><strong>{{row.item.jml}}</strong></h6></div>
-                  </b-button
-                >
-
+                  <div
+                    v-if="row.item.jml > 0"
+                    style="
+                      width: 30px;
+                      height: 30px;
+                      background-color: #007bff;
+                      border-radius: 100%;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      position: absolute;
+                      top: -15px;
+                      right: -15px;
+                    "
+                  >
+                    <h6 style="margin: 0; padding: 0; color: #fff">
+                      <strong>{{ row.item.jml }}</strong>
+                    </h6>
+                  </div>
+                </b-button>
               </template>
             </b-table>
 
@@ -168,80 +183,126 @@
 
     <b-modal id="modal-1" size="lg" title="Chat" hide-footer>
       <b-row>
-                                    <b-col md="12" lg="12">
-                                          <div style="width:100%;height:60vh;background-color:;overflow-y:auto;overflow-x:hidden" ref="chat" id="chatnya">
+        <b-col md="12" lg="12">
+          <div
+            style="
+              width: 100%;
+              height: 60vh;
+              background-color: ;
+              overflow-y: auto;
+              overflow-x: hidden;
+            "
+            ref="chat"
+            id="chatnya"
+          >
+            <b-row v-for="item in chat" :key="item.id" style="margin-top: 20px">
+              <b-col md="12" lg="12" v-if="item.adminId">
+                <div
+                  style="
+                    width: 90%;
+                    padding: 5px 15px;
+                    background-color: #007bff;
+                    border-top-right-radius: 4px;
+                    border-top-left-radius: 4px;
+                    border-bottom-left-radius: 4px;
+                    border-bottom-right-radius: 4px;
+                    color: #ffffff;
+                    font-weight: bold;
+                    margin-right: 10%;
+                  "
+                >
+                  <b-row>
+                    <b-col md="12" lg="12">
+                      <h6 style="margin: 0; text-align: right">
+                        {{ item.createdAt }}
+                      </h6>
+                    </b-col>
+                  </b-row>
 
-                                            <b-row v-for="(item) in chat" :key="item.id" style="margin-top:20px">
-                                                  <b-col md="12" lg="12" v-if="item.adminId">
-                                                    <div style="width: 90%;padding: 5px 15px;background-color: #007bff;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-right:10%">
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                <h6 style="margin:0;text-align:right">{{item.createdAt}}</h6>
-                                                            </b-col>
-                                                        </b-row>
+                  <b-row>
+                    <b-col md="12" lg="12">
+                      <hr style="margin: 10px 0" />
+                    </b-col>
+                  </b-row>
 
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                <hr style="margin:10px 0;">
-                                                            </b-col>
-                                                        </b-row>
+                  <b-row>
+                    <b-col md="12" lg="12">
+                      <p>{{ item.isi }}</p>
+                    </b-col>
+                  </b-row>
+                </div>
+              </b-col>
+              <b-col md="12" lg="12" v-else>
+                <div
+                  style="
+                    width: 90%;
+                    padding: 10px;
+                    background-color: #2c3d50;
+                    border-top-right-radius: 4px;
+                    border-top-left-radius: 4px;
+                    border-bottom-left-radius: 4px;
+                    border-bottom-right-radius: 4px;
+                    color: #ffffff;
+                    font-weight: bold;
+                    margin-left: 10%;
+                  "
+                >
+                  <b-row>
+                    <b-col md="12" lg="12">
+                      <h6 style="margin: 0; text-align: right">
+                        {{ item.createdAt }}
+                      </h6>
+                    </b-col>
+                  </b-row>
 
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                <p>{{item.isi}}</p>
-                                                            </b-col>
-                                                        </b-row>
-                                                    </div>
-                                                </b-col>
-                                                <b-col md="12" lg="12" v-else>
-                                                    <div style="width: 90%;padding: 10px;background-color: #2C3D50;border-top-right-radius: 4px;border-top-left-radius: 4px;border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;color: #ffffff;font-weight: bold;margin-left:10%">
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                <h6 style="margin:0;text-align:right">{{item.createdAt}}</h6>
-                                                            </b-col>
-                                                        </b-row>
+                  <b-row>
+                    <b-col md="12" lg="12">
+                      <hr style="margin: 10px 0" />
+                    </b-col>
+                  </b-row>
 
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                <hr style="margin:10px 0;">
-                                                            </b-col>
-                                                        </b-row>
-
-                                                        <b-row>
-                                                            <b-col md="12" lg="12">
-                                                                   <p>{{item.isi}}</p>
-                                                            </b-col>
-                                                        </b-row>
-                                                    </div>
-                                                </b-col>
-                                            </b-row>
-
-                                         
-                                        </div>
-                                    </b-col>
+                  <b-row>
+                    <b-col md="12" lg="12">
+                      <p>{{ item.isi }}</p>
+                    </b-col>
+                  </b-row>
+                </div>
+              </b-col>
+            </b-row>
+          </div>
+        </b-col>
       </b-row>
 
       <b-row>
         <b-col md="12" lg="12">
-          <div style="width:100%;height:10vh;background-color:;display:flex;justify-content:center;align-items:center">
-                                    <div style="width:90%">
-                                        <b-form-input 
-                                            required
-                                            placeholder=""
-                                                v-model="isi"
-                                        ></b-form-input>
-                                    </div>
-                                    <div style="width:2.5%"></div>
-                                    <div style="width:7.5%">
-                                       <b-button variant="primary" block @click="kirimChat">Kirim</b-button>
-                                    </div>
-                                </div>
+          <div
+            style="
+              width: 100%;
+              height: 10vh;
+              background-color: ;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <div style="width: 90%">
+              <b-form-input
+                required
+                placeholder=""
+                v-model="isi"
+              ></b-form-input>
+            </div>
+            <div style="width: 2.5%"></div>
+            <div style="width: 7.5%">
+              <b-button variant="primary" block @click="kirimChat"
+                >Kirim</b-button
+              >
+            </div>
+          </div>
         </b-col>
       </b-row>
     </b-modal>
   </div>
-
-  
 </template>
 
 
@@ -257,9 +318,9 @@ export default {
   data() {
     return {
       items: [],
-       chat: [],
-       isi:'',
-       selectedUserId:0,
+      chat: [],
+      isi: "",
+      selectedUserId: 0,
       responden: [],
       fields: [
         { key: "id", label: "Id", sortable: true, sortDirection: "desc" },
@@ -289,26 +350,30 @@ export default {
       userId: 0,
     };
   },
-    sockets: {
-    semuachat(data){
-        // console.log(data, 'aaa')
-        this.chat = data
-         let vm = this;
-        setTimeout(function(){ vm.scrollToEnd() }, 1000);
+  sockets: {
+    semuachat(data) {
+      // console.log(data, 'aaa')
+      this.chat = data;
+      let vm = this;
+      setTimeout(function () {
+        vm.scrollToEnd();
+      }, 1000);
     },
 
-      chatMasuk(data){
-        // console.log(data, 'aaa')
-        this.chat.push(data)
-         let vm = this;
-        setTimeout(function(){ vm.scrollToEnd() }, 1000);
+    chatMasuk(data) {
+      // console.log(data, 'aaa')
+      this.chat.push(data);
+      let vm = this;
+      setTimeout(function () {
+        vm.scrollToEnd();
+      }, 1000);
     },
-   updateJumlah(userId){
-        // console.log(data, 'aaa')
-       let idx = this.items.findIndex(x => x.id == userId);
+    updateJumlah(userId) {
+      // console.log(data, 'aaa')
+      let idx = this.items.findIndex((x) => x.id == userId);
 
-        this.items[idx].jml =parseInt(this.items[idx].jml)+1;
-    }
+      this.items[idx].jml = parseInt(this.items[idx].jml) + 1;
+    },
   },
   computed: {
     sortOptions() {
@@ -321,14 +386,13 @@ export default {
     },
   },
   mounted() {
-
-    axios.get(ipBackend + "/users/all", {
+    axios
+      .get(ipBackend + "/users/all", {
         headers: {
           accessToken: localStorage.getItem("token"),
         },
       })
       .then((res) => {
-
         this.items = res.data.data;
         this.items.sort(function (a, b) {
           return b.id - a.id;
@@ -336,49 +400,53 @@ export default {
         this.totalRows = this.items.length;
       });
 
-          axios.get(ipBackend + '/users/profil', {
-            headers: {
-                'accessToken': localStorage.getItem('token')
-            }
-        })
-        .then(res => {
+    axios
+      .get(ipBackend + "/users/profil", {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
         // console.log('mounted profile', res);
         // console.log(res.data.respon);
-        this.responden = res.data.respon[0]
-  
-         
+        this.responden = res.data.respon[0];
+
         // console.log(this.responden.id);
-        })
-        .catch(err => {
-            console.log('mounted nya', err);
-        })
+      })
+      .catch((err) => {
+        console.log("mounted nya", err);
+      });
   },
   methods: {
-
-        scrollToEnd() {    	
-         var elem = document.getElementById('chatnya');
-  elem.scrollTop = elem.scrollHeight;
+    scrollToEnd() {
+      var elem = document.getElementById("chatnya");
+      elem.scrollTop = elem.scrollHeight;
     },
     detail(idx) {
-      this.$router.push({path:'screeninguser', query: { idx }})
+      this.$router.push({ path: "screeninguser", query: { idx } });
     },
 
     onFiltered(filteredItems) {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
-    popupChat(userId){
-      console.log(userId)
-      this.chat=[]
-         this.$socket.emit('join', userId)
-           this.$socket.emit('allchat', userId, 1)
-           this.selectedUserId = userId
+    popupChat(userId) {
+      // console.log(userId);
+      this.chat = [];
+      this.$socket.emit("join", userId);
+      this.$socket.emit("allchat", userId, 1);
+      this.selectedUserId = userId;
     },
 
-       kirimChat(){
-            this.$socket.emit('chat', this.selectedUserId, this.isi, this.responden.id)
-            this.isi = '';
-        }
+    kirimChat() {
+      this.$socket.emit(
+        "chat",
+        this.selectedUserId,
+        this.isi,
+        this.responden.id
+      );
+      this.isi = "";
+    },
   },
 };
 </script>

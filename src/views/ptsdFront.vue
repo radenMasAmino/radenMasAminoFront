@@ -185,10 +185,10 @@ export default {
           accessToken: localStorage.getItem("token"),
         },
       })
-        .then((res) => {
+        .then(() => {
           alert("Berhasil");
           // console.log('ini simpan nya');
-            console.log(res, '<<<<< ini');
+          // console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {

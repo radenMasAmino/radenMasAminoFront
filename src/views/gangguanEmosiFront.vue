@@ -182,7 +182,7 @@ export default {
     },
     simpanData() {
       let vm = this;
-      console.log(vm);
+      // console.log(vm);
       Axios.post(
         ipBackend + "/poolGgnControlEmosi/screening",
         this.dataPertanyaan,
@@ -192,10 +192,10 @@ export default {
           },
         }
       )
-        .then((res) => {
+        .then(() => {
           alert("Berhasil Mengisi Jawaban");
           // console.log('ini simpan nya');
-            console.log(res, '<<<<< ini');
+            // console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {

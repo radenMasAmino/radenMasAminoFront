@@ -342,7 +342,7 @@ export default {
       }
     })
     .then(res => {
-      console.log(res);
+      // console.log(res);
       this.items = res.data.respon;
       this.items.sort(function(a, b){return b.id - a.id})
       this.totalRows = this.items.length;

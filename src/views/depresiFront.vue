@@ -136,7 +136,6 @@ export default {
         accesstoken: localStorage.getItem("token"),
       },
     })
-
       .then((res) => {
         let p = [];
         let no = 0;
@@ -166,10 +165,9 @@ export default {
             pertanyaan: element.pertanyaan,
             score: element.score,
           };
-
           p.push(obj);
         });
-        console.log(this.dataPertanyaan);
+        // console.log(this.dataPertanyaan);
       })
       .catch((err) => {
         console.log("ini gagal oi " + err);

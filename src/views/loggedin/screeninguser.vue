@@ -39,7 +39,7 @@
             <b-row class="m-t-15">
               <b-col md="12">
                 <b-alert show variant="primary">
-                  <div style="width: 100%; display: table">
+                  <div v-if="items.length > 0" style="width: 100%; display: table">
 
                     <div style="display: table-row">
                       <div style="display: table-cell; width: 15%">
@@ -128,6 +128,7 @@
                                 <b-form-select
                                   v-model="item.jawaban"
                                   @change="updatePoint(index)"
+                                  disabled
                                 >
                                   <b-form-select-option value="0"
                                     >Tidak</b-form-select-option
@@ -190,7 +191,7 @@
 
                           <b-form-select
                             v-model="item.jawaban"
-                            @change="updatePoint(index)"
+                            @change="updateKecemasan(index)"
                             v-else
                           >
                             <b-form-select-option value="4"
@@ -616,7 +617,6 @@ export default {
           }
           this.belajarRes.push(ob);
         });
-        console.log();
       })
       .catch((err) => {
         console.log(err, "ini error jawaban");
@@ -646,7 +646,6 @@ export default {
           this.emosiRes.push(ob);
           // console.log(this.belajarRes, "ini jawaban belajar");
         });
-        console.log();
       })
       .catch((err) => {
         console.log(err, "ini error jawaban");
@@ -671,8 +670,8 @@ export default {
             },
           }
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          // console.log(res);
           // alert("Berhasil Mengisi SRQ");
         })
         .catch((err) => {
@@ -698,8 +697,8 @@ export default {
             },
           }
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          // console.log(res);
           // alert("Berhasil Mengisi SRQ");
         })
         .catch((err) => {
@@ -711,7 +710,7 @@ export default {
     updatePTSD(i) {
       this.ptsdRes[i].point = this.ptsdRes[i].jawaban;
       this.idPTSD[i] = this.ptsdRes[i].id;
-      console.log(this.ptsdRes[i].id);
+      // console.log(this.ptsdRes[i].id);
 
       axios
         .post(
@@ -726,8 +725,8 @@ export default {
             },
           }
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          // console.log(res);
           // alert("Berhasil Mengisi SRQ");
         })
         .catch((err) => {
@@ -754,8 +753,8 @@ export default {
             },
           }
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          // console.log(res);
           // alert("Berhasil Mengisi SRQ");
         })
         .catch((err) => {
@@ -780,8 +779,8 @@ export default {
             },
           }
         )
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          // console.log(res);
           // alert("Berhasil Mengisi SRQ");
         })
         .catch((err) => {
