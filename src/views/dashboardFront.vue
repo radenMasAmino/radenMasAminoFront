@@ -170,7 +170,7 @@
                 </router-link>
               </div>
 
-              <div class="boxmenu" style="position:relative">
+              <div class="boxmenu" style="position: relative">
                 <router-link
                   :to="'chatFront'"
                   style="text-decoration: none; color: #333"
@@ -186,7 +186,24 @@
                   </center>
                 </router-link>
 
-                <div style="width:40px;height:40px;background-color:#007bff;border-radius:100%;display:flex;justify-content:center;align-items:center;position:absolute;top:-20px;right:-20px;"><h5 style="margin:0;padding:0;color:#fff"><strong>00</strong></h5></div>
+                <div
+                  style="
+                    width: 40px;
+                    height: 40px;
+                    background-color: #007bff;
+                    border-radius: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: absolute;
+                    top: -20px;
+                    right: -20px;
+                  "
+                >
+                  <h5 style="margin: 0; padding: 0; color: #fff">
+                    <strong>00</strong>
+                  </h5>
+                </div>
               </div>
             </div>
           </b-col>
