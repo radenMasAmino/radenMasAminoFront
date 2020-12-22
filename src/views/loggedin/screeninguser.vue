@@ -128,6 +128,7 @@
                                 <b-form-select
                                   v-model="item.jawaban"
                                   @change="updatePoint(index)"
+                                  disabled
                                 >
                                   <b-form-select-option value="0"
                                     >Tidak</b-form-select-option
@@ -711,7 +712,7 @@ export default {
     updatePTSD(i) {
       this.ptsdRes[i].point = this.ptsdRes[i].jawaban;
       this.idPTSD = this.ptsdRes[i].id;
-      // console.log(this.ptsdRes[i].id);s
+       console.log(this.ptsdRes[i]);
 
       axios
         .post(
