@@ -104,6 +104,51 @@
                       </template>
                     </ol>
                   </b-form-group>
+
+                  <!-- Skor Harvard Trauma Questionnaire (HTQ)
+                  Tidak memiliki PTSD : 0 - 2,5
+                  Memiliki PTSD : 2,5 - 3,00
+                  PTSD Berat : 3,01 - 4,00 -->
+                  
+                  <b-form-group>
+                    <div class="keterangan">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td style="width: 150px;">Tidak memiliki PTSD</td>
+                            <td style="width: 20px;">:</td>
+                            <td style="width: 30px;">0</td>
+                            <td style="width: 15px;">-</td>
+                            <td style="width: 40px;">2,5</td>
+                          </tr>
+                          <tr>
+                            <td style="width: 90px;">Memiliki PTSD</td>
+                            <td style="width: 20px;">:</td>
+                            <td style="width: 30px;">2,6</td>
+                            <td style="width: 15px;">-</td>
+                            <td style="width: 40px;">3,0</td>
+                          </tr>
+                          <tr>
+                            <td style="width: 90px;">PTSD Berat</td>
+                            <td style="width: 20px;">:</td>
+                            <td style="width: 30px;">3,1</td>
+                            <td style="width: 15px;">-</td>
+                            <td style="width: 40px;">3,0</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td style="width: 100px;">Score Anda</td>
+                            <td style="width: 20px;">:</td>
+                            <td style="width: 30px;">{{ this.totalPoint }}</td>
+                            <td style="width: 150px;">{{ `( ${this.totalStatus} )` }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </b-form-group>
                   <b-button @click="simpanData" variant="primary"
                     >Simpan</b-button
                   >
@@ -138,6 +183,8 @@ export default {
   data() {
     return {
       dataPertanyaan: [],
+      totalPoint: 0,
+      totalStatus: ''
     };
   },
   mounted() {
@@ -160,7 +207,14 @@ export default {
             ob.jawaban = 0;
             ob.point = 0;
           }
+          // let r = ob.point
+          // let x = Number(r)
+          // let z = 0
+          // z.push(x)
+          // console.log(z);
+          // this.totalPoint += x
           this.dataPertanyaan.push(ob);
+          this.updateTotal()
         });
       })
       .catch((err) => {
@@ -176,7 +230,14 @@ export default {
   },
   methods: {
     updatePoint(i) {
+      let r = this.dataPertanyaan[i].jawaban;
+      let x = this.dataPertanyaan[i].point;
+      let z = this.totalPoint;
+      // console.log(r, x, z);
+      z += r - x;
       this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
+      this.totalPoint = z
+      // this.totalPoint = z / this.dataPertanyaan.length;
     },
     simpanData() {
       let vm = this;
@@ -195,6 +256,28 @@ export default {
           console.log("ini error nya");
           console.log(err);
         });
+    },
+    updateTotal() {
+      let array = this.dataPertanyaan
+      let z = 0
+      console.log(array);
+      for (let index = 0; index < array.length; index++) {
+        const element = array[index].point;
+        // console.log(element);
+        z += Number(element);
+      }
+      console.log(z);
+      this.totalPoint = z / array.length
+      // this.totalPoint = z
+      if(this.totalPoint < 2.6) {
+        this.totalStatus = 'Tidak Memiliki PSTD'
+      }
+      else if(this.totalPoint < 3.1) {
+        this.totalStatus = 'Memiliki PTSD'
+      }
+      else {
+        this.totalStatus = 'PTSD Berat'
+      }
     },
   },
 };

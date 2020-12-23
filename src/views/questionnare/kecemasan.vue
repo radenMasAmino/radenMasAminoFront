@@ -263,6 +263,12 @@ export default {
           sortable: true,
           sortDirection: "desc",
         },
+        {
+          key: "descending",
+          label: "Descending",
+          sortable: true,
+          sortDirection: "desc",
+        },
         { key: "actions", label: "Actions" },
       ],
 
