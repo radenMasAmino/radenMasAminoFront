@@ -710,7 +710,7 @@ export default {
     updatePTSD(i) {
       this.ptsdRes[i].point = this.ptsdRes[i].jawaban;
       this.idPTSD = this.ptsdRes[i].id;
-      // console.log(this.ptsdRes[i].id);s
+       console.log(this.ptsdRes[i]);
 
       axios
         .post(
