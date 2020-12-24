@@ -85,18 +85,18 @@
                             v-model="item.jawaban"
                             @change="updatePoint(index)"
                           >
-                            <b-form-select-option value="0"
+                            <b-form-select-option value=0
                               >Tidak Pernah</b-form-select-option
                             >
-                            <b-form-select-option value="2"
+                            <b-form-select-option value=2
                               >Jarang</b-form-select-option
                             >
 
-                            <b-form-select-option value="3"
+                            <b-form-select-option value=3
                               >Sering</b-form-select-option
                             >
 
-                            <b-form-select-option value="4"
+                            <b-form-select-option value=4
                               >Selalu</b-form-select-option
                             >
                           </b-form-select>
@@ -104,6 +104,55 @@
                       </template>
                     </ol>
                   </b-form-group>
+                  <b-form-group>
+                    <div class="keterangan">
+                      <table style="width: 400px">
+                        <tbody>
+                          <tr>
+                            <td style="width: 400x">Buruk</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">00</td>
+                            <td style="width: 15px">-</td>
+                            <td style="width: 1000px">20</td>
+                          </tr>
+                          <tr>
+                            <td style="width: 90px">Sedang</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">21</td>
+                            <td style="width: 15px">-</td>
+                            <td style="width: 40px">30</td>
+                          </tr>
+                          <tr>
+                            <td style="width: 90px">Baik</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">31</td>
+                            <td style="width: 15px">-</td>
+                            <td style="width: 40px">40</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td style="width: 150px">Score Anda</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">{{ this.totalPoint }}</td>
+                            <td style="width: 1000px">
+                              {{ `( ${this.totalStatus} )` }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </b-form-group>
+                  <div>
+                      <b-embed
+                        type="iframe"
+                        aspect="16by9"
+                        src="https://www.youtube.com/embed/1e33Y71VPb4"
+                        allowfullscreen
+                      ></b-embed>
+                    </div>
                   <b-button @click="simpanData" variant="primary"
                     >Simpan</b-button
                   >
@@ -138,7 +187,8 @@ export default {
   data() {
     return {
       dataPertanyaan: [],
-      totalPoint:[]
+      totalPoint: 0,
+      totalStatus: '',
     };
   },
   mounted() {
@@ -164,12 +214,11 @@ export default {
           }
           this.dataPertanyaan.push(ob);
         });
+        this.updateTotal();
       })
       .catch((err) => {
         console.log("ini gagal oi " + err);
       });
-
-
   },
   computed: {
     filteredSelect() {
@@ -180,8 +229,16 @@ export default {
   },
   methods: {
     updatePoint(i) {
+      let r = this.dataPertanyaan[i].jawaban;
+      let x = this.dataPertanyaan[i].point;
+      let z = this.totalPoint;
+      // console.log(r, x, z);
+      z += r - x;
+      var m = parseInt(z)
       this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
-      // console.log(this.dataPertanyaan[i]);
+      this.totalPoint = m;
+      // this.updateTotal()
+      // console.log(this.dataPertanyaan[i].point);
     },
     simpanData() {
       let vm = this;
@@ -198,13 +255,33 @@ export default {
         .then(() => {
           alert("Berhasil Mengisi Jawaban");
           // console.log('ini simpan nya');
-            // console.log(res, '<<<<< ini');
+          // console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {
           console.log("ini error nya");
           console.log(err);
         });
+    },
+    updateTotal() {
+      let array = this.dataPertanyaan;
+      let z = 0;
+      console.log(array);
+      for (let index = 0; index < array.length; index++) {
+        const element = array[index].point;
+        // console.log(element);
+        z += element;
+      }
+      console.log(z);
+      // this.totalPoint = z / array.length
+      this.totalPoint = z;
+      if (z < 21) {
+        this.totalStatus = "Kontrol Emosi Buruk";
+      } else if (z < 31) {
+        this.totalStatus = "Kontrol Emosi Sedang";
+      } else {
+        this.totalStatus = "Kontrol Emosi Baik";
+      }
     },
   },
 };

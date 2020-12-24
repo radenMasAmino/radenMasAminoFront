@@ -94,6 +94,62 @@
                       </template>
                     </ol>
                   </b-form-group>
+                  <b-form-group>
+                    <div class="keterangan">
+                      <table style="width: 400px">
+                        <tbody>
+                          <tr>
+                            <td style="width: 400x">Minimal</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">00</td>
+                            <td style="width: 15px">-</td>
+                            <td style="width: 1000px">13</td>
+                          </tr>
+                          <tr>
+                            <td style="width: 90px">Ringan</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">14</td>
+                            <td style="width: 15px">-</td>
+                            <td style="width: 40px">19</td>
+                          </tr>
+                          <tr>
+                            <td style="width: 90px">Sedang</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">20</td>
+                            <td style="width: 15px">-</td>
+                            <td style="width: 40px">28</td>
+                          </tr>
+                          <tr>
+                            <td style="width: 90px">Berat</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">29</td>
+                            <td style="width: 15px">-</td>
+                            <td style="width: 40px">63</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td style="width: 150px">Score Anda</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">{{ this.totalPoint }}</td>
+                            <td style="width: 1000px">
+                              {{ `( ${this.totalStatus} )` }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <b-embed
+                        type="iframe"
+                        aspect="16by9"
+                        src="https://www.youtube.com/embed/mo5D2cBw6kI"
+                        allowfullscreen
+                      ></b-embed>
+                    </div>
+                  </b-form-group>
                   <b-button @click="simpanData" variant="primary"
                     >Simpan</b-button
                   >
@@ -128,6 +184,8 @@ export default {
   data() {
     return {
       dataPertanyaan: [],
+      totalPoint: 0,
+      totalStatus: "",
     };
   },
   mounted() {
@@ -182,7 +240,16 @@ export default {
   },
   methods: {
     updatePoint(i) {
+      let r = this.dataPertanyaan[i].jawaban;
+      let x = this.dataPertanyaan[i].point;
+      let z = this.totalPoint;
+      // console.log(r, x, z);
+      z += r - x;
+      var m = parseInt(z);
       this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
+      this.totalPoint = m;
+      // this.updateTotal()
+      // console.log(this.dataPertanyaan[i].point);
     },
     simpanData() {
       let vm = this;
@@ -200,6 +267,28 @@ export default {
           console.log("ini error nya");
           console.log(err);
         });
+    },
+    updateTotal() {
+      let array = this.dataPertanyaan;
+      let z = 0;
+      console.log(array);
+      for (let index = 0; index < array.length; index++) {
+        const element = array[index].point;
+        // console.log(element);
+        z += element;
+      }
+      console.log(z);
+      // this.totalPoint = z / array.length
+      this.totalPoint = z;
+      if (z < 14) {
+        this.totalStatus = "Depresi Minimal";
+      } else if (z < 20) {
+        this.totalStatus = "Depresi Ringan";
+      } else if (z < 29) {
+        this.totalStatus = "Depresi Sedang";
+      } else {
+        this.totalStatus = "Depresi Berat";
+      }
     },
   },
 };

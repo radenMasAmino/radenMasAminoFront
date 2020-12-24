@@ -151,13 +151,21 @@
                       <table>
                         <tbody>
                           <tr>
-                            <td style="width: 100px;">Score Anda</td>
+                            <td style="width: 150px;">Score Anda</td>
                             <td style="width: 20px;">:</td>
                             <td style="width: 30px;">{{ this.totalPoint }}</td>
-                            <td style="width: 50px;">{{ `( ${this.totalStatus} )` }}</td>
+                            <td style="width: 1000px;">{{ `( ${this.totalStatus} )` }}</td>
                           </tr>
                         </tbody>
                       </table>
+                    </div>
+                    <div>
+                      <b-embed
+                        type="iframe"
+                        aspect="16by9"
+                        src="https://www.youtube.com/embed/RYe8KPZUzg4"
+                        allowfullscreen
+                      ></b-embed>
                     </div>
                   </b-form-group>
                   <b-button @click="simpanData" variant="primary"
