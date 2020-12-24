@@ -32,9 +32,9 @@ const routes = [
     name: "daftarFront",
     component: DaftarFront,
     meta: {
-  
+
       requiresAuth: true,
-      google:true
+      google: true
     }
   },
 
@@ -45,7 +45,7 @@ const routes = [
     meta: {
 
       requiresAuth: true,
-      google:true
+      google: true
     }
   },
 
@@ -54,9 +54,9 @@ const routes = [
     name: "chatFront",
     component: chatFront,
     meta: {
-    
+
       requiresAuth: true,
-      google:true
+      google: true
     }
   },
 
@@ -67,7 +67,7 @@ const routes = [
     meta: {
 
       requiresAuth: true,
-      google:true
+      google: true
     }
   },
 
@@ -76,9 +76,9 @@ const routes = [
     name: "kecemasanFront",
     component: KecemasanFront,
     meta: {
- 
+
       requiresAuth: true,
-      google:true
+      google: true
     }
   },
 
@@ -89,7 +89,7 @@ const routes = [
     meta: {
 
       requiresAuth: true,
-      google:true
+      google: true
     }
   },
 
@@ -100,7 +100,7 @@ const routes = [
     meta: {
 
       requiresAuth: true,
-      google:true
+      google: true
     }
   },
 
@@ -111,7 +111,7 @@ const routes = [
     meta: {
 
       requiresAuth: true,
-      google:true
+      google: true
     }
   },
 
@@ -120,9 +120,9 @@ const routes = [
     name: "gangguanPenyesuaianBelajarFront",
     component: GangguanPenyesuaianBelajarFront,
     meta: {
-    
+
       requiresAuth: true,
-      google:true
+      google: true
     }
   },
   // --------------------- bawah non-front --------------------------- //
@@ -137,10 +137,10 @@ const routes = [
   {
     path: '/daftar',
     name: 'daftar',
-    component: () => import ('../views/loggedin/Daftar.vue'),
+    component: () => import('../views/loggedin/Daftar.vue'),
     meta: {
       requiresAuth: true,
-      google:false
+      google: false
     }
   },
   {
@@ -148,8 +148,8 @@ const routes = [
     name: 'dashboard',
     component: Dashboard,
     meta: {
-        requiresAuth: true,
-        google:false
+      requiresAuth: true,
+      google: false
     }
   },
   {
@@ -157,8 +157,8 @@ const routes = [
     name: 'user',
     component: user,
     meta: {
-        requiresAuth: true,
-        google:false
+      requiresAuth: true,
+      google: false
     }
   },
   {
@@ -166,8 +166,8 @@ const routes = [
     name: 'screeninguser',
     component: screeninguser,
     meta: {
-        requiresAuth: true,
-        google:false
+      requiresAuth: true,
+      google: false
     }
   },
   {
@@ -175,8 +175,8 @@ const routes = [
     name: 'kecemasan',
     component: () => import('../views/questionnare/kecemasan.vue'),
     meta: {
-        requiresAuth: true,
-        google:false
+      requiresAuth: true,
+      google: false
     }
   },
   {
@@ -184,8 +184,8 @@ const routes = [
     name: 'depresi',
     component: () => import('../views/questionnare/depresi.vue'),
     meta: {
-        requiresAuth: true,
-        google:false
+      requiresAuth: true,
+      google: false
     }
   },
   {
@@ -193,8 +193,8 @@ const routes = [
     name: 'gangguanEmosi',
     component: () => import('../views/questionnare/gangguanEmosi.vue'),
     meta: {
-        requiresAuth: true,
-        google:false
+      requiresAuth: true,
+      google: false
     }
   },
   {
@@ -202,8 +202,8 @@ const routes = [
     name: 'ptsd',
     component: () => import('../views/questionnare/ptsd.vue'),
     meta: {
-        requiresAuth: true,
-        google:false
+      requiresAuth: true,
+      google: false
     }
   },
   {
@@ -211,8 +211,8 @@ const routes = [
     name: 'gangguanPenyesuaianBelajar',
     component: () => import('../views/questionnare/gangguanPenyesuaianBelajar.vue'),
     meta: {
-        requiresAuth: true,
-        google:false
+      requiresAuth: true,
+      google: false
     }
   },
   {
@@ -220,8 +220,8 @@ const routes = [
     name: 'srq',
     component: () => import('../views/questionnare/SRQ.vue'),
     meta: {
-        requiresAuth: true,
-        google:false
+      requiresAuth: true,
+      google: false
     }
   },
 ];
@@ -234,55 +234,55 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if(to.path == '/sukses') {
-      localStorage.setItem('token', to.query.token)
-          next({
-            path: "/daftarFront"
-          })
+  if (to.path == '/sukses') {
+    localStorage.setItem('token', to.query.token)
+    next({
+      path: "/daftarFront"
+    })
   }
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    
-      if (!localStorage.getItem('token') || localStorage.getItem('token')  == "undefined" || localStorage.getItem('token') == '' ) {
-          next({
-              path: '/login',
-              query: { tujuan: to.fullPath }
-          })
-      } else {
-       let dataUser = await axios.get(ipBackend + '/users/profil', {
-          headers: {
-              'accessToken': localStorage.getItem('token')
-          }
-      })
-  
-          if(to.matched.some(record => record.meta.google)) {
-              if(dataUser.data.respon[0].role == 'guest'){
-                  next()
-              }
-              else{
-                next({
-                  path: '/login',
-                  query: { tujuan: to.fullPath }
-              })
-              }
-          }else {
-            if(dataUser.data.respon[0].role == 'admin'){
-              next()
-          }
-          else{
-            next({
-              path: '/login',
-              query: { tujuan: to.fullPath }
-          })
-          }
-          
-          }
-      }
+  if (to.matched.some(record => record.meta.requiresAuth)) {
 
-  } else if(to.matched.some(record => record.meta.guest)) {
+    if (!localStorage.getItem('token') || localStorage.getItem('token') == "undefined" || localStorage.getItem('token') == '') {
+      next({
+        path: '/login',
+        query: { tujuan: to.fullPath }
+      })
+    } else {
+      let dataUser = await axios.get(ipBackend + '/users/profil', {
+        headers: {
+          'accessToken': localStorage.getItem('token')
+        }
+      })
+
+      if (to.matched.some(record => record.meta.google)) {
+        if (dataUser.data.respon[0].role == 'guest') {
+          next()
+        }
+        else {
+          next({
+            path: '/login',
+            query: { tujuan: to.fullPath }
+          })
+        }
+      } else {
+        if (dataUser.data.respon[0].role == 'admin') {
+          next()
+        }
+        else {
+          next({
+            path: '/login',
+            query: { tujuan: to.fullPath }
+          })
+        }
+
+      }
+    }
+
+  } else if (to.matched.some(record => record.meta.guest)) {
     // console.log(localStorage.getItem('token'))
     next()
   } else {
-      next()
+    next()
   }
 
   // if(to.path == '/sukses'){

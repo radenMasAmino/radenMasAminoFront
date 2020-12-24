@@ -81,16 +81,16 @@
                       @change="updatePoint(index)"
                       v-if="item.descending"
                     >
-                      <b-form-select-option value=1
+                      <b-form-select-option value="1"
                         >Tidak Pernah</b-form-select-option
                       >
-                      <b-form-select-option value=2
+                      <b-form-select-option value="2"
                         >Kadang-kadang</b-form-select-option
                       >
-                      <b-form-select-option value=3
+                      <b-form-select-option value="3"
                         >Sering</b-form-select-option
                       >
-                      <b-form-select-option value=4
+                      <b-form-select-option value="4"
                         >Selalu</b-form-select-option
                       >
                     </b-form-select>
@@ -100,61 +100,63 @@
                       @change="updatePoint(index)"
                       v-else
                     >
-                      <b-form-select-option value=4
+                      <b-form-select-option value="4"
                         >Tidak Pernah</b-form-select-option
                       >
-                      <b-form-select-option value=3
+                      <b-form-select-option value="3"
                         >Kadang-kadang</b-form-select-option
                       >
-                      <b-form-select-option value=2
+                      <b-form-select-option value="2"
                         >Sering</b-form-select-option
                       >
-                      <b-form-select-option value=1
+                      <b-form-select-option value="1"
                         >Selalu</b-form-select-option
                       >
                     </b-form-select>
                   </b-form-group>
                   <b-form-group>
                     <div class="keterangan">
-                      <table style="width: 100px;">
+                      <table style="width: 100px">
                         <tbody>
                           <tr>
-                            <td style="width: 90px;">Normal</td>
-                            <td style="width: 20px;">:</td>
-                            <td style="width: 30px;">20</td>
-                            <td style="width: 15px;">-</td>
-                            <td style="width: 40px;">44</td>
+                            <td style="width: 90px">Normal</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">20</td>
+                            <td style="width: 15px">-</td>
+                            <td style="width: 40px">44</td>
                           </tr>
                           <tr>
-                            <td style="width: 90px;">Ringan</td>
-                            <td style="width: 20px;">:</td>
-                            <td style="width: 30px;">45</td>
-                            <td style="width: 15px;">-</td>
-                            <td style="width: 40px;">59</td>
+                            <td style="width: 90px">Ringan</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">45</td>
+                            <td style="width: 15px">-</td>
+                            <td style="width: 40px">59</td>
                           </tr>
                           <tr>
-                            <td style="width: 90px;">Sedang</td>
-                            <td style="width: 20px;">:</td>
-                            <td style="width: 30px;">60</td>
-                            <td style="width: 15px;">-</td>
-                            <td style="width: 40px;">74</td>
+                            <td style="width: 90px">Sedang</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">60</td>
+                            <td style="width: 15px">-</td>
+                            <td style="width: 40px">74</td>
                           </tr>
                           <tr>
-                            <td style="width: 90px;">Berat</td>
-                            <td style="width: 20px;">:</td>
-                            <td style="width: 30px;">75</td>
-                            <td style="width: 15px;">-</td>
-                            <td style="width: 40px;">80</td>
+                            <td style="width: 90px">Berat</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">75</td>
+                            <td style="width: 15px">-</td>
+                            <td style="width: 40px">80</td>
                           </tr>
                         </tbody>
                       </table>
                       <table>
                         <tbody>
                           <tr>
-                            <td style="width: 150px;">Score Anda</td>
-                            <td style="width: 20px;">:</td>
-                            <td style="width: 30px;">{{ this.totalPoint }}</td>
-                            <td style="width: 1000px;">{{ `( ${this.totalStatus} )` }}</td>
+                            <td style="width: 150px">Score Anda</td>
+                            <td style="width: 20px">:</td>
+                            <td style="width: 30px">{{ this.totalPoint }}</td>
+                            <td style="width: 1000px">
+                              {{ `( ${this.totalStatus} )` }}
+                            </td>
                           </tr>
                         </tbody>
                       </table>
@@ -166,6 +168,13 @@
                         src="https://www.youtube.com/embed/RYe8KPZUzg4"
                         allowfullscreen
                       ></b-embed>
+                    </div>
+                    <div>
+                      <a
+                        href="http://backend.radenmasamino.org/booklet ROP kecemasan.pdf"
+                        target="_blank"
+                        ><h3>Download booklet</h3></a
+                      >
                     </div>
                   </b-form-group>
                   <b-button @click="simpanData" variant="primary"
@@ -203,7 +212,7 @@ export default {
     return {
       dataPertanyaan: [],
       totalPoint: 0,
-      totalStatus: ''
+      totalStatus: "",
     };
   },
   mounted() {
@@ -231,7 +240,7 @@ export default {
         });
         // console.log(this.dataPertanyaan);
         // this.totalPoint = this.dataPertanyaan
-        this.updateTotal()
+        this.updateTotal();
       })
       .catch((err) => {
         console.log("ini gagal oi " + err);
@@ -252,7 +261,7 @@ export default {
       // console.log(r, x, z);
       z += r - x;
       this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
-      this.totalPoint = z
+      this.totalPoint = z;
       // this.updateTotal()
       // console.log(this.dataPertanyaan[i].point);
     },
@@ -273,8 +282,8 @@ export default {
         });
     },
     updateTotal() {
-      let array = this.dataPertanyaan
-      let z = 0
+      let array = this.dataPertanyaan;
+      let z = 0;
       console.log(array);
       for (let index = 0; index < array.length; index++) {
         const element = array[index].point;
@@ -283,18 +292,15 @@ export default {
       }
       console.log(z);
       // this.totalPoint = z / array.length
-      this.totalPoint = z
-      if(z < 45) {
-        this.totalStatus = 'Normal'
-      }
-      else if(z < 60) {
-        this.totalStatus = 'Ringan'
-      }
-      else if(z < 75) {
-        this.totalStatus = 'Sedang'
-      }
-      else {
-        this.totalStatus = 'Berat'
+      this.totalPoint = z;
+      if (z < 45) {
+        this.totalStatus = "Normal";
+      } else if (z < 60) {
+        this.totalStatus = "Ringan";
+      } else if (z < 75) {
+        this.totalStatus = "Sedang";
+      } else {
+        this.totalStatus = "Berat";
       }
     },
   },

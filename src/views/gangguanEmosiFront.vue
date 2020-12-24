@@ -85,18 +85,18 @@
                             v-model="item.jawaban"
                             @change="updatePoint(index)"
                           >
-                            <b-form-select-option value=0
+                            <b-form-select-option value="0"
                               >Tidak Pernah</b-form-select-option
                             >
-                            <b-form-select-option value=2
+                            <b-form-select-option value="2"
                               >Jarang</b-form-select-option
                             >
 
-                            <b-form-select-option value=3
+                            <b-form-select-option value="3"
                               >Sering</b-form-select-option
                             >
 
-                            <b-form-select-option value=4
+                            <b-form-select-option value="4"
                               >Selalu</b-form-select-option
                             >
                           </b-form-select>
@@ -146,13 +146,20 @@
                     </div>
                   </b-form-group>
                   <div>
-                      <b-embed
-                        type="iframe"
-                        aspect="16by9"
-                        src="https://www.youtube.com/embed/1e33Y71VPb4"
-                        allowfullscreen
-                      ></b-embed>
-                    </div>
+                    <b-embed
+                      type="iframe"
+                      aspect="16by9"
+                      src="https://www.youtube.com/embed/1e33Y71VPb4"
+                      allowfullscreen
+                    ></b-embed>
+                  </div>
+                  <div>
+                    <a
+                      href="http://backend.radenmasamino.org/booklet kontrol  emosi.pdf"
+                      target="_blank"
+                      ><h3>Download booklet</h3></a
+                    >
+                  </div>
                   <b-button @click="simpanData" variant="primary"
                     >Simpan</b-button
                   >
@@ -188,7 +195,7 @@ export default {
     return {
       dataPertanyaan: [],
       totalPoint: 0,
-      totalStatus: '',
+      totalStatus: "",
     };
   },
   mounted() {
@@ -234,7 +241,7 @@ export default {
       let z = this.totalPoint;
       // console.log(r, x, z);
       z += r - x;
-      var m = parseInt(z)
+      var m = parseInt(z);
       this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
       this.totalPoint = m;
       // this.updateTotal()

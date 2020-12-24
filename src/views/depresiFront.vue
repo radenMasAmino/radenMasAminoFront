@@ -149,6 +149,13 @@
                         allowfullscreen
                       ></b-embed>
                     </div>
+                    <div>
+                      <a
+                        href="http://backend.radenmasamino.org/BOOKLET MENCEGAH DEPRESI DENGAN TERAPI KOGNITIF PRILAKU.pdf"
+                        target="_blank"
+                        ><h3>Download booklet</h3></a
+                      >
+                    </div>
                   </b-form-group>
                   <b-button @click="simpanData" variant="primary"
                     >Simpan</b-button

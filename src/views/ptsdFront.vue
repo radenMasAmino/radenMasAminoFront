@@ -156,6 +156,13 @@
                         allowfullscreen
                       ></b-embed>
                     </div>
+                    <div>
+                      <a
+                        href="http://backend.radenmasamino.org/BOOKLET Mengatasi PTSD dengan Yoga.pdf"
+                        target="_blankÎ"
+                        ><h3>Download booklet</h3></a
+                      >
+                    </div>
                   </b-form-group>
                   <b-button @click="simpanData" variant="primary"
                     >Simpan</b-button
