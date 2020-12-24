@@ -16,7 +16,7 @@
                 label="Username" 
                 >
                   <b-form-input
-                    v-model="email"
+                    v-model="username"
                     required
                     placeholder="Enter Username"
                   ></b-form-input>
@@ -34,7 +34,8 @@
                 </b-form-group>
 
                 <div v-if="proses">Loading...</div>
-                <b-button @click="logindong" variant="primary">Login</b-button>
+                <b-button class="m-1" @click="logindong" variant="primary">Login</b-button>
+            
               </b-form>
               
             </div>
@@ -54,7 +55,7 @@ export default {
   data (){
     return{
       isLogin: false,
-      email: '',
+      username: '',
       password: ''
      
     };
@@ -68,31 +69,26 @@ export default {
     //memperhatikan state token dari vuex store
    token(newValue, oldValue) {
    
-     if(newValue!= oldValue && newValue!=''&& newValue!= undefined){
-       
-        //lempar ke halaman dashboard
-        (this.$route.query.tujuan)?
-        this.$router.push({ path: this.$route.query.tujuan}): 
-        this.$router.push({ name:"dashboard"})
-        this.$swal.close()
-     }
+      if(newValue!= oldValue && newValue!=''&& newValue!= undefined){
+          //lempar ke halaman dashboard
+          (this.$route.query.tujuan)?
+            this.$router.push({ path: this.$route.query.tujuan}): 
+            this.$router.push({ name:"dashboard"})
+            this.$swal.close()
+      }
+
    },
+   
    proses(newValue){
      let vm = this;
      if(newValue==true){
-       this.loading()
+        this.loading()
      }else{
-         vm.$swal.close()
+        vm.$swal.close()
      }
    }
 
   },
-
- 
-
-  // mounted:function(){
-  //     console.log(this.$route.query.tujuan)
-  // },
 
   computed: {
   ...mapState('Login', ['token', 'pesan', 'proses']),
@@ -101,35 +97,34 @@ export default {
   },
 
   methods:{
-    ...mapActions('Login', [ 'doLogin', 'doLogout' ]),
+    ...mapActions('Login', [ 'actLogin']),
     logindong: function(){
      
-      this.doLogin({email: this.email, password:this.password})
+      this.actLogin({username: this.username, password:this.password})
       //didalam do login state token di isi
     
     },
-    logoutdong: function(){
-      this.doLogout()
-      // this.isLogin =  this.cekLogin
+
+    loading(){
+      let vm = this;
+      vm.$swal({
+        title: 'Mohon Tunggu...',
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+
+        onOpen: () => {
+          vm.$swal.showLoading();
+        }
+      })
     },
-     loading(){
-           let vm = this;
-            vm.$swal({
-            title: 'Mohon Tunggu...',
-            allowEscapeKey: false,
-            allowOutsideClick: false,
-            onOpen: () => {
-            vm.$swal.showLoading();
-            }
-        })
-      },
+
   }
 };
 </script>
 
 <style scoped>
 #login{
-  background-image: url('../assets/bg.jpg');
+  background-image: url('../../assets/bg.jpg');
   background-size: 100%;
   background-repeat: repeat;
   /* background-position: 100% ; */
