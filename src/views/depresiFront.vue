@@ -233,6 +233,7 @@ export default {
           p.push(obj);
         });
         // console.log(this.dataPertanyaan);
+        this.updateTotal()
       })
       .catch((err) => {
         console.log("ini gagal oi " + err);
@@ -289,6 +290,7 @@ export default {
       this.totalPoint = z;
       if (z < 14) {
         this.totalStatus = "Depresi Minimal";
+        console.log(this.totalStatus);
       } else if (z < 20) {
         this.totalStatus = "Depresi Ringan";
       } else if (z < 29) {

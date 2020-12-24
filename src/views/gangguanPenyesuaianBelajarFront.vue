@@ -221,6 +221,7 @@ export default {
           }
           this.dataPertanyaan.push(ob);
         });
+        this.updateTotal()
       })
       .catch((err) => {
         console.log("ini gagal oi " + err);
@@ -276,6 +277,7 @@ export default {
       this.totalPoint = z;
       if (z < 21) {
         this.totalStatus = "Buruk";
+        console.log(this.totalStatus);
       } else if (z < 31) {
         this.totalStatus = "Sedang";
       } else {

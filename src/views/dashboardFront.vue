@@ -71,8 +71,14 @@
       <b-container>
         <b-row>
           <b-col md="12" lg="12">
+            <div v-if="srqCount < 6" style="display: flex; justify-content:center">
+              <h2>Anda Tidak Memiliki Gangguan Kejiwaan</h2>
+            </div>
+            <div v-else style="display: flex; justify-content:center">
+              <h2>Silahkan Isi Form Deteksi Lain</h2>
+            </div>
             <div class="partone">
-              <div class="boxmenu" >
+              <div class="boxmenu">
                 <router-link
                   :to="'srqFront'"
                   style="text-decoration: none; color: #333"
@@ -87,7 +93,7 @@
                 </router-link>
               </div>
 
-              <div class="boxmenu" v-if="srqCount >=6">
+              <div class="boxmenu" v-if="srqCount >= 6">
                 <router-link
                   :to="'kecemasanFront'"
                   style="text-decoration: none; color: #333"
@@ -102,7 +108,7 @@
                 </router-link>
               </div>
 
-              <div class="boxmenu" v-if="srqCount >=6">
+              <div class="boxmenu" v-if="srqCount >= 6">
                 <router-link
                   :to="'depresiFront'"
                   style="text-decoration: none; color: #333"
@@ -121,7 +127,7 @@
 
           <b-col md="12" lg="12" style="margin-top: 15px">
             <div class="partone">
-              <div class="boxmenu" v-if="srqCount >=6">
+              <div class="boxmenu" v-if="srqCount >= 6">
                 <router-link
                   :to="'gangguanEmosiFront'"
                   style="text-decoration: none; color: #333"
@@ -138,7 +144,7 @@
                 </router-link>
               </div>
 
-              <div class="boxmenu" v-if="srqCount >=6">
+              <div class="boxmenu" v-if="srqCount >= 6">
                 <router-link
                   :to="'ptsdFront'"
                   style="text-decoration: none; color: #333"
@@ -153,7 +159,7 @@
                 </router-link>
               </div>
 
-              <div class="boxmenu" v-if="srqCount >=6">
+              <div class="boxmenu" v-if="srqCount >= 6">
                 <router-link
                   :to="'gangguanPenyesuaianBelajarFront'"
                   style="text-decoration: none; color: #333"
@@ -186,7 +192,25 @@
                   </center>
                 </router-link>
 
-                <div v-if="chatCount" style="width:40px;height:40px;background-color:#007bff;border-radius:100%;display:flex;justify-content:center;align-items:center;position:absolute;top:-20px;right:-20px;"><h5 style="margin:0;padding:0;color:#fff" ><strong>{{chatCount}}</strong></h5></div>
+                <div
+                  v-if="chatCount"
+                  style="
+                    width: 40px;
+                    height: 40px;
+                    background-color: #007bff;
+                    border-radius: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: absolute;
+                    top: -20px;
+                    right: -20px;
+                  "
+                >
+                  <h5 style="margin: 0; padding: 0; color: #fff">
+                    <strong>{{ chatCount }}</strong>
+                  </h5>
+                </div>
               </div>
             </div>
           </b-col>
@@ -214,82 +238,77 @@ import axios from "axios";
 import { ipBackend } from "@/config.js";
 export default {
   name: "dashboardFront",
-    data() {
-        return {
-            chatCount: 0,
-            srqCount: 0,
-            responden: []
-        }
-    },
-     sockets: {
-
-
-      updateJumlahChat(){
-           this.updateJumlahChat();
-      }
+  data() {
+    return {
+      chatCount: 0,
+      srqCount: 0,
+      responden: [],
+    };
   },
-    mounted(){
-          axios.get(ipBackend + '/users/profil', {
-            headers: {
-                'accessToken': localStorage.getItem('token')
-            }
-        })
-        .then(res => {
+  sockets: {
+    updateJumlahChat() {
+      this.updateJumlahChat();
+    },
+  },
+  mounted() {
+    axios
+      .get(ipBackend + "/users/profil", {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
         // console.log('mounted profile', res);
         // console.log(res.data.respon);
-        this.responden = res.data.respon[0]
-         this.$socket.emit('join', this.responden.id)
-          this.updateJumlahChat()
-         
+        this.responden = res.data.respon[0];
+        this.$socket.emit("join", this.responden.id);
+        this.updateJumlahChat();
+
         // console.log(this.responden.id);
-        })
-        .catch(err => {
-            console.log('mounted nya', err);
-        })
+      })
+      .catch((err) => {
+        console.log("mounted nya", err);
+      });
 
+    axios
+      .get(ipBackend + "/srq/totalPoint", {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        this.srqCount = res.data.total;
 
-          axios.get(ipBackend + '/srq/totalPoint', {
-            headers: {
-                'accessToken': localStorage.getItem('token')
-            }
-        })
-        .then(res => {
-      
-          this.srqCount = res.data.total;
-  
-         
         // console.log(this.responden.id);
-        })
-        .catch(err => {
-            console.log('mounted nya', err);
-        })
-
-    },
+      })
+      .catch((err) => {
+        console.log("mounted nya", err);
+      });
+  },
   methods: {
     ClickLogout() {
       alert("terima kasih");
       localStorage.setItem("token", "");
       this.$router.push({ path: "/" });
     },
-      updateJumlahChat(){
-           axios.get(ipBackend + '/chat/countUnread', {
-            headers: {
-                'accessToken': localStorage.getItem('token')
-            }
+    updateJumlahChat() {
+      axios
+        .get(ipBackend + "/chat/countUnread", {
+          headers: {
+            accessToken: localStorage.getItem("token"),
+          },
         })
-        .then(res => {
+        .then((res) => {
           // console.log(res.data.jumlahUnread)
-        // console.log('mounted profile', res);
-        this.chatCount = res.data.jumlahUnread;
-      
-  
-         
-        // console.log(this.responden.id);
+          // console.log('mounted profile', res);
+          this.chatCount = res.data.jumlahUnread;
+
+          // console.log(this.responden.id);
         })
-        .catch(err => {
-            console.log('mounted nya', err);
-        })
-      }
+        .catch((err) => {
+          console.log("mounted nya", err);
+        });
+    },
   },
 };
 </script>
