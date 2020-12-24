@@ -151,10 +151,10 @@
                       <table>
                         <tbody>
                           <tr>
-                            <td style="width: 100px;">Score Anda</td>
+                            <td style="width: 150px;">Score Anda</td>
                             <td style="width: 20px;">:</td>
                             <td style="width: 30px;">{{ this.totalPoint }}</td>
-                            <td style="width: 50px;">{{ `( ${this.totalStatus} )` }}</td>
+                            <td style="width: 1000px;">{{ `( ${this.totalStatus} )` }}</td>
                           </tr>
                         </tbody>
                       </table>
