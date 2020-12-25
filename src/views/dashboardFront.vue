@@ -3,7 +3,7 @@
     <section class="bgheader">
       <b-container>
         <b-row>
-          <b-col cols="12" md="8" lg="8" style="background-color: ">
+          <b-col cols="9" md="8" lg="8" style="background-color: ">
             <div class="partone">
               <h3
                 style="margin: 0 !important; padding: 0 !important"
@@ -22,7 +22,7 @@
                                 <h3 class="m-t-0 m-b-0 m-l-10"><strong>SIDE</strong></h3>
                             </div> -->
               <h4
-                style="margin: 0 !important; padding: 0 !important"
+                style="margin: 0 !important; padding: 0 !important;font-size:20px"
                 class="d-block d-sm-none d-none d-sm-block d-md-none"
               >
                 <strong>ONME RADEN MAS AMINO</strong>
@@ -31,7 +31,7 @@
                 style="
                   margin: 0 !important;
                   padding: 0 !important;
-                  font-size: 12px;
+                  font-size: 10px;
                 "
                 class="d-block d-sm-none d-none d-sm-block d-md-none"
               >
@@ -40,7 +40,7 @@
             </div>
           </b-col>
 
-          <b-col cols="6" md="4" lg="4">
+          <b-col cols="3" md="4" lg="4">
             <div class="parttwo">
               <b-dropdown
                 right
@@ -72,10 +72,10 @@
         <b-row>
           <b-col md="12" lg="12">
             <div v-if="srqCount < 6" style="display: flex; justify-content:center">
-              <h2>Anda Tidak Memiliki Gangguan Kejiwaan</h2>
+              <h2 style="text-align:center"><strong>Anda Tidak Memiliki Gangguan Kejiwaan</strong></h2>
             </div>
             <div v-else style="display: flex; justify-content:center">
-              <h2>Silahkan Isi Form Deteksi Lain</h2>
+              <h2 style="text-align:center"><strong>Silahkan Isi Form Deteksi Lain</strong></h2>
             </div>
             <div class="partone">
               <div class="boxmenu">
@@ -183,7 +183,7 @@
                 >
                   <center>
                     <img
-                      src="../assets/medical-record.png"
+                      src="../assets/chat.png"
                       style="height: 100px"
                     />
                     <h6 class="m-t-15 m-b-0">

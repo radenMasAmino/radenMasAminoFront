@@ -122,7 +122,7 @@
                               <li
                                 v-for="(item, index) in srqRes"
                                 :key="item.id"
-                                style="margin-top: 10px"
+                                style="margin-top: 15px"
                               >
                                 {{ item.pertanyaan }}
                                 <b-form-select
@@ -169,6 +169,7 @@
                           v-for="(item, index) in kecemasanRes"
                           :key="item.id"
                           :label="item.pertanyaan"
+                          style="margin-top: 15px"
                         >
                           <b-form-select
                             v-model="item.jawaban"
@@ -237,6 +238,7 @@
                             <li
                               v-for="(item, index) in depresiRes"
                               :key="item.id"
+                              style="margin-top: 15px"
                             >
                               <b-form-select
                                 v-model="item.jawaban"
@@ -276,11 +278,13 @@
                       role="tabpanel"
                     >
                       <b-card-body>
-                        <li v-for="(item, index) in emosiRes" :key="item.id">
+                        <ol>
+                        <li v-for="(item, index) in emosiRes" :key="item.id" style="margin-top: 15px">
                           {{ item.pertanyaan }}
                           <b-form-select
                             v-model="item.jawaban"
                             @change="updateEmosi(index)"
+                            
                           >
                             <b-form-select-option value="0"
                               >Tidak Pernah</b-form-select-option
@@ -298,6 +302,7 @@
                             >
                           </b-form-select>
                         </li>
+                        </ol>
                       </b-card-body>
                     </b-collapse>
                   </b-card>
@@ -328,6 +333,7 @@
                               <li
                                 v-for="(item, index) in ptsdRes"
                                 :key="item.id"
+                                style="margin-top: 15px"
                               >
                                 {{ item.pertanyaan }}
                                 <b-form-select
@@ -382,6 +388,7 @@
                           <li
                             v-for="(item, index) in belajarRes"
                             :key="item.id"
+                            style="margin-top: 15px"
                           >
                             {{ item.pertanyaan }}
                             <b-form-select
@@ -797,4 +804,11 @@ export default {
 };
 </script>
 <style scoped>
+ol {
+  padding-left: 20px;
+}
+
+li{
+  padding-left: 10px
+}
 </style>

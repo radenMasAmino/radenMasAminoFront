@@ -53,18 +53,9 @@
             <b-row>
               <b-col xs="12" sm="12" md="12" lg="12">
                 <div style="text-align: center">
-                <!-- <router-link :to="'daftarFront'"> -->
-                  <h4><strong> Online Nurse Mental Health Care (ONME) </strong></h4>
-                  <!-- <b-button disabled size="lg" class="mb-2"> Online Nurse Mental Health Care (ONME) </b-button> -->
-                  <!-- <br> -->
-                  <b-button pill id="tooltip-target-1" href="http://backend.radenmasamino.org/auth/google/" variant="light" size="lg">
-                    <img src="@/assets/icons/200px-Google.png" height="25" />
-                    <!-- <br> -->
-                    <!-- Daftar Online Nurse Mental Health Care (ONME) -->
-                  </b-button>
+                  <b-button variant="primary" size="lg" class="mb-2" id="tooltip-target-1"  href="http://backend.radenmasamino.org/auth/google/"><img src="@/assets/icons/200px-Google.png" height="30px" /><span style="margin-left:15px">Daftar Online Nurse Mental Health Care (ONME)</span></b-button>
+                  
                   <b-tooltip target="tooltip-target-1" triggers="hover">Login via <b>Google</b></b-tooltip>
-                  <p><b>Google</b></p>
-                <!-- </router-link> -->
                 </div>
               </b-col>
             </b-row>

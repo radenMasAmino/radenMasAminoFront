@@ -3,7 +3,7 @@
     <section class="bgheader">
       <b-container>
         <b-row>
-          <b-col cols="12" md="8" lg="8" style="background-color: ">
+          <b-col cols="9" md="8" lg="8" style="background-color: ">
             <div class="partone">
               <h3
                 style="margin: 0 !important; padding: 0 !important"
@@ -33,6 +33,30 @@
               >
                 <strong>Online Nurse Mental Health Care Raden Mas Amino</strong>
               </h6>
+            </div>
+          </b-col>
+
+          <b-col cols="3" md="4" lg="4">
+            <div class="parttwo">
+              <b-dropdown
+                right
+                variant="link"
+                toggle-class="text-decoration-none"
+                no-caret
+              >
+                <template v-slot:button-content>
+                  <div class="account">
+                    <img
+                      src="../assets/user.png"
+                      style="height: 8vh"
+                      class="invert"
+                    />
+                  </div>
+                </template>
+
+                <b-dropdown-item to="/daftarFront">Profile</b-dropdown-item>
+                <b-dropdown-item @click="ClickLogout">Logout</b-dropdown-item>
+              </b-dropdown>
             </div>
           </b-col>
         </b-row>
@@ -79,7 +103,7 @@
                         <li
                           v-for="(item, index) in dataPertanyaan"
                           :key="item.id"
-                          style="margin-top: 10px"
+                          style="margin-top: 15px"
                         >
                           {{ item.pertanyaan }}
                           <b-form-select
@@ -97,20 +121,26 @@
                       </template>
                     </ol>
                   </b-form-group>
-                  <div>
-                    <table>
-                      <tbody>
-                        <tr>
-                          <td style="width: 150px">Score Anda</td>
-                          <td style="width: 20px">:</td>
-                          <td style="width: 150px">
-                            {{ `Total Score SRQ Anda ` }}
-                          </td>
-                          <td style="width: 30px">{{ this.totalPoint }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <b-col cols="12" md="12" lg="12">
+                  <b-alert show variant="primary" style="margin-top:15px">
+                    <b-row>
+                      <b-col md="12" lg="12">
+                        <h2><strong>Score Anda Adalah : {{ `Total Score SRQ Anda ` }}&nbsp;&nbsp;&nbsp;{{ `( ${this.totalPoint} )` }}</strong></h2> 
+                      </b-col>  
+                    </b-row>      
+                  </b-alert>
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <b-col md="12" lg="12">
+                  <hr>
+                </b-col>
+                <b-col md="12" lg="12">
                   <b-button @click="simpanData" variant="primary"
                     >Simpan</b-button
                   >
@@ -275,5 +305,38 @@ export default {
 }
 ol {
   padding-left: 20px;
+}
+
+li{
+  padding-left:10px
+}
+
+/*Filter styles*/
+.saturate {
+  filter: saturate(3);
+}
+.grayscale {
+  filter: grayscale(100%);
+}
+.contrast {
+  filter: contrast(160%);
+}
+.brightness {
+  filter: brightness(0.25);
+}
+.blur {
+  filter: blur(3px);
+}
+.invert {
+  filter: invert(100%);
+}
+.sepia {
+  filter: sepia(100%);
+}
+.huerotate {
+  filter: hue-rotate(180deg);
+}
+.rss.opacity {
+  filter: opacity(50%);
 }
 </style>

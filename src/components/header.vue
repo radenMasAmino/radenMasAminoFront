@@ -3,7 +3,7 @@
     <section class="bgheader">
       <b-container>
         <b-row>
-          <b-col cols="6" md="8" lg="8">
+          <b-col cols="9" md="8" lg="8">
             <div class="partone">
               <h4 class="m-t-0 m-b-0">
                 <strong>ONME - CARE RADEN MAS AMINO</strong>
@@ -11,7 +11,7 @@
             </div>
           </b-col>
 
-          <b-col cols="6" md="4" lg="4">
+          <b-col cols="3" md="4" lg="4">
             <div class="parttwo">
               <b-dropdown
                 right

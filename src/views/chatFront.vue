@@ -181,13 +181,19 @@
                         v-model="isi"
                       ></b-form-input>
                     </div>
-                    <div style="width: 2.5%"></div>
-                    <div style="width: 7.5%">
+                    
+                    <div style="width: 2.5%" class="d-none d-md-block d-lg-none d-none d-lg-block d-xl-none d-none d-xl-block"></div>
+                    <div style="width: 7.5%" class="d-none d-md-block d-lg-none d-none d-lg-block d-xl-none d-none d-xl-block">
                       <b-button variant="primary" block @click="kirimChat"
                         >Kirim</b-button
                       >
                     </div>
                   </div>
+                  <div style="width:100%" class="d-block d-sm-none d-none d-sm-block d-md-none">
+                      <b-button variant="primary" @click="kirimChat"
+                        >Kirim</b-button
+                      >
+                    </div>
                 </div>
               </b-col>
             </b-row>
