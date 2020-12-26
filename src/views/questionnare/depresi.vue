@@ -87,7 +87,9 @@
                         placeholder="Type to Search"
                       ></b-form-input>
                       <b-input-group-append>
-                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                        <b-button :disabled="!filter" @click="filter = ''"
+                          >Clear</b-button
+                        >
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
@@ -124,10 +126,6 @@
               @filtered="onFiltered"
               responsive
             >
-              <!-- <template v-slot:cell(name)="row">
-                                {{ row.value.first }} {{ row.value.last }}
-                            </template> -->
-
               <template v-slot:cell(actions)="row">
                 <b-button
                   size="sm"
@@ -190,12 +188,8 @@
               ok-only
               @hide="resetInfoModal"
             >
-              <!-- <pre>{{ infoModal.content.namaPenyakit }}</pre> -->
               <b-form class="bv-example-rtes12345ow">
                 <b-form-group label="Pertanyaan">
-                  <!-- {{infoModal.content.namaPenyakit}}
-                                 -->
-
                   <b-form-input
                     v-model="infoModal.content.pertanyaan"
                     required
@@ -219,8 +213,7 @@
       title="TAMBAH DATA MASTER DEPRESI"
     >
       <b-form class="bv-example-row">
-
-         <b-form-group label="Nomor">
+        <b-form-group label="Nomor">
           <b-form-input
             required
             number
@@ -244,15 +237,10 @@
             placeholder="Masukan score"
             :options="scoreFields"
           >
-            <!-- <b-form-select-option>0</b-form-select-option>
-            <b-form-select-option>1</b-form-select-option>
-            <b-form-select-option>2</b-form-select-option>
-            <b-form-select-option>3</b-form-select-option> -->
           </b-form-select>
         </b-form-group>
 
         <b-form-group>
-
           <b-button variant="primary" class="m-t-15" @click="addQs"
             >Simpan</b-button
           >
@@ -277,8 +265,8 @@ export default {
         {
           pernyataan: "",
           nomor: 0,
-          score: 0
-        }
+          score: 0,
+        },
       ],
       scoreFields: [
         { value: 0, text: 0 },
@@ -306,9 +294,7 @@ export default {
           key: "score",
           label: "Score",
         },
-        { key: "actions",
-          label: "Actions"
-        },
+        { key: "actions", label: "Actions" },
       ],
       totalRows: 1,
       currentPage: 1,
@@ -336,17 +322,19 @@ export default {
     },
   },
   mounted() {
-    axios.get(ipBackend + '/depresi/all', {
-      headers: {
-        'accessToken': localStorage.getItem('token')
-      }
-    })
-    .then(res => {
-      // console.log(res);
-      this.items = res.data.respon;
-      this.items.sort(function(a, b){return b.id - a.id})
-      this.totalRows = this.items.length;
-    })
+    axios
+      .get(ipBackend + "/depresi/all", {
+        headers: {
+          accessToken: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        this.items = res.data.respon;
+        this.items.sort(function (a, b) {
+          return b.id - a.id;
+        });
+        this.totalRows = this.items.length;
+      });
   },
   methods: {
     infoQs(item, index, button) {
@@ -356,71 +344,82 @@ export default {
       this.depresiQsEdit = item.pertanyaan;
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
-    resetInfoModal() {
-      // this.infoModal.title = "";
-      // this.infoModal.content = "";
-    },
+
     onFiltered(filteredItems) {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
     addQs() {
       let vm = this;
-      axios.post(ipBackend + "/depresi/register", {
-        pertanyaan: this.depresiQs.pernyataan,
-        nomor: this.depresiQs.nomor,
-        score: this.depresiQs.score,
-      }, {
-        headers: {
-          accesstoken: localStorage.getItem("token"),
-        },
-      })
-      .then(function (res) {
-        // console.log(res);
-        alert("berhasil");
-        vm.items.unshift(res.data);
-        vm.$root.$emit("bv::hide::modal", "modal-1");
-        vm.depresiQs = [];
-      })
-      .catch(function (err) {
-        console.log(err);
-      });
+      axios
+        .post(
+          ipBackend + "/depresi/register",
+          {
+            pertanyaan: this.depresiQs.pernyataan,
+            nomor: this.depresiQs.nomor,
+            score: this.depresiQs.score,
+          },
+          {
+            headers: {
+              accesstoken: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then(function (res) {
+          alert("berhasil");
+          vm.items.unshift(res.data);
+          vm.$root.$emit("bv::hide::modal", "modal-1");
+          vm.depresiQs = [];
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
     },
     editQs() {
       let vm = this;
-      axios.post(ipBackend + "/depresi/update/" + this.idQs, {
-        pertanyaan: this.infoModal.content.pertanyaan,
-      }, {
-        headers: {
-          accesstoken: localStorage.getItem("token"),
-        },
-      })
-      .then(function () {
-        alert("berhasil");
-        let idx = vm.items.findIndex((o) => o.id === vm.idQs);
-        vm.items[idx] = vm.infoModal.content;
-        vm.$root.$emit("bv::hide::modal", "info-modal");
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      axios
+        .post(
+          ipBackend + "/depresi/update/" + this.idQs,
+          {
+            pertanyaan: this.infoModal.content.pertanyaan,
+          },
+          {
+            headers: {
+              accesstoken: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then(function () {
+          alert("berhasil");
+          let idx = vm.items.findIndex((o) => o.id === vm.idQs);
+          vm.items[idx] = vm.infoModal.content;
+          vm.$root.$emit("bv::hide::modal", "info-modal");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     deleteQs(id) {
       let vm = this;
-      axios.delete(ipBackend + "/depresi/delete/" + id, {
-        headers: {
-          accesstoken: localStorage.getItem("token"),
-        },
-      })
-      .then(() => {
-        alert("berhasil");
-        let idx = vm.items.findIndex((o) => o.id === id);
-        vm.items.splice(idx, 1);
-        this.$root.$emit("bv::show::modal");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      axios
+        .delete(ipBackend + "/depresi/delete/" + id, {
+          headers: {
+            accesstoken: localStorage.getItem("token"),
+          },
+        })
+        .then(() => {
+          alert("berhasil");
+          let idx = vm.items.findIndex((o) => o.id === id);
+          vm.items.splice(idx, 1);
+          this.$root.$emit("bv::show::modal");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    resetInfoModal() {
+      // this.infoModal.title = "";
+      // this.infoModal.content = "";
     },
   },
 };

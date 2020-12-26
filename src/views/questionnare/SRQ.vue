@@ -291,7 +291,6 @@ export default {
       this.items.sort(function(a, b){return b.id - a.id})
       this.totalRows = this.items.length;
     })
-    // console.log(items);
   },
   methods: {
     infoQs(item, index, button) {
