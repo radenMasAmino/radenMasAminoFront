@@ -3,7 +3,7 @@
     <section class="bgheader">
       <b-container>
         <b-row>
-          <b-col cols="12" md="8" lg="8" style="background-color: ">
+          <b-col cols="9" md="8" lg="8" style="background-color: ">
             <div class="partone">
               <h3
                 style="margin: 0 !important; padding: 0 !important"
@@ -18,7 +18,7 @@
                 <strong>Online Nurse Mental Health Care Raden Mas Amino</strong>
               </h6>
               <h4
-                style="margin: 0 !important; padding: 0 !important"
+                style="margin: 0 !important; padding: 0 !important;font-size:20px"
                 class="d-block d-sm-none d-none d-sm-block d-md-none"
               >
                 <strong>ONME RADEN MAS AMINO</strong>
@@ -27,12 +27,36 @@
                 style="
                   margin: 0 !important;
                   padding: 0 !important;
-                  font-size: 12px;
+                  font-size: 10px;
                 "
                 class="d-block d-sm-none d-none d-sm-block d-md-none"
               >
                 <strong>Online Nurse Mental Health Care Raden Mas Amino</strong>
               </h6>
+            </div>
+          </b-col>
+
+          <b-col cols="3" md="4" lg="4">
+            <div class="parttwo">
+              <b-dropdown
+                right
+                variant="link"
+                toggle-class="text-decoration-none"
+                no-caret
+              >
+                <template v-slot:button-content>
+                  <div class="account">
+                    <img
+                      src="../assets/user.png"
+                      style="height: 8vh"
+                      class="invert"
+                    />
+                  </div>
+                </template>
+
+                <b-dropdown-item to="/daftarFront">Profile</b-dropdown-item>
+                <b-dropdown-item @click="ClickLogout">Logout</b-dropdown-item>
+              </b-dropdown>
             </div>
           </b-col>
         </b-row>
@@ -114,7 +138,96 @@
                       >
                     </b-form-select>
                   </b-form-group>
+                </b-col>
+              </b-row>
 
+              <b-row>
+                <b-col cols="12" md="12" lg="12">
+                  <b-alert show variant="primary" style="margin-top:15px">
+                    <b-row>
+                      <b-col md="12" lg="12">
+                        <h2><strong>Score Kuisioner Kecemasan Anda Adalah : {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;{{ `( ${this.totalStatus} )` }}</strong></h2> 
+                      </b-col>  
+
+                      <b-col md="12" lg="12">
+                        <hr>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <h4><strong>KETERANGAN :</strong></h4> 
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <b-table-simple>
+                        <b-tbody>
+                          <b-tr>
+                            <b-td style="width:10%">Normal</b-td>
+                            <b-td style="width:25%">:</b-td>
+                            <b-td style="width:20%">20</b-td>
+                            <b-td style="width:25%">-</b-td>
+                            <b-td style="width:20%">44</b-td>
+                          </b-tr>
+                          <tr>
+                            <b-td>Ringan</b-td>
+                            <b-td>:</b-td>
+                            <b-td>45</b-td>
+                            <b-td>-</b-td>
+                            <b-td>59</b-td>
+                          </tr>
+                          <tr>
+                            <b-td>Sedang</b-td>
+                            <b-td>:</b-td>
+                            <b-td>60</b-td>
+                            <b-td>-</b-td>
+                            <b-td>74</b-td>
+                          </tr>
+                          <tr>
+                            <b-td>Berat</b-td>
+                            <b-td>:</b-td>
+                            <b-td>75</b-td>
+                            <b-td>-</b-td>
+                            <b-td>80</b-td>
+                          </tr>
+                        </b-tbody>
+                      </b-table-simple>
+                      </b-col>
+                    </b-row>      
+                  </b-alert>
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <b-col md="12" lg="12">
+                  <b-alert show variant="warning">
+                  <h2><strong>Terapi Relaksasi Progresif Untuk Menurunkan Kecemasan</strong></h2> 
+                  <hr>
+                   <b-embed
+                        type="iframe"
+                        aspect="16by9"
+                        src="https://www.youtube.com/embed/RYe8KPZUzg4"
+                        allowfullscreen
+                      ></b-embed>
+                  </b-alert>
+                </b-col>
+
+                <b-col md="12" lg="12">
+                  <b-alert show variant="success">
+                  <h2><strong>Booklet ROP (Relaksasi Otot Progresif) Kecemasan</strong></h2> 
+                  <hr>
+                  <b-button
+                        href="http://backend.radenmasamino.org/booklet ROP kecemasan.pdf"
+                        target="_blank" variant="primary" size="lg"
+                        >Download Booklet</b-button
+                      >
+                  </b-alert>
+                </b-col>
+              </b-row>
+              
+              <b-row>
+                <b-col md="12" lg="12">
+                  <hr>
+                </b-col>
+                <b-col md="12" lg="12">
                   <b-button @click="simpanData" variant="primary"
                     >Simpan</b-button
                   >
@@ -149,6 +262,8 @@ export default {
   data() {
     return {
       dataPertanyaan: [],
+      totalPoint: 0,
+      totalStatus: "",
     };
   },
   mounted() {
@@ -159,7 +274,6 @@ export default {
     })
 
       .then((res) => {
-        // console.log('biar keliatan klo ini mounted nya jalan');
         res.data.respon.forEach((element) => {
           let ob = {
             kecemasanId: element.id,
@@ -175,6 +289,7 @@ export default {
           }
           this.dataPertanyaan.push(ob);
         });
+        this.updateTotal();
       })
       .catch((err) => {
         console.log("ini gagal oi " + err);
@@ -189,7 +304,12 @@ export default {
   },
   methods: {
     updatePoint(i) {
+      let r = this.dataPertanyaan[i].jawaban;
+      let x = this.dataPertanyaan[i].point;
+      let z = this.totalPoint;
+      z += r - x;
       this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
+      this.totalPoint = z;
     },
     simpanData() {
       let vm = this;
@@ -199,15 +319,35 @@ export default {
         },
       })
         .then(() => {
-          alert("Berhasil Mengisi Jawaban");
-          // console.log('ini simpan nya');
-          //   console.log(res, '<<<<< ini');
+          alert("Berhasil");
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {
           console.log("ini error nya");
           console.log(err);
         });
+    },
+    updateTotal() {
+      let array = this.dataPertanyaan;
+      let z = 0;
+      console.log(array);
+      for (let index = 0; index < array.length; index++) {
+        const element = array[index].point;
+        // console.log(element);
+        z += element;
+      }
+      console.log(z);
+      // this.totalPoint = z / array.length
+      this.totalPoint = z;
+      if (z < 45) {
+        this.totalStatus = "Normal";
+      } else if (z < 60) {
+        this.totalStatus = "Ringan";
+      } else if (z < 75) {
+        this.totalStatus = "Sedang";
+      } else {
+        this.totalStatus = "Berat";
+      }
     },
   },
 };
@@ -252,5 +392,34 @@ export default {
   display: flex;
   flex-direction: column;
   margin-right: 10px;
+}
+
+/*Filter styles*/
+.saturate {
+  filter: saturate(3);
+}
+.grayscale {
+  filter: grayscale(100%);
+}
+.contrast {
+  filter: contrast(160%);
+}
+.brightness {
+  filter: brightness(0.25);
+}
+.blur {
+  filter: blur(3px);
+}
+.invert {
+  filter: invert(100%);
+}
+.sepia {
+  filter: sepia(100%);
+}
+.huerotate {
+  filter: hue-rotate(180deg);
+}
+.rss.opacity {
+  filter: opacity(50%);
 }
 </style>

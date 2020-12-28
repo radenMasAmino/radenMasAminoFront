@@ -35,7 +35,7 @@
 
                 <div v-if="proses">Loading...</div>
                 <b-button class="m-1" @click="logindong" variant="primary">Login</b-button>
-                <b-button class="m-1" to="/daftar" variant="info">Register</b-button>
+            
               </b-form>
               
             </div>

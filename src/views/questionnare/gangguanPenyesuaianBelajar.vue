@@ -1,7 +1,6 @@
 
 <template>
   <div id="gangguanPenyesuaianBelajar">
-    
     <MyHeader></MyHeader>
 
     <b-container>
@@ -39,9 +38,9 @@
 
             <b-row class="m-t-30">
               <b-col md="12">
-
-                <b-button v-b-modal.modal-1 variant="primary">Tambah Data</b-button>
-
+                <b-button v-b-modal.modal-1 variant="primary"
+                  >Tambah Data</b-button
+                >
               </b-col>
             </b-row>
 
@@ -90,7 +89,9 @@
                         placeholder="Type to Search"
                       ></b-form-input>
                       <b-input-group-append>
-                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                        <b-button :disabled="!filter" @click="filter = ''"
+                          >Clear</b-button
+                        >
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
@@ -102,7 +103,8 @@
                   >
                     <b-form-checkbox-group>
                       <b-form-checkbox value=""
-                        >Pertanyaan Gangguan Penyesuaian Belajar</b-form-checkbox
+                        >Pertanyaan Gangguan Penyesuaian
+                        Belajar</b-form-checkbox
                       >
                     </b-form-checkbox-group>
                   </b-form-group>
@@ -126,7 +128,6 @@
               @filtered="onFiltered"
               responsive
             >
-
               <template v-slot:cell(actions)="row">
                 <b-button
                   size="sm"
@@ -188,7 +189,6 @@
             >
               <b-form class="bv-example-row">
                 <b-form-group label="Pertanyaan">
-
                   <b-form-input
                     v-model="infoModal.content.pertanyaan"
                     required
@@ -196,7 +196,8 @@
                   >
                   </b-form-input>
 
-                  <b-button @click="editQs" variant="primary" class="m-t-15">Simpan</b-button
+                  <b-button @click="editQs" variant="primary" class="m-t-15"
+                    >Simpan</b-button
                   >
                 </b-form-group>
               </b-form>
@@ -220,7 +221,8 @@
             v-model="gangguanBelajar"
             placeholder="Masukan Pertanyaan.."
           ></b-form-input>
-          <b-button variant="primary" class="m-t-15" @click="addQs">Simpan</b-button
+          <b-button variant="primary" class="m-t-15" @click="addQs"
+            >Simpan</b-button
           >
         </b-form-group>
       </b-form>
@@ -240,8 +242,12 @@ export default {
     return {
       items: [],
       fields: [
-        { key: "id", label: "Id" },
-        { key: "pertanyaan", label: "Pertanyaan", sortable: true, sortDirection: "desc" },
+        {
+          key: "pertanyaan",
+          label: "Pertanyaan",
+          sortable: true,
+          sortDirection: "desc",
+        },
         { key: "actions", label: "Actions" },
       ],
 
@@ -277,39 +283,47 @@ export default {
   },
 
   mounted() {
-    axios.get(ipBackend + "/ggnBelajar/all", {
-      headers: {
-        'accesstoken': localStorage.getItem("token"),
-      },
-    })
-    .then(res => {
-      this.items = res.data.respon;
-      this.items.sort((a, b) => {return b.id - a.id})
-      this.totalRows = this.items.length;
-    })
-    .catch(err => {
-      console.log(`mountednya ${err}`);
-    })
+    axios
+      .get(ipBackend + "/ggnBelajar/all", {
+        headers: {
+          accesstoken: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        this.items = res.data.respon;
+        this.items.sort((a, b) => {
+          return b.id - a.id;
+        });
+        this.totalRows = this.items.length;
+      })
+      .catch((err) => {
+        console.log(`mountednya ${err}`);
+      });
   },
 
   methods: {
     addQs() {
       let vm = this;
-      axios.post(ipBackend + "/ggnBelajar/register", {
-        pertanyaan: this.gangguanBelajar,
-      }, {
-        headers: {
-          accesstoken: localStorage.getItem("token"),
-        },
-      })
-      .then(res => {
-        alert("Berhasil Menambahkan Pertanyaan");
-        vm.items.unshift(res.data);
-        vm.$root.$emit("bv::hide::modal", "modal-1");
-      })
-      .catch(err => {
-        console.log(`error di addQs ${err}`);
-      });
+      axios
+        .post(
+          ipBackend + "/ggnBelajar/register",
+          {
+            pertanyaan: this.gangguanBelajar,
+          },
+          {
+            headers: {
+              accesstoken: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          alert("Berhasil Menambahkan Pertanyaan");
+          vm.items.unshift(res.data);
+          vm.$root.$emit("bv::hide::modal", "modal-1");
+        })
+        .catch((err) => {
+          console.log(`error di addQs ${err}`);
+        });
     },
 
     infoQs(item, index, button) {
@@ -322,57 +336,61 @@ export default {
 
     editQs() {
       let vm = this;
-      axios.post(ipBackend + "/ggnBelajar/update/" + vm.idQs, {
-        pertanyaan: vm.infoModal.content.pertanyaan,
-      }, {
-        headers: {
-          'accesstoken': localStorage.getItem("token"),
-        },
-      })
-      .then(() => {
-        alert("Berhasil Mengubah Pertanyaan");
-        let idEdit = vm.items.findIndex((o) => o.id === vm.idQs);
-        vm.items[idEdit] = vm.infoModal.content;
-        vm.$root.$emit("bv::hide::modal", "info-modal");
-      })
-      .catch(err => {
-        console.log(`error di editQs ${err}`);
-      });
+      axios
+        .post(
+          ipBackend + "/ggnBelajar/update/" + vm.idQs,
+          {
+            pertanyaan: vm.infoModal.content.pertanyaan,
+          },
+          {
+            headers: {
+              accesstoken: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then(() => {
+          alert("Berhasil Mengubah Pertanyaan");
+          let idEdit = vm.items.findIndex((o) => o.id === vm.idQs);
+          vm.items[idEdit] = vm.infoModal.content;
+          vm.$root.$emit("bv::hide::modal", "info-modal");
+        })
+        .catch((err) => {
+          console.log(`error di editQs ${err}`);
+        });
     },
 
-    resetInfoModal() {
-      // this.infoModal.title = "";
-      // this.infoModal.content = "";
-    },
-    resetTambah(){
+    resetTambah() {
       this.gangguanBelajar = "";
     },
 
     onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
 
     deleteQs(id) {
       let vm = this;
-      axios.delete(ipBackend + "/ggnBelajar/delete/" + id, {
-        headers: {
-          accesstoken: localStorage.getItem("token"),
-        },
-      })
-      .then(() => {
-        alert("Pertanyaan Telah dihapus");
-        let idx = vm.items.findIndex((o) => o.id === id);
-        vm.items.splice(idx, 1);
-        this.$root.$emit('bv::show::modal')
-      })
-      .catch((err) => {
-        console.log(`gak bisa di delete ${err}`);
-      });
+      axios
+        .delete(ipBackend + "/ggnBelajar/delete/" + id, {
+          headers: {
+            accesstoken: localStorage.getItem("token"),
+          },
+        })
+        .then(() => {
+          alert("Pertanyaan Telah dihapus");
+          let idx = vm.items.findIndex((o) => o.id === id);
+          vm.items.splice(idx, 1);
+          this.$root.$emit("bv::show::modal");
+        })
+        .catch((err) => {
+          console.log(`gak bisa di delete ${err}`);
+        });
+    },
+    resetInfoModal() {
+      // this.infoModal.title = "";
+      // this.infoModal.content = "";
     },
   },
-
 };
 </script>
 <style scoped>

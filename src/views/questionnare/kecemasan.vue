@@ -237,7 +237,6 @@
 import MyHeader from "@/components/header.vue";
 import axios from "axios";
 import { ipBackend } from "@/config.js";
-// import { mapState } from "vuex";
 
 export default {
   name: "kecemasan",
@@ -260,6 +259,12 @@ export default {
         {
           key: "pertanyaan",
           label: "Pertanyaan",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        {
+          key: "descending",
+          label: "Descending",
           sortable: true,
           sortDirection: "desc",
         },
@@ -291,51 +296,28 @@ export default {
 
   computed: {
     sortOptions() {
-      // Create an options list from our fields
       return this.fields
         .filter((f) => f.sortable)
         .map((f) => {
           return { text: f.label, value: f.key };
         });
     },
-    // ...mapState("Data", ["dataPertanyaan"]),
   },
 
   mounted() {
-    // get data
     axios.get(ipBackend + '/kecemasan/all', {
       headers: {
         'accessToken': localStorage.getItem('token')
       }
     })
     .then(res => {
-      // console.log('ini test mounted isinya ' + res);
-      // console.log(res);
       this.formInput = res.data.respon;
       this.formInput.sort(function(a, b){return b.id - a.id})
       this.totalRows = this.formInput.length;
     })
   },
 
-  created() {
-    // this.$store.dispatch("Data/listPertanyaan"); // <-- vuex
-    // this.dispatchData(); // <-- changed from vuex
-
-  },
-
   methods: {
-    // dispatchData() { // get data on created
-    //   axios.get(ipBackend + '/kecemasan/all', {
-    //     headers: {
-    //       'accessToken': localStorage.getItem('token')
-    //     }
-    //   })
-    //   .then(res => {
-    //     console.log(`ini test mounted isinya ${res}`);
-    //     console.log(res);
-    //     this.formInput = res.data.respon;
-    //   })
-    // },
 
     editInfo(item, index, button) {
       this.infoModal.title = `EDIT DATA MASTER KECEMASAN`;
@@ -345,13 +327,7 @@ export default {
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
 
-    resetInfoModal() {
-      // this.infoModal.title = "";
-      // this.infoModal.content = "";
-    },
-
     onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
@@ -367,12 +343,11 @@ export default {
         },
       })
       .then(res => {
-        // console.log(res.data);
+
         alert("berhasil");
         vm.formInput.unshift(res.data);
         vm.$root.$emit("bv::hide::modal", "modal-1");
         vm.this=''
-        // vm.$store.dispatch("Data/listPertanyaan");
         vm.addPertanyaan = {};
       })
       .catch(err => {
@@ -382,7 +357,7 @@ export default {
 
     editQs() {
       let vm = this;
-      axios.post("http://147.139.169.33:8805/kecemasan/update/" + vm.idEdit, {
+      axios.post(ipBackend + "/kecemasan/update/" + vm.idEdit, {
         pertanyaan: vm.infoModal.content.pertanyaan,
         descending: vm.infoModal.content.descending
       }, {
@@ -391,14 +366,9 @@ export default {
         },
       })
       .then(() => {
-        // console.log(res.data);
         alert("berhasil");
-        // vm.$store.dispatch("Data/listPertanyaan");
         let idNew = vm.formInput.findIndex((o) => o.id === vm.idEdit);
         vm.formInput[idNew] = vm.infoModal.content;
-        // vm.formInput.unshift(res.data);
-        // console.log(`ini ${vm.idNew}`);
-        // console.log(`ini ${vm.formInput[idNew].pertanyaan}`);
         vm.$root.$emit("bv::hide::modal", "info-modal");
       })
       .catch(err=> {
@@ -407,7 +377,6 @@ export default {
     },
 
     delQs(idData) {
-      // console.log(`ini delQs idData ${idData}`);
       let vm = this;
       axios.delete(ipBackend + "/kecemasan/delete/" + idData, {
         headers: {
@@ -415,9 +384,7 @@ export default {
         },
       })
       .then(() => {
-        // console.log(res);
         alert("berhasil");
-        // vm.$store.dispatch("Data/listPertanyaan");
         let idParam = vm.formInput.findIndex((o) => o.id === idData);
         vm.formInput.splice(idParam, 1);
         vm.$root.$emit("bv::hide::modal");

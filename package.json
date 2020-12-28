@@ -16,6 +16,7 @@
     "vue": "^2.6.12",
     "vue-moment": "^4.1.0",
     "vue-router": "^3.2.0",
+    "vue-socket.io": "^3.0.10",
     "vue-sweetalert2": "^3.0.8",
     "vue2-datepicker": "^3.6.2",
     "vuejs-datepicker": "^1.6.2",

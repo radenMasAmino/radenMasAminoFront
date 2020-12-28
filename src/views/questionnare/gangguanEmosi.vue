@@ -1,7 +1,6 @@
 
 <template>
   <div id="gangguanEmosi">
-
     <MyHeader></MyHeader>
 
     <b-container>
@@ -39,9 +38,9 @@
 
             <b-row class="m-t-30">
               <b-col md="12">
-
-                <b-button v-b-modal.modal-1 variant="primary">Tambah Data</b-button>
-
+                <b-button v-b-modal.modal-1 variant="primary"
+                  >Tambah Data</b-button
+                >
               </b-col>
             </b-row>
 
@@ -91,7 +90,9 @@
                         placeholder="Type to Search"
                       ></b-form-input>
                       <b-input-group-append>
-                        <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                        <b-button :disabled="!filter" @click="filter = ''"
+                          >Clear</b-button
+                        >
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
@@ -128,7 +129,6 @@
               id="tableGangguanEmosi"
               responsive
             >
-
               <template v-slot:cell(actions)="row">
                 <b-button
                   size="sm"
@@ -190,7 +190,6 @@
             >
               <b-form class="bv-example-rtes12345ow">
                 <b-form-group label="Pertanyaan">
-
                   <b-form-input
                     v-model="infoModal.content.pertanyaan"
                     required
@@ -198,36 +197,12 @@
                   >
                   </b-form-input>
 
-                  <b-button variant="primary" class="m-t-15" @click="editData" >Simpan</b-button>
-
+                  <b-button variant="primary" class="m-t-15" @click="editData"
+                    >Simpan</b-button
+                  >
                 </b-form-group>
               </b-form>
             </b-modal>
-
-            <!-- Delete Modal -->
-            <!-- <b-modal
-              hide-footer
-              centered
-              ok-only
-              :id="clearModal.id"
-              :title="clearModal.title"
-              @hide="resetInfoModal"
-            >
-              <b-form class="bv-example-rtes12345ow">
-                <b-form-group label="Pertanyaan">
-
-                  <b-form-input
-                    v-model="deletePertanyaan"
-                    required
-                    placeholder=""
-                  >
-                  </b-form-input>
-
-                  <b-button variant="primary" class="m-t-15" @click="eraseData" >Hapus</b-button>
-
-                </b-form-group>
-              </b-form>
-            </b-modal> -->
           </div>
         </b-col>
       </b-row>
@@ -247,8 +222,9 @@
             placeholder="Masukan Pertanyaan.."
           ></b-form-input>
         </b-form-group>
-          <b-button variant="primary" class="m-t-15" @click="tambahData">Simpan</b-button
-          >
+        <b-button variant="primary" class="m-t-15" @click="tambahData"
+          >Simpan</b-button
+        >
       </b-form>
     </b-modal>
   </div>
@@ -268,30 +244,24 @@ export default {
     return {
       gangguanEmosi: [],
       tambahPertanyaan: "",
-
       editPertanyaan: "",
       idEdit: "",
 
-      // deletePertanyaan: "",
-      // idDelete: "",
-
       fieldGangguanEmosi: [
-        { key: 'id', label: 'Id'},
-        { key: 'pertanyaan', label: 'Pertanyaan', sortable: true, sortDirection: "desc" },
-        { key: 'actions', label: 'Actions'},
+        {
+          key: "pertanyaan",
+          label: "Pertanyaan",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        { key: "actions", label: "Actions" },
       ],
 
       infoModal: {
-        id: 'info-modal',
-        title: '',
-        content: ''
+        id: "info-modal",
+        title: "",
+        content: "",
       },
-
-      // clearModal: {
-      //   id: 'clear-modal',
-      //   title: '',
-      //   content: ''
-      // },
 
       totalRows: 1,
       currentPage: 1,
@@ -302,8 +272,7 @@ export default {
       sortDirection: "asc",
       filter: null,
       filterOn: [],
-
-    }
+    };
   },
 
   computed: {
@@ -317,125 +286,113 @@ export default {
   },
 
   mounted() {
-    axios.get(ipBackend + '/ggnControlEmosi/all', {
-      headers: {
-        'accesstoken': localStorage.getItem('token')
-      }
-    })
-    .then(res => {
-      this.gangguanEmosi = res.data.respon
-      this.gangguanEmosi.sort((a, b) => {return b.id - a.id})
-    })
-    .catch(err => {
-      console.log(`Error on mounted ${err}`);
-    })
+    axios
+      .get(ipBackend + "/ggnControlEmosi/all", {
+        headers: {
+          accesstoken: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        this.gangguanEmosi = res.data.respon;
+        this.gangguanEmosi.sort((a, b) => {
+          return b.id - a.id;
+        });
+      })
+      .catch((err) => {
+        console.log(`Error on mounted ${err}`);
+      });
   },
 
   methods: {
     onFiltered(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
 
     tambahData() {
-      axios.post(ipBackend + '/ggnControlEmosi/register', {
-        pertanyaan: this.tambahPertanyaan
-      }, {
-        headers: {
-          'accesstoken': localStorage.getItem('token')
-        }
-      })
-      .then(res => {
-        this.gangguanEmosi.unshift(res.data);
-        this.$root.$emit("bv::hide::modal", "modal-1");
-      })
-      .catch(err => {
-        console.log(err);
-      })
+      axios
+        .post(
+          ipBackend + "/ggnControlEmosi/register",
+          {
+            pertanyaan: this.tambahPertanyaan,
+          },
+          {
+            headers: {
+              accesstoken: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          alert("Berhasil Menambah Pertanyaan");
+          this.gangguanEmosi.unshift(res.data);
+          this.$root.$emit("bv::hide::modal", "modal-1");
+          this.tambahPertanyaan = "";
+          // this.vm = ''
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     editModal(item, index, button) {
-      this.infoModal.title = `${index+1}. EDIT DATA GANGGUAN EMOSI NO = ${item.id}`
-      this.infoModal.content = item
-      this.idEdit = item.id
-      this.editPertanyaan = item.pertanyaan
-      this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+      this.infoModal.title = `${index + 1}. EDIT DATA GANGGUAN EMOSI NO = ${
+        item.id
+      }`;
+      this.infoModal.content = item;
+      this.idEdit = item.id;
+      this.editPertanyaan = item.pertanyaan;
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
 
     editData() {
-      let vm=this
-      axios.post(ipBackend + '/ggnControlEmosi/update/' + this.idEdit, {
-        pertanyaan: this.infoModal.content.pertanyaan
-      }, {
-        headers: {
-          'accesstoken': localStorage.getItem('token')
-        }
-      })
-      .then(res => {
-        console.log(res.data);
-        alert('Berhasil Mengubah Pertanyaan')
-        let idNew = this.gangguanEmosi.findIndex(o => o.id === this.idEdit );
-        vm.gangguanEmosi[idNew] = vm.infoModal.content;
-        this.$root.$emit("bv::hide::modal", "info-modal");
-      })
-      .catch(err => {
-        console.log(err);
-      })
+      let vm = this;
+      axios
+        .post(
+          ipBackend + "/ggnControlEmosi/update/" + this.idEdit,
+          {
+            pertanyaan: this.infoModal.content.pertanyaan,
+          },
+          {
+            headers: {
+              accesstoken: localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          alert("Berhasil Mengubah Pertanyaan");
+          let idNew = this.gangguanEmosi.findIndex((o) => o.id === this.idEdit);
+          vm.gangguanEmosi[idNew] = vm.infoModal.content;
+          this.$root.$emit("bv::hide::modal", "info-modal");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-
-    // eraseModal(item, index, button) {
-    //   this.clearModal.title = `${index+1}. YAKIN ANDA MAU DELETE = ${item.id}`
-    //   this.clearModal.content = item
-    //   this.idDelete = item.id
-    //   this.deletePertanyaan = item.pertanyaan
-    //   this.$root.$emit('bv::show::modal', this.clearModal.id, button)
-    // },
-
-    // eraseData(idDelete) {
-    //   axios.delete(ipBackend + '/ggnControlEmosi/delete/' + idDelete, {
-    //     id: this.idDelete
-    //   }, {
-    //     headers: {
-    //       'accesstoken': localStorage.getItem('token')
-    //     }
-    //   })
-    //   .then(res => {
-    //     console.log(res.data);
-    //     let idD = this.gangguanEmosi.findIndex(o => o.id === this.idDelete );
-    //     this.gangguanEmosi.splice(idD, 1);
-    //     this.$root.$emit("bv::hide::modal", "clear-modal");
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   })
-    // },
 
     eraseModal(idData) {
-      axios.delete(ipBackend + "/ggnControlEmosi/delete/" + idData, {
-        headers: {
-          accesstoken: localStorage.getItem("token"),
-        },
-      })
-      .then(res => {
-        console.log(res.data);
-        alert("berhasil");
-        let idDelete = this.gangguanEmosi.findIndex((o) => o.id === idData);
-        this.gangguanEmosi.splice(idDelete, 1);
-        this.$root.$emit("bv::hide::modal");
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      axios
+        .delete(ipBackend + "/ggnControlEmosi/delete/" + idData, {
+          headers: {
+            accesstoken: localStorage.getItem("token"),
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          alert("berhasil");
+          let idDelete = this.gangguanEmosi.findIndex((o) => o.id === idData);
+          this.gangguanEmosi.splice(idDelete, 1);
+          this.$root.$emit("bv::hide::modal");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-    
     resetInfoModal() {
-      // this.infoModal.title = ''
-      // this.infoModal.content = ''
+      // this.infoModal.title = "";
+      // this.infoModal.content = "";
     },
-
   },
-  
 };
 </script>
 

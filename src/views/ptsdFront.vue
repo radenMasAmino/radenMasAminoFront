@@ -3,7 +3,7 @@
     <section class="bgheader">
       <b-container>
         <b-row>
-          <b-col cols="12" md="8" lg="8" style="background-color: ">
+          <b-col cols="9" md="8" lg="8" style="background-color: ">
             <div class="partone">
               <h3
                 style="margin: 0 !important; padding: 0 !important"
@@ -35,6 +35,30 @@
               </h6>
             </div>
           </b-col>
+
+          <b-col cols="3" md="4" lg="4">
+            <div class="parttwo">
+              <b-dropdown
+                right
+                variant="link"
+                toggle-class="text-decoration-none"
+                no-caret
+              >
+                <template v-slot:button-content>
+                  <div class="account">
+                    <img
+                      src="../assets/user.png"
+                      style="height: 8vh"
+                      class="invert"
+                    />
+                  </div>
+                </template>
+
+                <b-dropdown-item to="/daftarFront">Profile</b-dropdown-item>
+                <b-dropdown-item @click="ClickLogout">Logout</b-dropdown-item>
+              </b-dropdown>
+            </div>
+          </b-col>
         </b-row>
       </b-container>
     </section>
@@ -55,9 +79,7 @@
                   Dashboard
                 </router-link>
               </b-breadcrumb-item>
-              <b-breadcrumb-item active
-                >Kuisioner PTSD</b-breadcrumb-item
-              >
+              <b-breadcrumb-item active>Kuisioner PTSD</b-breadcrumb-item>
             </b-breadcrumb>
           </b-col>
         </b-row>
@@ -78,25 +100,25 @@
                       <template>
                         <li
                           v-for="(item, index) in dataPertanyaan"
-                          :key="item.id"
+                          :key="item.id" style="margin-top:15px"
                         >
                           {{ item.pertanyaan }}
                           <b-form-select
                             v-model="item.jawaban"
                             @change="updatePoint(index)"
                           >
-                            <b-form-select-option value="0"
+                            <b-form-select-option value=0
                               >Sama Sekali Tidak Pernah</b-form-select-option
                             >
-                            <b-form-select-option value="1"
+                            <b-form-select-option value=1
                               >Sekali - Sekali atau jarang</b-form-select-option
                             >
 
-                            <b-form-select-option value="2"
+                            <b-form-select-option value=2
                               >Agak Sering</b-form-select-option
                             >
 
-                            <b-form-select-option value="2.5"
+                            <b-form-select-option value=3
                               >Sering</b-form-select-option
                             >
                           </b-form-select>
@@ -104,6 +126,91 @@
                       </template>
                     </ol>
                   </b-form-group>
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <b-col md="12" lg="12">
+                  <b-alert show variant="primary" style="margin-top:15px">
+                    <b-row>
+                      <b-col md="12" lg="12">
+                        <h2><strong>Score Kuisioner PTSD Anda Adalah : {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;{{ `( ${this.totalStatus} )` }}</strong></h2> 
+                      </b-col>  
+
+                      <b-col md="12" lg="12">
+                        <hr>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <h4><strong>KETERANGAN :</strong></h4> 
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <b-table-simple>
+                        <b-tbody>
+                          <b-tr>
+                            <b-td style="width:20%">Tidak memiliki PTSD</b-td>
+                            <b-td style="width:20%">:</b-td>
+                            <b-td style="width:20%">0</b-td>
+                            <b-td style="width:20%">-</b-td>
+                            <b-td style="width:20%">42</b-td>
+                          </b-tr>
+                          <b-tr>
+                            <b-td >Memiliki PTSD</b-td>
+                            <b-td >:</b-td>
+                            <b-td >43</b-td>
+                            <b-td >-</b-td>
+                            <b-td >84</b-td>
+                          </b-tr>
+                          <b-tr>
+                            <b-td >PTSD Berat</b-td>
+                            <b-td >:</b-td>
+                            <b-td >85</b-td>
+                            <b-td >-</b-td>
+                            <b-td >126</b-td>
+                          </b-tr>
+                        </b-tbody>
+                      </b-table-simple>
+                      </b-col>
+                    </b-row>      
+                  </b-alert>
+                </b-col>
+              </b-row>
+
+              <b-row>
+                <b-col md="12" lg="12">
+                  <b-alert show variant="warning">
+                  <h2><strong>Relaksasi Yoga Untuk Mengatasi Post Traumatic Stress Disorder (PTSD)</strong></h2> 
+                  <hr>
+                  <b-embed
+                      type="iframe"
+                      aspect="16by9"
+                      src="https://www.youtube.com/embed/HKHMS80Jtg8"
+                      allowfullscreen
+                    ></b-embed>
+                  </b-alert>
+                </b-col>
+
+                <b-col md="12" lg="12">
+                  <b-alert show variant="success">
+                  <h2><strong>Booklet Relaksasi Yoga Untuk Mengatasi Post Traumatic Stress Disorder (PTSD)</strong></h2> 
+                  <hr>
+                  <b-button
+                        href="http://backend.radenmasamino.org/BOOKLET Mengatasi PTSD dengan Yoga.pdf"
+                        target="_blank" variant="primary" size="lg"
+                        >Download Booklet</b-button
+                      >
+                  </b-alert>
+                </b-col>
+
+                
+              </b-row>
+
+              <b-row>
+                <b-col md="12" lg="12">
+                  <hr>
+                </b-col>
+                <b-col md="12" lg="12">
                   <b-button @click="simpanData" variant="primary"
                     >Simpan</b-button
                   >
@@ -138,6 +245,8 @@ export default {
   data() {
     return {
       dataPertanyaan: [],
+      totalPoint: 0,
+      totalStatus: "",
     };
   },
   mounted() {
@@ -148,7 +257,6 @@ export default {
     })
 
       .then((res) => {
-        // console.log('biar keliatan klo ini mounted nya jalan');
         res.data.respon.forEach((element) => {
           let ob = {
             PTSDId: element.id,
@@ -162,6 +270,7 @@ export default {
             ob.point = 0;
           }
           this.dataPertanyaan.push(ob);
+          this.updateTotal();
         });
       })
       .catch((err) => {
@@ -177,7 +286,12 @@ export default {
   },
   methods: {
     updatePoint(i) {
+      let r = this.dataPertanyaan[i].jawaban;
+      let x = this.dataPertanyaan[i].point;
+      let z = this.totalPoint;
+      z += r - x;
       this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
+      this.totalPoint = z;
     },
     simpanData() {
       let vm = this;
@@ -187,15 +301,35 @@ export default {
         },
       })
         .then(() => {
-          alert("Berhasil Mengisi Jawaban");
+          alert("Berhasil");
           // console.log('ini simpan nya');
-          //   console.log(res, '<<<<< ini');
+          // console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {
           console.log("ini error nya");
           console.log(err);
         });
+    },
+    updateTotal() {
+      let array = this.dataPertanyaan;
+      let z = 0;
+      // console.log(array);
+      for (let index = 0; index < array.length; index++) {
+        const element = array[index].point;
+        // console.log(element);
+        z += Number(element);
+      }
+      // console.log(z);
+      this.totalPoint = z / array.length;
+      // this.totalPoint = z
+      if (this.totalPoint < 2.6) {
+        this.totalStatus = "Tidak Memiliki PTSD";
+      } else if (this.totalPoint < 3.1) {
+        this.totalStatus = "Memiliki PTSD";
+      } else {
+        this.totalStatus = "PTSD Berat";
+      }
     },
   },
 };
@@ -206,36 +340,73 @@ export default {
   background-color: #2c3e50;
   border-color: #000;
 }
-#daftarFront .bgheader {
+#ptsdFront .bgheader {
   background-color: #2c3e50;
   box-shadow: 0 7px 20px 0 rgba(0, 0, 0, 0.2);
   color: #fff;
 }
-#daftarFront .bgheader .partone {
+#ptsdFront .bgheader .partone {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   height: 65px;
   flex-direction: column;
 }
-#daftarFront .bgheader .parttwo {
+#ptsdFront .bgheader .parttwo {
   width: 100%;
   height: 65px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
-#daftarFront .bgheader .parttwo img {
+#ptsdFront .bgheader .parttwo img {
   border-radius: 100%;
 }
-#daftarFront .bgheader .parttwo .account {
+#ptsdFront .bgheader .parttwo .account {
   display: flex;
   height: 50px;
   align-items: center;
 }
-#daftarFront .bgheader .parttwo .accountname {
+#ptsdFront .bgheader .parttwo .accountname {
   display: flex;
   flex-direction: column;
   margin-right: 10px;
+}
+
+/*Filter styles*/
+.saturate {
+  filter: saturate(3);
+}
+.grayscale {
+  filter: grayscale(100%);
+}
+.contrast {
+  filter: contrast(160%);
+}
+.brightness {
+  filter: brightness(0.25);
+}
+.blur {
+  filter: blur(3px);
+}
+.invert {
+  filter: invert(100%);
+}
+.sepia {
+  filter: sepia(100%);
+}
+.huerotate {
+  filter: hue-rotate(180deg);
+}
+.rss.opacity {
+  filter: opacity(50%);
+}
+
+ol {
+  padding-left: 20px;
+}
+
+li{
+  padding-left: 10px
 }
 </style>
