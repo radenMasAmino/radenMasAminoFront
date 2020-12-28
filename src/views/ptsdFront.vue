@@ -321,11 +321,10 @@ export default {
         z += Number(element);
       }
       // console.log(z);
-      this.totalPoint = z / array.length;
-      // this.totalPoint = z
-      if (this.totalPoint < 2.6) {
+      this.totalPoint = z;
+      if (this.totalPoint <= 42) {
         this.totalStatus = "Tidak Memiliki PTSD";
-      } else if (this.totalPoint < 3.1) {
+      } else if (this.totalPoint <= 84) {
         this.totalStatus = "Memiliki PTSD";
       } else {
         this.totalStatus = "PTSD Berat";
