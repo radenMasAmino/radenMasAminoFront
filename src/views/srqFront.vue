@@ -125,6 +125,16 @@
               </b-row>
 
               <b-row>
+                <b-col md="12" lg="12">
+                </b-col>
+                <b-col md="12" lg="12">
+                  <b-button @click="simpanData" variant="primary"
+                    >Simpan</b-button
+                  >
+                  <hr>
+                </b-col>
+              </b-row>
+              <b-row>
                 <b-col cols="12" md="12" lg="12">
                   <b-alert show variant="primary" style="margin-top:15px">
                     <b-row>
@@ -136,16 +146,6 @@
                 </b-col>
               </b-row>
 
-              <b-row>
-                <b-col md="12" lg="12">
-                  <hr>
-                </b-col>
-                <b-col md="12" lg="12">
-                  <b-button @click="simpanData" variant="primary"
-                    >Simpan</b-button
-                  >
-                </b-col>
-              </b-row>
             </div>
           </b-col>
         </b-row>

@@ -131,11 +131,21 @@
               </b-row>
 
               <b-row>
+                <b-col md="12" lg="12"> </b-col>
+                <b-col md="12" lg="12">
+                  <b-button @click="simpanData" variant="primary"
+                    >Simpan</b-button
+                  >
+                  <hr />
+                </b-col>
+              </b-row>
+
+              <b-row>
                 <b-col md="12" lg="12">
                   <b-alert show variant="primary" style="margin-top: 15px">
                     <b-row>
                       <b-col md="12" lg="12">
-                        <h2 v-if="(this.totalPoint == 0)">
+                        <h2 v-if="this.totalPoint == 0">
                           <strong
                             >Score Kuisioner PTSD Anda Adalah :
                             {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;</strong
@@ -144,25 +154,22 @@
                         <h2 v-else-if="this.totalPoint <= 42">
                           <strong
                             >Score Kuisioner PTSD Anda Adalah :
-                            {{
-                              this.totalPoint
-                            }}&nbsp;&nbsp;&nbsp;(Tidak Memiliki PTSD)</strong
+                            {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;(Tidak
+                            Memiliki PTSD)</strong
                           >
                         </h2>
                         <h2 v-else-if="this.totalPoint <= 84">
                           <strong
                             >Score Kuisioner PTSD Anda Adalah :
-                            {{
-                              this.totalPoint
-                            }}&nbsp;&nbsp;&nbsp;(Memiliki PTSD)</strong
+                            {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;(Memiliki
+                            PTSD)</strong
                           >
                         </h2>
                         <h2 v-else>
                           <strong
                             >Score Kuisioner PTSD Anda Adalah :
-                            {{
-                              this.totalPoint
-                            }}&nbsp;&nbsp;&nbsp;(PTSD Berat)</strong
+                            {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;(PTSD
+                            Berat)</strong
                           >
                         </h2>
                       </b-col>
@@ -247,17 +254,6 @@
                   </b-alert>
                 </b-col>
               </b-row>
-
-              <b-row>
-                <b-col md="12" lg="12">
-                  <hr />
-                </b-col>
-                <b-col md="12" lg="12">
-                  <b-button @click="simpanData" variant="primary"
-                    >Simpan</b-button
-                  >
-                </b-col>
-              </b-row>
             </div>
           </b-col>
         </b-row>
@@ -327,7 +323,7 @@ export default {
     },
   },
   methods: {
-     ClickLogout() {
+    ClickLogout() {
       alert("terima kasih");
       localStorage.setItem("token", "");
       this.$router.push({ path: "/" });

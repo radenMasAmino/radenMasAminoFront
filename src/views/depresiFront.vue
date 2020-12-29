@@ -127,6 +127,16 @@
               </b-row>
 
               <b-row>
+                <b-col md="12" lg="12"> </b-col>
+                <b-col md="12" lg="12">
+                  <b-button @click="simpanData" variant="primary"
+                    >Simpan</b-button
+                  >
+                  <hr />
+                </b-col>
+              </b-row>
+
+              <b-row>
                 <b-col cols="12" md="12" lg="12">
                   <b-alert show variant="primary" style="margin-top: 15px">
                     <b-row>
@@ -134,7 +144,9 @@
                         <h2 v-if="this.totalPoint < 14">
                           <strong
                             >Score Kuisioner Depresi Anda Adalah :
-                            {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;(Minimal)</strong
+                            {{
+                              this.totalPoint
+                            }}&nbsp;&nbsp;&nbsp;(Minimal)</strong
                           >
                         </h2>
                         <h2 v-else-if="this.totalPoint < 20">
@@ -244,17 +256,6 @@
                   </b-alert>
                 </b-col>
               </b-row>
-
-              <b-row>
-                <b-col md="12" lg="12">
-                  <hr />
-                </b-col>
-                <b-col md="12" lg="12">
-                  <b-button @click="simpanData" variant="primary"
-                    >Simpan</b-button
-                  >
-                </b-col>
-              </b-row>
             </div>
           </b-col>
         </b-row>
@@ -298,7 +299,6 @@ export default {
         let p = [];
         let no = 0;
         res.data.respon.forEach((element) => {
-     
           if (no == 0) {
             no = element.nomor;
           }
@@ -341,7 +341,7 @@ export default {
     },
   },
   methods: {
-     ClickLogout() {
+    ClickLogout() {
       alert("terima kasih");
       localStorage.setItem("token", "");
       this.$router.push({ path: "/" });
