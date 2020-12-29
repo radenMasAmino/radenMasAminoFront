@@ -129,7 +129,7 @@
                   <b-alert show variant="primary" style="margin-top:15px">
                     <b-row>
                       <b-col md="12" lg="12">
-                        <h2><strong>Score Anda Adalah : {{ `Total Score SRQ Anda ` }}&nbsp;&nbsp;&nbsp;{{ `( ${this.totalPoint} )` }}</strong></h2> 
+                        <h2><strong> {{ `Total Score SRQ Anda ` }}&nbsp;&nbsp;&nbsp;{{ `( ${totalPoint} )` }}  -  {{totalStatus}}</strong></h2> 
                       </b-col>  
                     </b-row>      
                   </b-alert>
@@ -176,6 +176,7 @@ export default {
     return {
       dataPertanyaan: [],
       totalPoint: 0,
+      totalStatus:''
     };
   },
   mounted() {
@@ -250,7 +251,7 @@ export default {
     updateTotal() {
       let array = this.dataPertanyaan;
       let z = 0;
-      console.log(array);
+      // console.log(array);
       for (let index = 0; index < array.length; index++) {
         const element = array[index].point;
         // console.log(element);
@@ -259,13 +260,11 @@ export default {
       console.log(z);
       // this.totalPoint = z / array.length
       this.totalPoint = z;
-      if (z < 21) {
-        this.totalStatus = "Kontrol Emosi Buruk";
-      } else if (z < 31) {
-        this.totalStatus = "Kontrol Emosi Sedang";
-      } else {
-        this.totalStatus = "Kontrol Emosi Baik";
-      }
+      if (z < 6) {
+        this.totalStatus = "Anda Tidak Mengalami Gangguan Mental";
+      } else if (z < 100) {
+        this.totalStatus = "Anda Mungkin Mengalami Gangguan Mental, Silahkan Mengisi Form Lain Pada Halaman Dashboard";
+      } 
     },
   },
 };
