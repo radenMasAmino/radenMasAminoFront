@@ -356,6 +356,11 @@ export default {
     },
   },
   methods: {
+     ClickLogout() {
+      alert("terima kasih");
+      localStorage.setItem("token", "");
+      this.$router.push({ path: "/" });
+    },
     updatePoint(i) {
       let r = this.dataPertanyaan[i].jawaban;
       let x = this.dataPertanyaan[i].point;

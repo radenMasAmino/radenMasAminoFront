@@ -298,6 +298,7 @@ export default {
         let p = [];
         let no = 0;
         res.data.respon.forEach((element) => {
+     
           if (no == 0) {
             no = element.nomor;
           }
@@ -340,6 +341,11 @@ export default {
     },
   },
   methods: {
+     ClickLogout() {
+      alert("terima kasih");
+      localStorage.setItem("token", "");
+      this.$router.push({ path: "/" });
+    },
     updatePoint(i) {
       let r = this.dataPertanyaan[i].jawaban;
       let x = this.dataPertanyaan[i].point;
@@ -354,7 +360,7 @@ export default {
     },
     simpanData() {
       let vm = this;
-      console.log(this.dataPertanyaan);
+      // console.log(this.dataPertanyaan);
       Axios.post(ipBackend + "/poolDepresi/screening", this.dataPertanyaan, {
         headers: {
           accessToken: localStorage.getItem("token"),
@@ -372,7 +378,7 @@ export default {
     updateTotal() {
       let array = this.dataPertanyaan;
       let z = 0;
-      console.log(array);
+      // console.log(array);
       for (let index = 0; index < array.length; index++) {
         const element = array[index].point;
         // console.log(element);
