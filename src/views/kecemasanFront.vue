@@ -18,7 +18,11 @@
                 <strong>Online Nurse Mental Health Care Raden Mas Amino</strong>
               </h6>
               <h4
-                style="margin: 0 !important; padding: 0 !important;font-size:20px"
+                style="
+                  margin: 0 !important;
+                  padding: 0 !important;
+                  font-size: 20px;
+                "
                 class="d-block d-sm-none d-none d-sm-block d-md-none"
               >
                 <strong>ONME RADEN MAS AMINO</strong>
@@ -143,55 +147,92 @@
 
               <b-row>
                 <b-col cols="12" md="12" lg="12">
-                  <b-alert show variant="primary" style="margin-top:15px">
+                  <b-alert show variant="primary" style="margin-top: 15px">
                     <b-row>
                       <b-col md="12" lg="12">
-                        <h2><strong>Score Kuisioner Kecemasan Anda Adalah : {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;{{ `( ${this.totalStatus} )` }}</strong></h2> 
-                      </b-col>  
-
-                      <b-col md="12" lg="12">
-                        <hr>
+                        <h2 v-if="this.totalPoint < 20">
+                          <strong
+                            >Score Kuisioner Kecemasan Anda Adalah :
+                            {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;</strong
+                          >
+                        </h2>
+                        <h2 v-else-if="this.totalPoint < 45">
+                          <strong
+                            >Score Kuisioner Kecemasan Anda Adalah :
+                            {{
+                              this.totalPoint
+                            }}&nbsp;&nbsp;&nbsp;(Normal)</strong
+                          >
+                        </h2>
+                        <h2 v-else-if="this.totalPoint < 60">
+                          <strong
+                            >Score Kuisioner Kecemasan Anda Adalah :
+                            {{
+                              this.totalPoint
+                            }}&nbsp;&nbsp;&nbsp;(Ringan)</strong
+                          >
+                        </h2>
+                        <h2 v-else-if="this.totalPoint < 75">
+                          <strong
+                            >Score Kuisioner Kecemasan Anda Adalah :
+                            {{
+                              this.totalPoint
+                            }}&nbsp;&nbsp;&nbsp;(Sedang)</strong
+                          >
+                        </h2>
+                        <h2 v-else>
+                          <strong
+                            >Score Kuisioner Kecemasan Anda Adalah :
+                            {{
+                              this.totalPoint
+                            }}&nbsp;&nbsp;&nbsp;(Berat)</strong
+                          >
+                        </h2>
                       </b-col>
 
                       <b-col md="12" lg="12">
-                        <h4><strong>KETERANGAN :</strong></h4> 
+                        <hr />
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <h4><strong>KETERANGAN :</strong></h4>
                       </b-col>
 
                       <b-col md="12" lg="12">
                         <b-table-simple>
-                        <b-tbody>
-                          <b-tr>
-                            <b-td style="width:10%">Normal</b-td>
-                            <b-td style="width:25%">:</b-td>
-                            <b-td style="width:20%">20</b-td>
-                            <b-td style="width:25%">-</b-td>
-                            <b-td style="width:20%">44</b-td>
-                          </b-tr>
-                          <tr>
-                            <b-td>Ringan</b-td>
-                            <b-td>:</b-td>
-                            <b-td>45</b-td>
-                            <b-td>-</b-td>
-                            <b-td>59</b-td>
-                          </tr>
-                          <tr>
-                            <b-td>Sedang</b-td>
-                            <b-td>:</b-td>
-                            <b-td>60</b-td>
-                            <b-td>-</b-td>
-                            <b-td>74</b-td>
-                          </tr>
-                          <tr>
-                            <b-td>Berat</b-td>
-                            <b-td>:</b-td>
-                            <b-td>75</b-td>
-                            <b-td>-</b-td>
-                            <b-td>80</b-td>
-                          </tr>
-                        </b-tbody>
-                      </b-table-simple>
+                          <b-tbody>
+                            <b-tr>
+                              <b-td style="width: 10%">Normal</b-td>
+                              <b-td style="width: 25%">:</b-td>
+                              <b-td style="width: 20%">20</b-td>
+                              <b-td style="width: 25%">-</b-td>
+                              <b-td style="width: 20%">44</b-td>
+                            </b-tr>
+                            <tr>
+                              <b-td>Ringan</b-td>
+                              <b-td>:</b-td>
+                              <b-td>45</b-td>
+                              <b-td>-</b-td>
+                              <b-td>59</b-td>
+                            </tr>
+                            <tr>
+                              <b-td>Sedang</b-td>
+                              <b-td>:</b-td>
+                              <b-td>60</b-td>
+                              <b-td>-</b-td>
+                              <b-td>74</b-td>
+                            </tr>
+                            <tr>
+                              <b-td>Berat</b-td>
+                              <b-td>:</b-td>
+                              <b-td>75</b-td>
+                              <b-td>-</b-td>
+                              <b-td>80</b-td>
+                            </tr>
+                          </b-tbody>
+                        </b-table-simple>
                       </b-col>
-                    </b-row>      
+                    </b-row>
                   </b-alert>
                 </b-col>
               </b-row>
@@ -199,33 +240,45 @@
               <b-row>
                 <b-col md="12" lg="12">
                   <b-alert show variant="warning">
-                  <h2><strong>Terapi Relaksasi Progresif Untuk Menurunkan Kecemasan</strong></h2> 
-                  <hr>
-                   <b-embed
-                        type="iframe"
-                        aspect="16by9"
-                        src="https://www.youtube.com/embed/RYe8KPZUzg4"
-                        allowfullscreen
-                      ></b-embed>
+                    <h2>
+                      <strong
+                        >Terapi Relaksasi Progresif Untuk Menurunkan
+                        Kecemasan</strong
+                      >
+                    </h2>
+                    <hr />
+                    <b-embed
+                      type="iframe"
+                      aspect="16by9"
+                      src="https://www.youtube.com/embed/RYe8KPZUzg4"
+                      allowfullscreen
+                    ></b-embed>
                   </b-alert>
                 </b-col>
 
                 <b-col md="12" lg="12">
                   <b-alert show variant="success">
-                  <h2><strong>Booklet ROP (Relaksasi Otot Progresif) Kecemasan</strong></h2> 
-                  <hr>
-                  <b-button
-                        href="http://backend.radenmasamino.org/booklet ROP kecemasan.pdf"
-                        target="_blank" variant="primary" size="lg"
-                        >Download Booklet</b-button
+                    <h2>
+                      <strong
+                        >Booklet ROP (Relaksasi Otot Progresif)
+                        Kecemasan</strong
                       >
+                    </h2>
+                    <hr />
+                    <b-button
+                      href="http://backend.radenmasamino.org/booklet ROP kecemasan.pdf"
+                      target="_blank"
+                      variant="primary"
+                      size="lg"
+                      >Download Booklet</b-button
+                    >
                   </b-alert>
                 </b-col>
               </b-row>
-              
+
               <b-row>
                 <b-col md="12" lg="12">
-                  <hr>
+                  <hr />
                 </b-col>
                 <b-col md="12" lg="12">
                   <b-button @click="simpanData" variant="primary"
@@ -263,7 +316,7 @@ export default {
     return {
       dataPertanyaan: [],
       totalPoint: 0,
-      totalStatus: "",
+      totalStatus: null,
     };
   },
   mounted() {
@@ -308,8 +361,9 @@ export default {
       let x = this.dataPertanyaan[i].point;
       let z = this.totalPoint;
       z += r - x;
+      let m = parseInt(z);
       this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
-      this.totalPoint = z;
+      this.totalPoint = m;
     },
     simpanData() {
       let vm = this;
@@ -338,16 +392,16 @@ export default {
       }
       console.log(z);
       // this.totalPoint = z / array.length
-      this.totalPoint = z;
-      if (z < 45) {
-        this.totalStatus = "Normal";
-      } else if (z < 60) {
-        this.totalStatus = "Ringan";
-      } else if (z < 75) {
-        this.totalStatus = "Sedang";
-      } else {
-        this.totalStatus = "Berat";
-      }
+      // this.totalPoint = z;
+      // if (z < "45") {
+      //   this.totalStatus = "Normal";
+      // } else if (z < "60") {
+      //   this.totalStatus = "Ringan";
+      // } else if (z < 75) {
+      //   this.totalStatus = "Sedang";
+      // } else {
+      //   this.totalStatus = "Berat";
+      // }
     },
   },
 };

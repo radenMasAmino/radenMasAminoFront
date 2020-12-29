@@ -102,7 +102,8 @@
                       <template>
                         <li
                           v-for="(item, index) in dataPertanyaan"
-                          :key="item.id" style="margin-top:15px"
+                          :key="item.id"
+                          style="margin-top: 15px"
                         >
                           {{ item.pertanyaan }}
                           <b-form-select
@@ -128,54 +129,74 @@
                       </template>
                     </ol>
                   </b-form-group>
-                  
                 </b-col>
               </b-row>
 
               <b-row>
                 <b-col md="12" lg="12">
-                  <b-alert show variant="primary" style="margin-top:15px">
+                  <b-alert show variant="primary" style="margin-top: 15px">
                     <b-row>
                       <b-col md="12" lg="12">
-                        <h2><strong>Score Kuisioner PTSD Anda Adalah : {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;{{ `( ${this.totalStatus} )` }}</strong></h2> 
-                      </b-col>  
-
-                      <b-col md="12" lg="12">
-                        <hr>
+                        <h2 v-if="this.totalPoint < 21">
+                          <strong
+                            >Score Kuisioner Anda Adalah :
+                            {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;(Buruk)</strong
+                          >
+                        </h2>
+                        <h2 v-else-if="this.totalPoint < 31">
+                          <strong
+                            >Score Kuisioner Anda Adalah :
+                            {{
+                              this.totalPoint
+                            }}&nbsp;&nbsp;&nbsp;(Sedang)</strong
+                          >
+                        </h2>
+                        <h2 v-else>
+                          <strong
+                            >Score Kuisioner Anda Adalah :
+                            {{
+                              this.totalPoint
+                            }}&nbsp;&nbsp;&nbsp;(Baik)</strong
+                          >
+                        </h2>
                       </b-col>
 
                       <b-col md="12" lg="12">
-                        <h4><strong>KETERANGAN :</strong></h4> 
+                        <hr />
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <h4><strong>KETERANGAN :</strong></h4>
                       </b-col>
 
                       <b-col md="12" lg="12">
                         <b-table-simple>
-                        <b-tbody>
-                          <b-tr>
-                            <b-td style="width:20%">Buruk</b-td>
-                            <b-td style="width:20%">:</b-td>
-                            <b-td style="width:20%">00</b-td>
-                            <b-td style="width:20%">-</b-td>
-                            <b-td style="width:20%">20</b-td>
-                          </b-tr>
-                          <b-tr>
-                            <b-td >Sedang</b-td>
-                            <b-td >:</b-td>
-                            <b-td >21</b-td>
-                            <b-td >-</b-td>
-                            <b-td >30</b-td>
-                          </b-tr>
-                          <b-tr>
-                            <b-td >Baik</b-td>
-                            <b-td >:</b-td>
-                            <b-td >31</b-td>
-                            <b-td >-</b-td>
-                            <b-td >40</b-td>
-                          </b-tr>
-                        </b-tbody>
-                      </b-table-simple>
+                          <b-tbody>
+                            <b-tr>
+                              <b-td style="width: 20%">Buruk</b-td>
+                              <b-td style="width: 20%">:</b-td>
+                              <b-td style="width: 20%">00</b-td>
+                              <b-td style="width: 20%">-</b-td>
+                              <b-td style="width: 20%">20</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>Sedang</b-td>
+                              <b-td>:</b-td>
+                              <b-td>21</b-td>
+                              <b-td>-</b-td>
+                              <b-td>30</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>Baik</b-td>
+                              <b-td>:</b-td>
+                              <b-td>31</b-td>
+                              <b-td>-</b-td>
+                              <b-td>40</b-td>
+                            </b-tr>
+                          </b-tbody>
+                        </b-table-simple>
                       </b-col>
-                    </b-row>      
+                    </b-row>
                   </b-alert>
                 </b-col>
               </b-row>
@@ -183,34 +204,44 @@
               <b-row>
                 <b-col md="12" lg="12">
                   <b-alert show variant="warning">
-                  <h2><strong>Meningkatkan Efikasi Diri Dalam Belajar di Era Sosial Distancing COVID - 19</strong></h2> 
-                  <hr>
-                   <b-embed
-                        type="iframe"
-                        aspect="16by9"
-                        src="https://www.youtube.com/embed/8xj5qgN2Km0"
-                        allowfullscreen
-                      ></b-embed>
+                    <h2>
+                      <strong
+                        >Meningkatkan Efikasi Diri Dalam Belajar di Era Sosial
+                        Distancing COVID - 19</strong
+                      >
+                    </h2>
+                    <hr />
+                    <b-embed
+                      type="iframe"
+                      aspect="16by9"
+                      src="https://www.youtube.com/embed/8xj5qgN2Km0"
+                      allowfullscreen
+                    ></b-embed>
                   </b-alert>
                 </b-col>
 
                 <b-col md="12" lg="12">
                   <b-alert show variant="success">
-                  <h2><strong>Booklet Efikasi Diri Dalam Belajar di Era Sosial Distancing COVID - 19</strong></h2> 
-                  <hr>
-                  <b-button
-                        href="http://backend.radenmasamino.org/Booklet efikasi diri dalam belajar.pdf"
-                        target="_blank" variant="primary" size="lg"
-                        >Download Booklet</b-button
+                    <h2>
+                      <strong
+                        >Booklet Efikasi Diri Dalam Belajar di Era Sosial
+                        Distancing COVID - 19</strong
                       >
+                    </h2>
+                    <hr />
+                    <b-button
+                      href="http://backend.radenmasamino.org/Booklet efikasi diri dalam belajar.pdf"
+                      target="_blank"
+                      variant="primary"
+                      size="lg"
+                      >Download Booklet</b-button
+                    >
                   </b-alert>
                 </b-col>
-
-                
               </b-row>
               <b-row>
                 <b-col md="12" lg="12">
-                  <hr>
+                  <hr />
                 </b-col>
                 <b-col md="12" lg="12">
                   <b-button @click="simpanData" variant="primary"
@@ -274,7 +305,7 @@ export default {
           }
           this.dataPertanyaan.push(ob);
         });
-        this.updateTotal()
+        this.updateTotal();
       })
       .catch((err) => {
         console.log("ini gagal oi " + err);
@@ -327,15 +358,15 @@ export default {
       }
       console.log(z);
       // this.totalPoint = z / array.length
-      this.totalPoint = z;
-      if (z < 21) {
-        this.totalStatus = "Buruk";
-        console.log(this.totalStatus);
-      } else if (z < 31) {
-        this.totalStatus = "Sedang";
-      } else {
-        this.totalStatus = "Baik";
-      }
+      // this.totalPoint = z;
+      // if (z < 21) {
+      //   this.totalStatus = "Buruk";
+      //   console.log(this.totalStatus);
+      // } else if (z < 31) {
+      //   this.totalStatus = "Sedang";
+      // } else {
+      //   this.totalStatus = "Baik";
+      // }
     },
   },
 };
@@ -412,7 +443,7 @@ ol {
   padding-left: 20px;
 }
 
-li{
-  padding-left: 10px
+li {
+  padding-left: 10px;
 }
 </style>

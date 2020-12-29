@@ -44,8 +44,8 @@ const routes = [
     component: SRQFront,
     meta: {
 
-      requiresAuth: false,
-      google: false
+      requiresAuth: true,
+      google: true
     }
   },
 
@@ -66,8 +66,8 @@ const routes = [
     component: DashboardFront,
     meta: {
 
-      requiresAuth: false,
-      google: false
+      requiresAuth: true,
+      google: true
     }
   },
 

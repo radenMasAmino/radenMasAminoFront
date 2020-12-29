@@ -100,25 +100,26 @@
                       <template>
                         <li
                           v-for="(item, index) in dataPertanyaan"
-                          :key="item.id" style="margin-top:15px"
+                          :key="item.id"
+                          style="margin-top: 15px"
                         >
                           {{ item.pertanyaan }}
                           <b-form-select
                             v-model="item.jawaban"
                             @change="updatePoint(index)"
                           >
-                            <b-form-select-option value=0
+                            <b-form-select-option value="0"
                               >Sama Sekali Tidak Pernah</b-form-select-option
                             >
-                            <b-form-select-option value=1
+                            <b-form-select-option value="1"
                               >Sekali - Sekali atau jarang</b-form-select-option
                             >
 
-                            <b-form-select-option value=2
+                            <b-form-select-option value="2"
                               >Agak Sering</b-form-select-option
                             >
 
-                            <b-form-select-option value=3
+                            <b-form-select-option value="3"
                               >Sering</b-form-select-option
                             >
                           </b-form-select>
@@ -131,48 +132,79 @@
 
               <b-row>
                 <b-col md="12" lg="12">
-                  <b-alert show variant="primary" style="margin-top:15px">
+                  <b-alert show variant="primary" style="margin-top: 15px">
                     <b-row>
                       <b-col md="12" lg="12">
-                        <h2><strong>Score Kuisioner PTSD Anda Adalah : {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;{{ `( ${this.totalStatus} )` }}</strong></h2> 
-                      </b-col>  
-
-                      <b-col md="12" lg="12">
-                        <hr>
+                        <h2 v-if="(this.totalPoint == 0)">
+                          <strong
+                            >Score Kuisioner PTSD Anda Adalah :
+                            {{ this.totalPoint }}&nbsp;&nbsp;&nbsp;</strong
+                          >
+                        </h2>
+                        <h2 v-else-if="this.totalPoint <= 42">
+                          <strong
+                            >Score Kuisioner PTSD Anda Adalah :
+                            {{
+                              this.totalPoint
+                            }}&nbsp;&nbsp;&nbsp;(Tidak Memiliki PTSD)</strong
+                          >
+                        </h2>
+                        <h2 v-else-if="this.totalPoint <= 84">
+                          <strong
+                            >Score Kuisioner PTSD Anda Adalah :
+                            {{
+                              this.totalPoint
+                            }}&nbsp;&nbsp;&nbsp;(Memiliki PTSD)</strong
+                          >
+                        </h2>
+                        <h2 v-else>
+                          <strong
+                            >Score Kuisioner PTSD Anda Adalah :
+                            {{
+                              this.totalPoint
+                            }}&nbsp;&nbsp;&nbsp;(PTSD Berat)</strong
+                          >
+                        </h2>
                       </b-col>
 
                       <b-col md="12" lg="12">
-                        <h4><strong>KETERANGAN :</strong></h4> 
+                        <hr />
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <h4><strong>KETERANGAN :</strong></h4>
                       </b-col>
 
                       <b-col md="12" lg="12">
                         <b-table-simple>
-                        <b-tbody>
-                          <b-tr>
-                            <b-td style="width:20%">Tidak memiliki PTSD</b-td>
-                            <b-td style="width:20%">:</b-td>
-                            <b-td style="width:20%">0</b-td>
-                            <b-td style="width:20%">-</b-td>
-                            <b-td style="width:20%">42</b-td>
-                          </b-tr>
-                          <b-tr>
-                            <b-td >Memiliki PTSD</b-td>
-                            <b-td >:</b-td>
-                            <b-td >43</b-td>
-                            <b-td >-</b-td>
-                            <b-td >84</b-td>
-                          </b-tr>
-                          <b-tr>
-                            <b-td >PTSD Berat</b-td>
-                            <b-td >:</b-td>
-                            <b-td >85</b-td>
-                            <b-td >-</b-td>
-                            <b-td >126</b-td>
-                          </b-tr>
-                        </b-tbody>
-                      </b-table-simple>
+                          <b-tbody>
+                            <b-tr>
+                              <b-td style="width: 20%"
+                                >Tidak memiliki PTSD</b-td
+                              >
+                              <b-td style="width: 20%">:</b-td>
+                              <b-td style="width: 20%">0</b-td>
+                              <b-td style="width: 20%">-</b-td>
+                              <b-td style="width: 20%">42</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>Memiliki PTSD</b-td>
+                              <b-td>:</b-td>
+                              <b-td>43</b-td>
+                              <b-td>-</b-td>
+                              <b-td>84</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>PTSD Berat</b-td>
+                              <b-td>:</b-td>
+                              <b-td>85</b-td>
+                              <b-td>-</b-td>
+                              <b-td>126</b-td>
+                            </b-tr>
+                          </b-tbody>
+                        </b-table-simple>
                       </b-col>
-                    </b-row>      
+                    </b-row>
                   </b-alert>
                 </b-col>
               </b-row>
@@ -180,9 +212,14 @@
               <b-row>
                 <b-col md="12" lg="12">
                   <b-alert show variant="warning">
-                  <h2><strong>Relaksasi Yoga Untuk Mengatasi Post Traumatic Stress Disorder (PTSD)</strong></h2> 
-                  <hr>
-                  <b-embed
+                    <h2>
+                      <strong
+                        >Relaksasi Yoga Untuk Mengatasi Post Traumatic Stress
+                        Disorder (PTSD)</strong
+                      >
+                    </h2>
+                    <hr />
+                    <b-embed
                       type="iframe"
                       aspect="16by9"
                       src="https://www.youtube.com/embed/HKHMS80Jtg8"
@@ -193,22 +230,27 @@
 
                 <b-col md="12" lg="12">
                   <b-alert show variant="success">
-                  <h2><strong>Booklet Relaksasi Yoga Untuk Mengatasi Post Traumatic Stress Disorder (PTSD)</strong></h2> 
-                  <hr>
-                  <b-button
-                        href="http://backend.radenmasamino.org/BOOKLET Mengatasi PTSD dengan Yoga.pdf"
-                        target="_blank" variant="primary" size="lg"
-                        >Download Booklet</b-button
+                    <h2>
+                      <strong
+                        >Booklet Relaksasi Yoga Untuk Mengatasi Post Traumatic
+                        Stress Disorder (PTSD)</strong
                       >
+                    </h2>
+                    <hr />
+                    <b-button
+                      href="http://backend.radenmasamino.org/BOOKLET Mengatasi PTSD dengan Yoga.pdf"
+                      target="_blank"
+                      variant="primary"
+                      size="lg"
+                      >Download Booklet</b-button
+                    >
                   </b-alert>
                 </b-col>
-
-                
               </b-row>
 
               <b-row>
                 <b-col md="12" lg="12">
-                  <hr>
+                  <hr />
                 </b-col>
                 <b-col md="12" lg="12">
                   <b-button @click="simpanData" variant="primary"
@@ -320,15 +362,15 @@ export default {
         // console.log(element);
         z += Number(element);
       }
-      // console.log(z);
-      this.totalPoint = z;
-      if (this.totalPoint <= 42) {
-        this.totalStatus = "Tidak Memiliki PTSD";
-      } else if (this.totalPoint <= 84) {
-        this.totalStatus = "Memiliki PTSD";
-      } else {
-        this.totalStatus = "PTSD Berat";
-      }
+      console.log(z);
+      // this.totalPoint = z;
+      // if (this.totalPoint <= 42) {
+      //   this.totalStatus = "Tidak Memiliki PTSD";
+      // } else if (this.totalPoint <= 84) {
+      //   this.totalStatus = "Memiliki PTSD";
+      // } else {
+      //   this.totalStatus = "PTSD Berat";
+      // }
     },
   },
 };
@@ -405,7 +447,7 @@ ol {
   padding-left: 20px;
 }
 
-li{
-  padding-left: 10px
+li {
+  padding-left: 10px;
 }
 </style>
