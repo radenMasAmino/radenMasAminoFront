@@ -122,7 +122,7 @@ const routes = [
     meta: {
 
       requiresAuth: true,
-      google: false
+      google: true
     }
   },
   // --------------------- bawah non-front --------------------------- //
