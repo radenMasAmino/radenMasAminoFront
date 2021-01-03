@@ -39,8 +39,10 @@
             <b-row class="m-t-15">
               <b-col md="12">
                 <b-alert show variant="primary">
-                  <div v-if="items.length > 0" style="width: 100%; display: table">
-
+                  <div
+                    v-if="items.length > 0"
+                    style="width: 100%; display: table"
+                  >
                     <div style="display: table-row">
                       <div style="display: table-cell; width: 15%">
                         <h5>Id</h5>
@@ -143,6 +145,28 @@
                         </b-form-group>
                       </b-card-body>
                     </b-collapse>
+                    <b-row class="m-t-15">
+                      <b-col md="12">
+                        <b-alert show variant="primary">
+                          <div
+                            v-if="items.length > 0"
+                            style="width: 100%; display: table"
+                          >
+                            <div style="display: table-row">
+                              <div style="display: table-cell; width: 15%">
+                                <h5>Score SRQ</h5>
+                              </div>
+                              <div style="display: table-cell; width: 2.5%">
+                                <h5>:</h5>
+                              </div>
+                              <div style="display: table-cell">
+                                <h5>{{ srqPoint }}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </b-alert>
+                      </b-col>
+                    </b-row>
                   </b-card>
 
                   <b-card no-body class="mb-1">
@@ -211,6 +235,28 @@
                         </b-form-group>
                       </b-card-body>
                     </b-collapse>
+                    <b-row class="m-t-15">
+                      <b-col md="12">
+                        <b-alert show variant="primary">
+                          <div
+                            v-if="items.length > 0"
+                            style="width: 100%; display: table"
+                          >
+                            <div style="display: table-row">
+                              <div style="display: table-cell; width: 15%">
+                                <h5>Score Kecemasan</h5>
+                              </div>
+                              <div style="display: table-cell; width: 2.5%">
+                                <h5>:</h5>
+                              </div>
+                              <div style="display: table-cell">
+                                <h5>{{ kecemasanPoint }}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </b-alert>
+                      </b-col>
+                    </b-row>
                   </b-card>
 
                   <b-card no-body class="mb-1">
@@ -256,6 +302,28 @@
                         </ol>
                       </b-card-body>
                     </b-collapse>
+                    <b-row class="m-t-15">
+                      <b-col md="12">
+                        <b-alert show variant="primary">
+                          <div
+                            v-if="items.length > 0"
+                            style="width: 100%; display: table"
+                          >
+                            <div style="display: table-row">
+                              <div style="display: table-cell; width: 15%">
+                                <h5>Score Depresi</h5>
+                              </div>
+                              <div style="display: table-cell; width: 2.5%">
+                                <h5>:</h5>
+                              </div>
+                              <div style="display: table-cell">
+                                <h5>{{ depresiPoint }}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </b-alert>
+                      </b-col>
+                    </b-row>
                   </b-card>
 
                   <b-card no-body class="mb-1">
@@ -279,32 +347,57 @@
                     >
                       <b-card-body>
                         <ol>
-                        <li v-for="(item, index) in emosiRes" :key="item.id" style="margin-top: 15px">
-                          {{ item.pertanyaan }}
-                          <b-form-select
-                            v-model="item.jawaban"
-                            @change="updateEmosi(index)"
-                            
+                          <li
+                            v-for="(item, index) in emosiRes"
+                            :key="item.id"
+                            style="margin-top: 15px"
                           >
-                            <b-form-select-option value="0"
-                              >Tidak Pernah</b-form-select-option
+                            {{ item.pertanyaan }}
+                            <b-form-select
+                              v-model="item.jawaban"
+                              @change="updateEmosi(index)"
                             >
-                            <b-form-select-option value="2"
-                              >Jarang</b-form-select-option
-                            >
+                              <b-form-select-option value="0"
+                                >Tidak Pernah</b-form-select-option
+                              >
+                              <b-form-select-option value="2"
+                                >Jarang</b-form-select-option
+                              >
 
-                            <b-form-select-option value="3"
-                              >Sering</b-form-select-option
-                            >
+                              <b-form-select-option value="3"
+                                >Sering</b-form-select-option
+                              >
 
-                            <b-form-select-option value="4"
-                              >Selalu</b-form-select-option
-                            >
-                          </b-form-select>
-                        </li>
+                              <b-form-select-option value="4"
+                                >Selalu</b-form-select-option
+                              >
+                            </b-form-select>
+                          </li>
                         </ol>
                       </b-card-body>
                     </b-collapse>
+                    <b-row class="m-t-15">
+                      <b-col md="12">
+                        <b-alert show variant="primary">
+                          <div
+                            v-if="items.length > 0"
+                            style="width: 100%; display: table"
+                          >
+                            <div style="display: table-row">
+                              <div style="display: table-cell; width: 15%">
+                                <h5>Score Regulasi Emosi</h5>
+                              </div>
+                              <div style="display: table-cell; width: 2.5%">
+                                <h5>:</h5>
+                              </div>
+                              <div style="display: table-cell">
+                                <h5>{{ emosiPoint }}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </b-alert>
+                      </b-col>
+                    </b-row>
                   </b-card>
 
                   <b-card no-body class="mb-1">
@@ -363,6 +456,28 @@
                         </b-form-group>
                       </b-card-body>
                     </b-collapse>
+                    <b-row class="m-t-15">
+                      <b-col md="12">
+                        <b-alert show variant="primary">
+                          <div
+                            v-if="items.length > 0"
+                            style="width: 100%; display: table"
+                          >
+                            <div style="display: table-row">
+                              <div style="display: table-cell; width: 15%">
+                                <h5>Score PTSD</h5>
+                              </div>
+                              <div style="display: table-cell; width: 2.5%">
+                                <h5>:</h5>
+                              </div>
+                              <div style="display: table-cell">
+                                <h5>{{ ptsdPoint }}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </b-alert>
+                      </b-col>
+                    </b-row>
                   </b-card>
 
                   <b-card no-body class="mb-1">
@@ -414,10 +529,34 @@
                         </ol>
                       </b-card-body>
                     </b-collapse>
+                    <b-row class="m-t-15">
+                      <b-col md="12">
+                        <b-alert show variant="primary">
+                          <div
+                            v-if="items.length > 0"
+                            style="width: 100%; display: table"
+                          >
+                            <div style="display: table-row">
+                              <div style="display: table-cell; width: 15%">
+                                <h5>Score Efikasi Diri Dalam Belajar</h5>
+                              </div>
+                              <div style="display: table-cell; width: 2.5%">
+                                <h5>:</h5>
+                              </div>
+                              <div style="display: table-cell">
+                                <h5>{{ belajarPoint }}</h5>
+                              </div>
+                            </div>
+                          </div>
+                        </b-alert>
+                      </b-col>
+                    </b-row>
                   </b-card>
                 </div>
               </b-col>
-
+              <span>
+                <!-- {{this.point}} -->
+              </span>
               <b-col md="12" lg="12" style="margin-top: 30px">
                 <b-button size="md" variant="primary" @click="simpanData"
                   >Simpan</b-button
@@ -432,7 +571,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 import myheader from "../../components/header";
 import { ipBackend } from "@/config.js";
 
@@ -456,6 +595,12 @@ export default {
       idPTSD: [],
       idKecemasan: [],
       idDepresi: [],
+      emosiPoint: 0,
+      srqPoint: 0,
+      kecemasanPoint: 0,
+      depresiPoint: 0,
+      ptsdPoint: 0,
+      belajarPoint: 0,
     };
   },
   mounted() {
@@ -468,7 +613,6 @@ export default {
       })
       .then((res) => {
         this.items = res.data.respon;
-        // console.log(this.items);
       })
       .catch((err) => {
         console.log(err);
@@ -481,7 +625,6 @@ export default {
         },
       })
       .then((res) => {
-        // console.log('biar keliatan klo ini mounted nya jalan');
         res.data.respon.forEach((element) => {
           let ob = {
             SRQId: element.id,
@@ -495,6 +638,10 @@ export default {
             ob.point = 0;
           }
           this.srqRes.push(ob);
+          let x = this.srqRes[0].point;
+          let z = this.srqPoint;
+          z += x;
+          this.srqPoint = z;
         });
       })
       .catch((err) => {
@@ -512,6 +659,7 @@ export default {
           let ob = {
             PTSDId: element.id,
             pertanyaan: element.pertanyaan,
+            point: element.point,
           };
           if (element.poolPTSDs.length > 0) {
             ob.jawaban = element.poolPTSDs[0].jawaban;
@@ -522,6 +670,13 @@ export default {
             ob.point = 0;
           }
           this.ptsdRes.push(ob);
+          let array = this.ptsdRes;
+          let r = 0;
+          for (let index = 0; index < array.length; index++) {
+            const element = array[index].point;
+            r += Number(element);
+            this.ptsdPoint = r;
+          }
         });
       })
       .catch((err) => {
@@ -550,6 +705,10 @@ export default {
             ob.point = 0;
           }
           this.kecemasanRes.push(ob);
+          let x = this.kecemasanRes[0].point;
+          let z = this.kecemasanPoint;
+          z += x;
+          this.kecemasanPoint = z;
         });
       })
       .catch((err) => {
@@ -596,10 +755,16 @@ export default {
 
           p.push(obj);
         });
-        // console.log(this.depresiRes);
+        let array = this.depresiRes;
+        let z = 0;
+        for (let index = 0; index < array.length; index++) {
+          const element = array[index].point;
+          z += element;
+          this.depresiPoint = z;
+        }
       })
       .catch((err) => {
-        console.log("ini gagal oi " + err);
+        console.log("ini gagal oi >>>>>>>" + err);
       });
 
     axios
@@ -623,6 +788,10 @@ export default {
             ob.point = 0;
           }
           this.belajarRes.push(ob);
+          let x = this.belajarRes[0].point;
+          let z = this.belajarPoint;
+          z += x;
+          this.belajarPoint = z;
         });
       })
       .catch((err) => {
@@ -651,7 +820,10 @@ export default {
             ob.point = 0;
           }
           this.emosiRes.push(ob);
-          // console.log(this.belajarRes, "ini jawaban belajar");
+          let x = this.emosiRes[0].point;
+          let z = this.emosiPoint;
+          z += x;
+          this.emosiPoint = z;
         });
       })
       .catch((err) => {
@@ -662,7 +834,7 @@ export default {
   methods: {
     updateEmosi(i) {
       this.emosiRes[i].point = this.emosiRes[i].jawaban;
-      this.idEmosi = this.emosiRes[i].id;
+      this.idEmosi = this.emosiRes[i].ggnControlEmosiId;
 
       axios
         .post(
@@ -677,8 +849,8 @@ export default {
             },
           }
         )
-        .then(() => {
-          // console.log(res);
+        .then((res) => {
+          console.log(res);
           // alert("Berhasil Mengisi SRQ");
         })
         .catch((err) => {
@@ -689,7 +861,7 @@ export default {
 
     updateBelajar(i) {
       this.belajarRes[i].point = this.belajarRes[i].jawaban;
-      this.idBelajar = this.belajarRes[i].id;
+      this.idBelajar = this.belajarRes[i].ggnBelajarId;
 
       axios
         .post(
@@ -716,8 +888,7 @@ export default {
 
     updatePTSD(i) {
       this.ptsdRes[i].point = this.ptsdRes[i].jawaban;
-      this.idPTSD = this.ptsdRes[i].id;
-       console.log(this.ptsdRes[i]);
+      this.idPTSD = this.ptsdRes[i].PTSDId;
 
       axios
         .post(
@@ -732,8 +903,8 @@ export default {
             },
           }
         )
-        .then(() => {
-          // console.log(res);
+        .then((res) => {
+          console.log(res, ">>>>>>>>>>");
           // alert("Berhasil Mengisi SRQ");
         })
         .catch((err) => {
@@ -744,7 +915,7 @@ export default {
 
     updateKecemasan(i) {
       this.kecemasanRes[i].point = this.kecemasanRes[i].jawaban;
-      this.idKecemasan = this.kecemasanRes[i].id;
+      this.idKecemasan = this.kecemasanRes[i].kecemasanId;
       // console.log(this.kecemasanRes[i]);
 
       axios
@@ -772,7 +943,7 @@ export default {
 
     updateDepresi(i) {
       this.depresiRes[i].point = this.depresiRes[i].jawaban;
-      this.idDepresi[i] = this.depresiRes[i].id;
+      this.idDepresi[i] = this.depresiRes[i].depresiId;
       axios
         .post(
           ipBackend + "/poolDepresi/update/" + this.idDepresi,
@@ -798,7 +969,7 @@ export default {
 
     simpanData() {
       alert("Berhasil");
-      this.$router.push({ path: "/dashboard" });
+      this.$router.push({ path: "/user" });
     },
   },
 };
@@ -808,7 +979,7 @@ ol {
   padding-left: 20px;
 }
 
-li{
-  padding-left: 10px
+li {
+  padding-left: 10px;
 }
 </style>
