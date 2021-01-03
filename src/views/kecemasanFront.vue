@@ -391,21 +391,9 @@ export default {
       console.log(array);
       for (let index = 0; index < array.length; index++) {
         const element = array[index].point;
-        // console.log(element);
         z += element;
       }
       console.log(z);
-      // this.totalPoint = z / array.length
-      // this.totalPoint = z;
-      // if (z < "45") {
-      //   this.totalStatus = "Normal";
-      // } else if (z < "60") {
-      //   this.totalStatus = "Ringan";
-      // } else if (z < 75) {
-      //   this.totalStatus = "Sedang";
-      // } else {
-      //   this.totalStatus = "Berat";
-      // }
     },
   },
 };

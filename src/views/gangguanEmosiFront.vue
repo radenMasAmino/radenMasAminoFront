@@ -288,7 +288,6 @@ export default {
     })
 
       .then((res) => {
-        // console.log('biar keliatan klo ini mounted nya jalan');
         res.data.respon.forEach((element) => {
           let ob = {
             ggnControlEmosiId: element.id,
@@ -326,17 +325,13 @@ export default {
       let r = this.dataPertanyaan[i].jawaban;
       let x = this.dataPertanyaan[i].point;
       let z = this.totalPoint;
-      // console.log(r, x, z);
       z += r - x;
       var m = parseInt(z);
       this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
       this.totalPoint = m;
-      // this.updateTotal()
-      // console.log(this.dataPertanyaan[i].point);
     },
     simpanData() {
       let vm = this;
-      // console.log(vm);
       Axios.post(
         ipBackend + "/poolGgnControlEmosi/screening",
         this.dataPertanyaan,
@@ -348,8 +343,6 @@ export default {
       )
         .then(() => {
           alert("Berhasil Mengisi Jawaban");
-          // console.log('ini simpan nya');
-          // console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {
@@ -363,19 +356,9 @@ export default {
       console.log(array);
       for (let index = 0; index < array.length; index++) {
         const element = array[index].point;
-        // console.log(element);
         z += element;
       }
       console.log(z);
-      // this.totalPoint = z / array.length
-      // this.totalPoint = z;
-      // if (z < 21) {
-      //   this.totalStatus = "Kontrol Emosi Buruk";
-      // } else if (z < 31) {
-      //   this.totalStatus = "Kontrol Emosi Sedang";
-      // } else {
-      //   this.totalStatus = "Kontrol Emosi Baik";
-      // }
     },
   },
 };

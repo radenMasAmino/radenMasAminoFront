@@ -326,7 +326,6 @@ export default {
           };
           p.push(obj);
         });
-        // console.log(this.dataPertanyaan);
         this.updateTotal();
       })
       .catch((err) => {
@@ -350,17 +349,13 @@ export default {
       let r = this.dataPertanyaan[i].jawaban;
       let x = this.dataPertanyaan[i].point;
       let z = this.totalPoint;
-      // console.log(r, x, z);
       z += r - x;
       var m = parseInt(z);
       this.dataPertanyaan[i].point = this.dataPertanyaan[i].jawaban;
       this.totalPoint = m;
-      // this.updateTotal()
-      // console.log(this.dataPertanyaan[i].point);
     },
     simpanData() {
       let vm = this;
-      // console.log(this.dataPertanyaan);
       Axios.post(ipBackend + "/poolDepresi/screening", this.dataPertanyaan, {
         headers: {
           accessToken: localStorage.getItem("token"),
@@ -385,18 +380,6 @@ export default {
         z += element;
       }
       console.log(z);
-      // this.totalPoint = z / array.length
-      // this.totalPoint = z;
-      // if (z < 14) {
-      //   this.totalStatus = "Depresi Minimal";
-      //   console.log(this.totalStatus);
-      // } else if (z < 20) {
-      //   this.totalStatus = "Depresi Ringan";
-      // } else if (z < 29) {
-      //   this.totalStatus = "Depresi Sedang";
-      // } else {
-      //   this.totalStatus = "Depresi Berat";
-      // }
     },
   },
 };

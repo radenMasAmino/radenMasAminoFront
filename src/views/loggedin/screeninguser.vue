@@ -235,28 +235,97 @@
                         </b-form-group>
                       </b-card-body>
                     </b-collapse>
-                    <b-row class="m-t-15">
-                      <b-col md="12">
-                        <b-alert show variant="primary">
-                          <div
-                            v-if="items.length > 0"
-                            style="width: 100%; display: table"
+                    <b-row>
+                <b-col cols="12" md="12" lg="12">
+                  <b-alert show variant="primary" style="margin-top: 15px">
+                    <b-row>
+                      <b-col md="12" lg="12">
+                        <h2 v-if="kecemasanPoint < 20">
+                          <strong
+                            >Score Kuisioner Kecemasan Anda Adalah :
+                            {{ kecemasanPoint }}&nbsp;&nbsp;&nbsp;</strong
                           >
-                            <div style="display: table-row">
-                              <div style="display: table-cell; width: 15%">
-                                <h5>Score Kecemasan</h5>
-                              </div>
-                              <div style="display: table-cell; width: 2.5%">
-                                <h5>:</h5>
-                              </div>
-                              <div style="display: table-cell">
-                                <h5>{{ kecemasanPoint }}</h5>
-                              </div>
-                            </div>
-                          </div>
-                        </b-alert>
+                        </h2>
+                        <h2 v-else-if="kecemasanPoint < 45">
+                          <strong
+                            >Score Kuisioner Kecemasan Anda Adalah :
+                            {{
+                              kecemasanPoint
+                            }}&nbsp;&nbsp;&nbsp;(Normal)</strong
+                          >
+                        </h2>
+                        <h2 v-else-if="kecemasanPoint < 60">
+                          <strong
+                            >Score Kuisioner Kecemasan Anda Adalah :
+                            {{
+                              kecemasanPoint
+                            }}&nbsp;&nbsp;&nbsp;(Ringan)</strong
+                          >
+                        </h2>
+                        <h2 v-else-if="kecemasanPoint < 75">
+                          <strong
+                            >Score Kuisioner Kecemasan Anda Adalah :
+                            {{
+                              kecemasanPoint
+                            }}&nbsp;&nbsp;&nbsp;(Sedang)</strong
+                          >
+                        </h2>
+                        <h2 v-else>
+                          <strong
+                            >Score Kuisioner Kecemasan Anda Adalah :
+                            {{
+                              kecemasanPoint
+                            }}&nbsp;&nbsp;&nbsp;(Berat)</strong
+                          >
+                        </h2>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <hr />
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <h4><strong>KETERANGAN :</strong></h4>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <b-table-simple>
+                          <b-tbody>
+                            <b-tr>
+                              <b-td style="width: 10%">Normal</b-td>
+                              <b-td style="width: 25%">:</b-td>
+                              <b-td style="width: 20%">20</b-td>
+                              <b-td style="width: 25%">-</b-td>
+                              <b-td style="width: 20%">44</b-td>
+                            </b-tr>
+                            <tr>
+                              <b-td>Ringan</b-td>
+                              <b-td>:</b-td>
+                              <b-td>45</b-td>
+                              <b-td>-</b-td>
+                              <b-td>59</b-td>
+                            </tr>
+                            <tr>
+                              <b-td>Sedang</b-td>
+                              <b-td>:</b-td>
+                              <b-td>60</b-td>
+                              <b-td>-</b-td>
+                              <b-td>74</b-td>
+                            </tr>
+                            <tr>
+                              <b-td>Berat</b-td>
+                              <b-td>:</b-td>
+                              <b-td>75</b-td>
+                              <b-td>-</b-td>
+                              <b-td>80</b-td>
+                            </tr>
+                          </b-tbody>
+                        </b-table-simple>
                       </b-col>
                     </b-row>
+                  </b-alert>
+                </b-col>
+              </b-row>
                   </b-card>
 
                   <b-card no-body class="mb-1">
@@ -302,28 +371,91 @@
                         </ol>
                       </b-card-body>
                     </b-collapse>
-                    <b-row class="m-t-15">
-                      <b-col md="12">
-                        <b-alert show variant="primary">
-                          <div
-                            v-if="items.length > 0"
-                            style="width: 100%; display: table"
+                    <b-row>
+                <b-col cols="12" md="12" lg="12">
+                  <b-alert show variant="primary" style="margin-top: 15px">
+                    <b-row>
+                      <b-col md="12" lg="12">
+                        <h2 v-if="depresiPoint < 14">
+                          <strong
+                            >Score Kuisioner Depresi Anda Adalah :
+                            {{
+                              depresiPoint
+                            }}&nbsp;&nbsp;&nbsp;(Minimal)</strong
                           >
-                            <div style="display: table-row">
-                              <div style="display: table-cell; width: 15%">
-                                <h5>Score Depresi</h5>
-                              </div>
-                              <div style="display: table-cell; width: 2.5%">
-                                <h5>:</h5>
-                              </div>
-                              <div style="display: table-cell">
-                                <h5>{{ depresiPoint }}</h5>
-                              </div>
-                            </div>
-                          </div>
-                        </b-alert>
+                        </h2>
+                        <h2 v-else-if="depresiPoint < 20">
+                          <strong
+                            >Score Kuisioner Depresi Anda Adalah :
+                            {{
+                              depresiPoint
+                            }}&nbsp;&nbsp;&nbsp;(Ringan)</strong
+                          >
+                        </h2>
+                        <h2 v-else-if="depresiPoint < 29">
+                          <strong
+                            >Score Kuisioner Depresi Anda Adalah :
+                            {{
+                              depresiPoint
+                            }}&nbsp;&nbsp;&nbsp;(Sedang)</strong
+                          >
+                        </h2>
+                        <h2 v-else>
+                          <strong
+                            >Score Kuisioner Depresi Anda Adalah :
+                            {{
+                              depresiPoint
+                            }}&nbsp;&nbsp;&nbsp;(Berat)</strong
+                          >
+                        </h2>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <hr />
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <h4><strong>KETERANGAN :</strong></h4>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <b-table-simple>
+                          <b-tbody>
+                            <b-tr>
+                              <b-td style="width: 10%">Minimal</b-td>
+                              <b-td style="width: 25%">:</b-td>
+                              <b-td style="width: 20%">00</b-td>
+                              <b-td style="width: 25%">-</b-td>
+                              <b-td style="width: 20%">13</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>Ringan</b-td>
+                              <b-td>:</b-td>
+                              <b-td>14</b-td>
+                              <b-td>-</b-td>
+                              <b-td>19</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>Sedang</b-td>
+                              <b-td>:</b-td>
+                              <b-td>20</b-td>
+                              <b-td>-</b-td>
+                              <b-td>28</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>Berat</b-td>
+                              <b-td>:</b-td>
+                              <b-td>29</b-td>
+                              <b-td>-</b-td>
+                              <b-td>63</b-td>
+                            </b-tr>
+                          </b-tbody>
+                        </b-table-simple>
                       </b-col>
                     </b-row>
+                  </b-alert>
+                </b-col>
+              </b-row>
                   </b-card>
 
                   <b-card no-body class="mb-1">
@@ -376,28 +508,76 @@
                         </ol>
                       </b-card-body>
                     </b-collapse>
-                    <b-row class="m-t-15">
-                      <b-col md="12">
-                        <b-alert show variant="primary">
-                          <div
-                            v-if="items.length > 0"
-                            style="width: 100%; display: table"
+                    <b-row>
+                <b-col md="12" lg="12">
+                  <b-alert show variant="primary" style="margin-top: 15px">
+                    <b-row>
+                      <b-col md="12" lg="12">
+                        <h2 v-if="emosiPoint < 21">
+                          <strong
+                            >Score Kuisioner Anda Adalah :
+                            {{
+                              emosiPoint
+                            }}&nbsp;&nbsp;&nbsp;(Buruk)</strong
                           >
-                            <div style="display: table-row">
-                              <div style="display: table-cell; width: 15%">
-                                <h5>Score Regulasi Emosi</h5>
-                              </div>
-                              <div style="display: table-cell; width: 2.5%">
-                                <h5>:</h5>
-                              </div>
-                              <div style="display: table-cell">
-                                <h5>{{ emosiPoint }}</h5>
-                              </div>
-                            </div>
-                          </div>
-                        </b-alert>
+                        </h2>
+                        <h2 v-else-if="emosiPoint < 31">
+                          <strong
+                            >Score Kuisioner Anda Adalah :
+                            {{
+                              emosiPoint
+                            }}&nbsp;&nbsp;&nbsp;(Sedang)</strong
+                          >
+                        </h2>
+                        <h2 v-else>
+                          <strong
+                            >Score Kuisioner Anda Adalah :
+                            {{
+                              emosiPoint
+                            }}&nbsp;&nbsp;&nbsp;(Baik)</strong
+                          >
+                        </h2>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <hr />
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <h4><strong>KETERANGAN :</strong></h4>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <b-table-simple>
+                          <b-tbody>
+                            <b-tr>
+                              <b-td style="width: 10%">Buruk</b-td>
+                              <b-td style="width: 25%">:</b-td>
+                              <b-td style="width: 20%">00</b-td>
+                              <b-td style="width: 25%">-</b-td>
+                              <b-td style="width: 20%">20</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>Sedang</b-td>
+                              <b-td>:</b-td>
+                              <b-td>21</b-td>
+                              <b-td>-</b-td>
+                              <b-td>30</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>Baik</b-td>
+                              <b-td>:</b-td>
+                              <b-td>31</b-td>
+                              <b-td>-</b-td>
+                              <b-td>40</b-td>
+                            </b-tr>
+                          </b-tbody>
+                        </b-table-simple>
                       </b-col>
                     </b-row>
+                  </b-alert>
+                </b-col>
+              </b-row>
                   </b-card>
 
                   <b-card no-body class="mb-1">
@@ -456,28 +636,81 @@
                         </b-form-group>
                       </b-card-body>
                     </b-collapse>
-                    <b-row class="m-t-15">
-                      <b-col md="12">
-                        <b-alert show variant="primary">
-                          <div
-                            v-if="items.length > 0"
-                            style="width: 100%; display: table"
+                    <b-row>
+                <b-col md="12" lg="12">
+                  <b-alert show variant="primary" style="margin-top: 15px">
+                    <b-row>
+                      <b-col md="12" lg="12">
+                        <h2 v-if="ptsdPoint == 0">
+                          <strong
+                            >Score Kuisioner PTSD Anda Adalah :
+                            {{ ptsdPoint }}&nbsp;&nbsp;&nbsp;</strong
                           >
-                            <div style="display: table-row">
-                              <div style="display: table-cell; width: 15%">
-                                <h5>Score PTSD</h5>
-                              </div>
-                              <div style="display: table-cell; width: 2.5%">
-                                <h5>:</h5>
-                              </div>
-                              <div style="display: table-cell">
-                                <h5>{{ ptsdPoint }}</h5>
-                              </div>
-                            </div>
-                          </div>
-                        </b-alert>
+                        </h2>
+                        <h2 v-else-if="ptsdPoint <= 42">
+                          <strong
+                            >Score Kuisioner PTSD Anda Adalah :
+                            {{ ptsdPoint }}&nbsp;&nbsp;&nbsp;(Tidak
+                            Memiliki PTSD)</strong
+                          >
+                        </h2>
+                        <h2 v-else-if="ptsdPoint <= 84">
+                          <strong
+                            >Score Kuisioner PTSD Anda Adalah :
+                            {{ ptsdPoint }}&nbsp;&nbsp;&nbsp;(Memiliki
+                            PTSD)</strong
+                          >
+                        </h2>
+                        <h2 v-else>
+                          <strong
+                            >Score Kuisioner PTSD Anda Adalah :
+                            {{ ptsdPoint }}&nbsp;&nbsp;&nbsp;(PTSD
+                            Berat)</strong
+                          >
+                        </h2>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <hr />
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <h4><strong>KETERANGAN :</strong></h4>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <b-table-simple>
+                          <b-tbody>
+                            <b-tr>
+                              <b-td style="width: 20%"
+                                >Tidak memiliki PTSD</b-td
+                              >
+                              <b-td style="width: 20%">:</b-td>
+                              <b-td style="width: 20%">0</b-td>
+                              <b-td style="width: 20%">-</b-td>
+                              <b-td style="width: 20%">42</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>Memiliki PTSD</b-td>
+                              <b-td>:</b-td>
+                              <b-td>43</b-td>
+                              <b-td>-</b-td>
+                              <b-td>84</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>PTSD Berat</b-td>
+                              <b-td>:</b-td>
+                              <b-td>85</b-td>
+                              <b-td>-</b-td>
+                              <b-td>126</b-td>
+                            </b-tr>
+                          </b-tbody>
+                        </b-table-simple>
                       </b-col>
                     </b-row>
+                  </b-alert>
+                </b-col>
+              </b-row>
                   </b-card>
 
                   <b-card no-body class="mb-1">
@@ -529,28 +762,76 @@
                         </ol>
                       </b-card-body>
                     </b-collapse>
-                    <b-row class="m-t-15">
-                      <b-col md="12">
-                        <b-alert show variant="primary">
-                          <div
-                            v-if="items.length > 0"
-                            style="width: 100%; display: table"
+                    <b-row>
+                <b-col md="12" lg="12">
+                  <b-alert show variant="primary" style="margin-top: 15px">
+                    <b-row>
+                      <b-col md="12" lg="12">
+                        <h2 v-if="belajarPoint < 21">
+                          <strong
+                            >Score Kuisioner Anda Adalah :
+                            {{
+                              belajarPoint
+                            }}&nbsp;&nbsp;&nbsp;(Buruk)</strong
                           >
-                            <div style="display: table-row">
-                              <div style="display: table-cell; width: 15%">
-                                <h5>Score Efikasi Diri Dalam Belajar</h5>
-                              </div>
-                              <div style="display: table-cell; width: 2.5%">
-                                <h5>:</h5>
-                              </div>
-                              <div style="display: table-cell">
-                                <h5>{{ belajarPoint }}</h5>
-                              </div>
-                            </div>
-                          </div>
-                        </b-alert>
+                        </h2>
+                        <h2 v-else-if="belajarPoint < 31">
+                          <strong
+                            >Score Kuisioner Anda Adalah :
+                            {{
+                              belajarPoint
+                            }}&nbsp;&nbsp;&nbsp;(Sedang)</strong
+                          >
+                        </h2>
+                        <h2 v-else>
+                          <strong
+                            >Score Kuisioner Anda Adalah :
+                            {{
+                              belajarPoint
+                            }}&nbsp;&nbsp;&nbsp;(Baik)</strong
+                          >
+                        </h2>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <hr />
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <h4><strong>KETERANGAN :</strong></h4>
+                      </b-col>
+
+                      <b-col md="12" lg="12">
+                        <b-table-simple>
+                          <b-tbody>
+                            <b-tr>
+                              <b-td style="width: 20%">Buruk</b-td>
+                              <b-td style="width: 20%">:</b-td>
+                              <b-td style="width: 20%">00</b-td>
+                              <b-td style="width: 20%">-</b-td>
+                              <b-td style="width: 20%">20</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>Sedang</b-td>
+                              <b-td>:</b-td>
+                              <b-td>21</b-td>
+                              <b-td>-</b-td>
+                              <b-td>30</b-td>
+                            </b-tr>
+                            <b-tr>
+                              <b-td>Baik</b-td>
+                              <b-td>:</b-td>
+                              <b-td>31</b-td>
+                              <b-td>-</b-td>
+                              <b-td>40</b-td>
+                            </b-tr>
+                          </b-tbody>
+                        </b-table-simple>
                       </b-col>
                     </b-row>
+                  </b-alert>
+                </b-col>
+              </b-row>
                   </b-card>
                 </div>
               </b-col>

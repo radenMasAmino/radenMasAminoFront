@@ -345,8 +345,6 @@ export default {
       })
         .then(() => {
           alert("Berhasil");
-          // console.log('ini simpan nya');
-          // console.log(res, '<<<<< ini');
           vm.$router.push({ path: "/dashboardFront" });
         })
         .catch((err) => {
@@ -357,21 +355,12 @@ export default {
     updateTotal() {
       let array = this.dataPertanyaan;
       let z = 0;
-      // console.log(array);
       for (let index = 0; index < array.length; index++) {
         const element = array[index].point;
         // console.log(element);
         z += Number(element);
       }
       console.log(z);
-      // this.totalPoint = z;
-      // if (this.totalPoint <= 42) {
-      //   this.totalStatus = "Tidak Memiliki PTSD";
-      // } else if (this.totalPoint <= 84) {
-      //   this.totalStatus = "Memiliki PTSD";
-      // } else {
-      //   this.totalStatus = "PTSD Berat";
-      // }
     },
   },
 };
