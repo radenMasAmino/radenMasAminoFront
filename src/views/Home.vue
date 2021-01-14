@@ -64,7 +64,7 @@
       </b-container>
     </section>
 
-    <footer style="background-color:#2c3e50">
+    <footer style="background-color:#2c3e50; position: absolute; width: 100%; bottom: 0;">
       <b-container>
         <b-row>
           <b-col md="12" lg="12">
