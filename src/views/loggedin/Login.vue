@@ -3,28 +3,42 @@
     <b-container class="bv-example-row">
       <b-row>
         <b-col md="4" offset-md="4">
-          <div style="display:flex;height:100vh;background-color:;align-items:center">
-            <div style="width:100%;height:;background-color:;padding:30px;background-color:rgba(0,0,0,0.7);border-radius:6px;color:#fff">
+          <div
+            style="
+              display: flex;
+              height: 100vh;
+              background-color: ;
+              align-items: center;
+            "
+          >
+            <div
+              style="
+                width: 100%;
+                height: ;
+                background-color: ;
+                padding: 30px;
+                background-color: rgba(0, 0, 0, 0.7);
+                border-radius: 6px;
+                color: #fff;
+              "
+            >
               <h2 class="text-center">LOGIN</h2>
               <h6 class="text-center">ONLINE NURSE MENTAL HEALTH CARE</h6>
               <h6 class="text-center">(RADEN MAS AMINO)</h6>
-              <hr/>
+              <hr />
               <b-form>
-                
-                 <div v-if="pesan"><b-alert show variant="danger">{{pesan}}</b-alert></div>
-                <b-form-group 
-                label="Username" 
-                >
+                <div v-if="pesan">
+                  <b-alert show variant="danger">{{ pesan }}</b-alert>
+                </div>
+                <b-form-group label="Username">
                   <b-form-input
                     v-model="username"
                     required
                     placeholder="Enter Username"
                   ></b-form-input>
                 </b-form-group>
-                
-                <b-form-group 
-                label="Password" 
-                >
+
+                <b-form-group label="Password">
                   <b-form-input
                     type="password"
                     v-model="password"
@@ -34,10 +48,10 @@
                 </b-form-group>
 
                 <div v-if="proses">Loading...</div>
-                <b-button class="m-1" @click="logindong" variant="primary">Login</b-button>
-            
+                <b-button class="m-1" @click="logindong" variant="primary"
+                  >Login</b-button
+                >
               </b-form>
-              
             </div>
           </div>
         </b-col>
@@ -48,83 +62,75 @@
 
 <script>
 // @ is an alias to /src
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   name: "login",
-  data (){
-    return{
+  data() {
+    return {
       isLogin: false,
-      username: '',
-      password: ''
-     
+      username: "",
+      password: "",
     };
   },
 
-  props:{
-    tujuan: String
+  props: {
+    tujuan: String,
   },
 
-  watch:{
+  watch: {
     //memperhatikan state token dari vuex store
-   token(newValue, oldValue) {
-   
-      if(newValue!= oldValue && newValue!=''&& newValue!= undefined){
-          //lempar ke halaman dashboard
-          (this.$route.query.tujuan)?
-            this.$router.push({ path: this.$route.query.tujuan}): 
-            this.$router.push({ name:"dashboard"})
-            this.$swal.close()
+    token(newValue, oldValue) {
+      if (newValue != oldValue && newValue != "" && newValue != undefined) {
+        //lempar ke halaman dashboard
+        this.$route.query.tujuan
+          ? this.$router.push({ path: this.$route.query.tujuan })
+          : this.$router.push({ name: "dashboard" });
+        this.$swal.close();
       }
+    },
 
-   },
-   
-   proses(newValue){
-     let vm = this;
-     if(newValue==true){
-        this.loading()
-     }else{
-        vm.$swal.close()
-     }
-   }
-
+    proses(newValue) {
+      let vm = this;
+      if (newValue == true) {
+        this.loading();
+      } else {
+        vm.$swal.close();
+      }
+    },
   },
 
   computed: {
-  ...mapState('Login', ['token', 'pesan', 'proses']),
-  ...mapGetters('Login',['cekLogin']),
-
+    ...mapState("Login", ["token", "pesan", "proses"]),
+    ...mapGetters("Login", ["cekLogin"]),
   },
 
-  methods:{
-    ...mapActions('Login', [ 'actLogin']),
-    logindong: function(){
-     
-      this.actLogin({username: this.username, password:this.password})
+  methods: {
+    ...mapActions("Login", ["actLogin"]),
+    logindong: function () {
+      this.actLogin({ username: this.username, password: this.password });
       //didalam do login state token di isi
-    
     },
 
-    loading(){
+    loading() {
       let vm = this;
       vm.$swal({
-        title: 'Mohon Tunggu...',
+        title: "Mohon Tunggu...",
         allowEscapeKey: false,
         allowOutsideClick: false,
 
         onOpen: () => {
           vm.$swal.showLoading();
-        }
-      })
+        },
+      });
     },
-
-  }
+  },
 };
 </script>
 
 <style scoped>
-#login{
-  background-image: url('../../assets/bg.jpg');
+#login {
+  background-image: url("../../assets/bg.jpg");
   background-size: 100%;
   background-repeat: repeat;
   /* background-position: 100% ; */

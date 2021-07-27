@@ -68,6 +68,7 @@ const routes = [
 
       requiresAuth: true,
       google: true
+      // guest:true,
     }
   },
 
