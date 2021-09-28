@@ -497,9 +497,8 @@
               >
 
               <b-col md="12" class="mt-3">
-                <b-button variant="primary" v-b-modal.modal-akun
-                  >Download Latihan Prosedur Mindfulness Spiritual
-                  Islam</b-button
+                <a href="http://msi.radenmasamino.org/" target="_blank"
+                  >Menuju Latihan Prosedur Mindfulness Spiritual Islam</a
                 >
               </b-col>
             </b-row>
@@ -571,7 +570,7 @@
       </b-row>
     </b-modal>
 
-    <b-modal
+    <!-- <b-modal
       id="modal-akun"
       size="sm"
       title="Download Latihan Prosedur Mindfulness "
@@ -582,7 +581,7 @@
       </b-form-group>
 
       <b-button variant="primary">Unduh</b-button>
-    </b-modal>
+    </b-modal> -->
   </div>
 </template>
 
