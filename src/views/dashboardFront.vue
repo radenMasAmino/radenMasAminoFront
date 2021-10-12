@@ -93,8 +93,7 @@
       <b-container>
         <b-row>
           <b-col md="12" lg="12">
-            <div
-              v-if="srqCount < 6"
+            <!-- <div
               style="display: flex; justify-content: center"
             >
               <h2 style="text-align: center">
@@ -105,7 +104,8 @@
               <h2 style="text-align: center">
                 <strong>Silahkan Isi Form Deteksi Lain</strong>
               </h2>
-            </div>
+            </div> -->
+
             <div class="partone">
               <div class="boxmenu">
                 <router-link
@@ -122,7 +122,7 @@
                 </router-link>
               </div>
 
-              <div class="boxmenu" v-if="srqCount >= 6">
+              <div class="boxmenu">
                 <router-link
                   :to="'kecemasanFront'"
                   style="text-decoration: none; color: #333"
@@ -137,7 +137,7 @@
                 </router-link>
               </div>
 
-              <div class="boxmenu" v-if="srqCount >= 6">
+              <div class="boxmenu">
                 <router-link
                   :to="'depresiFront'"
                   style="text-decoration: none; color: #333"
@@ -156,7 +156,7 @@
 
           <b-col md="12" lg="12" style="margin-top: 15px">
             <div class="partone">
-              <div class="boxmenu" v-if="srqCount >= 6">
+              <div class="boxmenu">
                 <router-link
                   :to="'gangguanEmosiFront'"
                   style="text-decoration: none; color: #333"
@@ -173,7 +173,7 @@
                 </router-link>
               </div>
 
-              <div class="boxmenu" v-if="srqCount >= 6">
+              <div class="boxmenu">
                 <router-link
                   :to="'ptsdFront'"
                   style="text-decoration: none; color: #333"
@@ -188,7 +188,7 @@
                 </router-link>
               </div>
 
-              <div class="boxmenu" v-if="srqCount >= 6">
+              <div class="boxmenu">
                 <router-link
                   :to="'gangguanPenyesuaianBelajarFront'"
                   style="text-decoration: none; color: #333"
