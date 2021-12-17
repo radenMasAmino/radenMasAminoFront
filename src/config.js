@@ -1,1 +1,1 @@
-export const ipBackend = 'https://backend.radenmasamino.org'
+export const ipBackend = 'https://backend.radenmasamino.org/'
